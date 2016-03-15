@@ -48,12 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\IListener.cs" />
     <Compile Include="Managers\ModelManager.cs" />
     <Compile Include="Managers\SceneManager.cs" />
     <Compile Include="Managers\ShaderManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rendering\FpCamera.cs" />
     <Compile Include="Rendering\IGameObject.cs" />
     <Compile Include="Rendering\Models\IndexedCube.cs" />
     <Compile Include="Rendering\Models\Cube.cs" />

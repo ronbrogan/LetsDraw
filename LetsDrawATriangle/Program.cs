@@ -35,7 +35,7 @@ namespace LetsDrawATriangle
             
 
             //Render
-            game.Run(60);
+            game.Run(30);
 
             game.Dispose();
         }
@@ -57,7 +57,6 @@ namespace LetsDrawATriangle
                 //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
 
                 GL.Enable(EnableCap.DebugOutput);
-                GL.Enable(EnableCap.CullFace);
                 GL.Enable(EnableCap.Blend);
                 GL.Enable(EnableCap.DepthTest);
             };
@@ -79,6 +78,11 @@ namespace LetsDrawATriangle
         {
             if (game.Keyboard[Key.Escape])
                 CloseGame();
+
+            game.KeyDown += scene.NotifyKey;
+            game.MouseMove += scene.NotifyMouse;
+            game.MouseDown += scene.NotifyMouseDown;
+            game.MouseUp += scene.NotifyMouseUp;
         }
 
         public static void Render(object sender, FrameEventArgs e)

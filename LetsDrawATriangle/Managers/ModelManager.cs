@@ -38,7 +38,7 @@ namespace LetsDrawATriangle.Managers
             sph.SetTexture("ThirdTexture", textureLoader.LoadTexture("Rendering/Textures/nebula3.png"));
             sph.SetTexture("AlphaChanTexture", textureLoader.LoadTexture("Rendering/Textures/alphaChan.png"));
             sph.SetTexture("RampTexture", textureLoader.LoadTexture("Rendering/Textures/ramp.png"));
-            sph.Create(2, 24, 48);
+            sph.Create(1.2f, 24, 48);
             GameModels.Add("Sphere", sph);
 
         }

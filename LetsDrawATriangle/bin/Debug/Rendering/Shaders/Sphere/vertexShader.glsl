@@ -4,7 +4,7 @@ layout(location = 0) in vec3 in_position;
 layout(location = 1) in vec2 in_texture;
  
 uniform mat4 projection_matrix, view_matrix;
-uniform vec3 rotation;
+uniform vec3 model;
  
 out vec2 texcoord;
  

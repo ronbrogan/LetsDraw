@@ -104,9 +104,9 @@ namespace LetsDrawATriangle.Rendering.Models
 
         public override void Draw(Matrix4 Projection, Matrix4 View)
         {
-            Rotation = 0.01f * RotationSpeed + Rotation;
+            var modelTransforms = Matrix4.Identity;
 
-            var RotationSin = new Vector3(Rotation.X * pi / 180f, Rotation.X * pi / 180f, Rotation.X * pi / 180f);
+            Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), (float)Math.PI / 3, out modelTransforms);
 
             GL.UseProgram(base.Program);
             GL.BindVertexArray(base.Vao);
@@ -117,7 +117,7 @@ namespace LetsDrawATriangle.Rendering.Models
 
             GL.Uniform1(GL.GetUniformLocation(base.Program, "texture1"), 0);
 
-            GL.Uniform3(GL.GetUniformLocation(base.Program, "rotation"), RotationSin);
+            GL.UniformMatrix4(GL.GetUniformLocation(base.Program, "model"), false, ref modelTransforms);
 
             GL.UniformMatrix4(GL.GetUniformLocation(base.Program, "view_matrix"), false, ref View);
 
