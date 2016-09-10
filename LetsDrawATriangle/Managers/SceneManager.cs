@@ -19,34 +19,28 @@ namespace LetsDrawATriangle.Managers
         private TextureLoader textureLoader;
 
         private FpCamera firstPersonCamera;
+        private TextElement hudText;
 
-        private Matrix4 ProjectionMatrix;
-        private Matrix4 ViewMatrix;
 
-        public SceneManager()
+        public SceneManager(Size screenSize)
         {
-            ViewMatrix = new Matrix4
-            (
-                new Vector4(1, 0, 0, 0),
-                new Vector4(0, 1, 0, 0),
-                new Vector4(0, 0, -1, 0),
-                new Vector4(0, 0, 10, 1)
-            );
-
             shaderManager = new ShaderManager();
             shaderManager.CreateShader("CrateShader", "Rendering/Shaders/Textured/vertexShader.glsl", "Rendering/Shaders/Textured/fragmentShader.glsl");
             shaderManager.CreateShader("SphereShader", "Rendering/Shaders/Sphere/vertexShader.glsl", "Rendering/Shaders/Sphere/fragmentShader.glsl");
+            shaderManager.CreateShader("HudShader", "Rendering/Shaders/HUD/hudVertex.glsl", "Rendering/Shaders/HUD/hudFragment.glsl");
 
             textureLoader = new TextureLoader();
 
-            firstPersonCamera = new FpCamera(new Vector3(0, 0, 10));
+            firstPersonCamera = new FpCamera(new Vector3(0, 2, 10));
 
             modelManager = new ModelManager(shaderManager, textureLoader);
         }
 
         public void NotifyBeginFrame()
         {
+            firstPersonCamera.UpdateCamera();
             modelManager.Update();
+            
         }
 
         public void NotifyDisplayFrame()
@@ -57,9 +51,9 @@ namespace LetsDrawATriangle.Managers
             modelManager.Draw(firstPersonCamera.GetProjectionMatrix(), firstPersonCamera.GetViewMatrix());
         }
 
-        public void NotifyEndFrame()
+        public void NotifyEndFrame(GameWindow game)
         {
-            throw new NotImplementedException();
+            game.SwapBuffers();
         }
 
         public void NotifyResize(int width, int height, int prevWidth, int prevHeight)
@@ -67,28 +61,8 @@ namespace LetsDrawATriangle.Managers
             firstPersonCamera.UpdateProjectionMatrix(width, height);
         }
 
-        public void NotifyKey(object sender, KeyboardKeyEventArgs e)
-        {
-            firstPersonCamera.KeyPressed(e.Key);
-        }
 
-        public void NotifyMouse(object sender, MouseMoveEventArgs e)
-        {
-            firstPersonCamera.MouseMove(e.Position.X, e.Position.Y);
-        }
-
-        public void NotifyMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            firstPersonCamera.MousePressed(e.Position.X, e.Position.Y);
-        }
-
-        public void NotifyMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            firstPersonCamera.MouseReleased();
-        }
-
-
-    public void Dispose()
+        public void Dispose()
         {
             shaderManager.Dispose();
             modelManager.Dispose();

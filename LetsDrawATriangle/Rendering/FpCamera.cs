@@ -7,6 +7,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using LetsDrawATriangle.Core;
+using LetsDrawATriangle.Managers;
 
 namespace LetsDrawATriangle.Rendering
 {
@@ -30,6 +31,25 @@ namespace LetsDrawATriangle.Rendering
         public FpCamera(Vector3 startingPosition)
         {
             EyeVector = startingPosition;
+            UpdateView();
+        }
+
+        public void UpdateCamera()
+        {
+            foreach (var key in InputManager.DownKeys)
+                KeyPressed(key);
+
+            if(isMousePressed == false && InputManager.MouseDown == true)
+            {
+                MousePosition.X = InputManager.MousePosition.X;
+                MousePosition.Y = InputManager.MousePosition.Y;
+            }
+
+            isMousePressed = InputManager.MouseDown;
+
+
+            MouseMove((int)InputManager.MousePosition.X, (int)InputManager.MousePosition.Y);
+
             UpdateView();
         }
 
@@ -66,7 +86,9 @@ namespace LetsDrawATriangle.Rendering
             float dx = 0;
             float dz = 0;
 
-            float sensitivity = 0.05f;
+            float sensitivity = 6f;
+
+
 
             switch (key)
             {
@@ -103,7 +125,7 @@ namespace LetsDrawATriangle.Rendering
 
             EyeVector += (-dz * forward + dx * strafe) * speed;
 
-            UpdateView();
+            EyeVector.Y = .5f;
         }
 
         public void MouseMove(int x, int y)
@@ -115,27 +137,14 @@ namespace LetsDrawATriangle.Rendering
             //mousePosition is the last mouse position
             var mouse_delta = new Vector2(x, y) - MousePosition;
 
-            const float mouseX_Sensitivity = 0.01f;
-            const float mouseY_Sensitivity = 0.01f;
+            const float mouseX_Sensitivity = 0.005f;
+            const float mouseY_Sensitivity = 0.005f;
             //note that yaw and pitch must be converted to radians.
             //this is done in UpdateView() by glm::rotate
             Yaw += mouseX_Sensitivity * mouse_delta.X;
             Pitch += mouseY_Sensitivity * mouse_delta.Y;
 
             MousePosition = new Vector2(x, y);
-            UpdateView();
-        }
-
-        public void MousePressed(int x, int y)
-        {
-            isMousePressed = true;
-            MousePosition.X = x;
-            MousePosition.Y = y;
-        }
-
-        public void MouseReleased()
-        {
-            isMousePressed = false;
         }
 
         public void UpdateProjectionMatrix(int width, int height)

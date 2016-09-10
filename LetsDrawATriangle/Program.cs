@@ -48,8 +48,7 @@ namespace LetsDrawATriangle
             game.Title = "Test Engine v0.1";
 
             //models = new GameModels();
-            scene = new SceneManager();
-
+            scene = new SceneManager(game.Size);
 
             game.Load += (sender, e) =>
             {
@@ -79,10 +78,13 @@ namespace LetsDrawATriangle
             if (game.Keyboard[Key.Escape])
                 CloseGame();
 
-            game.KeyDown += scene.NotifyKey;
-            game.MouseMove += scene.NotifyMouse;
-            game.MouseDown += scene.NotifyMouseDown;
-            game.MouseUp += scene.NotifyMouseUp;
+            
+
+            game.KeyDown += InputManager.NotifyKeyDown;
+            game.KeyUp += InputManager.NotifyKeyUp;
+            game.MouseMove += InputManager.NotifyMouse;
+            game.MouseDown += InputManager.NotifyMouseDown;
+            game.MouseUp += InputManager.NotifyMouseUp;
         }
 
         public static void Render(object sender, FrameEventArgs e)
@@ -91,7 +93,7 @@ namespace LetsDrawATriangle
             // render graphics
             scene.NotifyDisplayFrame();
 
-            game.SwapBuffers();
+            scene.NotifyEndFrame(game);
         }
 
         public static void CloseGame()

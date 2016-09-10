@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetsDrawATriangle.Core;
 using LetsDrawATriangle.Rendering;
 using LetsDrawATriangle.Rendering.Models;
 using OpenTK;
@@ -40,7 +43,6 @@ namespace LetsDrawATriangle.Managers
             sph.SetTexture("RampTexture", textureLoader.LoadTexture("Rendering/Textures/ramp.png"));
             sph.Create(1.2f, 24, 48);
             GameModels.Add("Sphere", sph);
-
         }
 
         public void Draw(Matrix4 ProjectionMatrix, Matrix4 ViewMatrix)

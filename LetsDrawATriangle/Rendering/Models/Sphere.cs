@@ -87,15 +87,15 @@ namespace LetsDrawATriangle.Rendering.Models
             indicesSize = indices.Count;
             startTime = DateTime.Now;
 
-            var error1 = GL.GetError();
-            if (error1 != ErrorCode.NoError)
-            {
-                Console.WriteLine("-- Error {0} occured at {1}", error1, "some place");
-            }
-            else
-            {
-                Console.WriteLine("No Error - End of Sphere Create");
-            }
+            //var error1 = GL.GetError();
+            //if (error1 != ErrorCode.NoError)
+            //{
+            //    Console.WriteLine("-- Error {0} occured at {1}", error1, "some place sphere start");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("No Error - End of Sphere Create");
+            //}
         }
 
         public override void Update()
@@ -148,15 +148,15 @@ namespace LetsDrawATriangle.Rendering.Models
             GL.CullFace(CullFaceMode.Front); // draw back face 
             GL.DrawElements(PrimitiveType.Quads, indicesSize, DrawElementsType.UnsignedShort, 0);
 
-            var error1 = GL.GetError();
-            if (error1 != ErrorCode.NoError)
-            {
-                Console.WriteLine("-- Error {0} occured at {1}", error1, "some place");
-            }
-            else
-            {
-                //Console.WriteLine("No Error - End of Sphere Draw");
-            }
+            //var error1 = GL.GetError();
+            //if (error1 != ErrorCode.NoError)
+            //{
+            //    Console.WriteLine("-- Error {0} occured at {1}", error1, "some place sphere end");
+            //}
+            //else
+            //{
+            //    //Console.WriteLine("No Error - End of Sphere Draw");
+            //}
         }
 
     }

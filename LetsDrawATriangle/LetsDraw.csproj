@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\IListener.cs" />
+    <Compile Include="Core\TextElement.cs" />
+    <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\ModelManager.cs" />
     <Compile Include="Managers\SceneManager.cs" />
     <Compile Include="Managers\ShaderManager.cs" />
@@ -90,12 +92,6 @@
     </Content>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <Content Include="Rendering\Shaders\vertexShader.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Rendering\Shaders\fragmentShader.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Rendering\Shaders\Textured\fragmentShader.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -106,6 +102,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Rendering\Shaders\Sphere\vertexShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Rendering\Shaders\HUD\hudFragment.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Rendering\Shaders\HUD\hudVertex.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
