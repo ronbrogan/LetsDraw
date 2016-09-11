@@ -43,6 +43,12 @@ namespace LetsDraw.Managers
             sph.SetTexture("RampTexture", textureLoader.LoadTexture("Rendering/Textures/ramp.png"));
             sph.Create(1.2f, 24, 48);
             GameModels.Add("Sphere", sph);
+
+            var loaded = new LoadedModel();
+            loaded.SetShader(shaderManager.GetShader("CrateShader"));
+            loaded.SetTexture("crate", textureLoader.LoadTexture("Rendering/Textures/Crate.bmp"));
+            loaded.Create();
+            GameModels.Add("Loaded1", loaded);
         }
 
         public void Draw(Matrix4 ProjectionMatrix, Matrix4 ViewMatrix)

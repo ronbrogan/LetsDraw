@@ -53,7 +53,10 @@
   <ItemGroup>
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\IListener.cs" />
+    <Compile Include="Core\IndexedDictionary.cs" />
+    <Compile Include="Formats\Obj\ObjLoader.cs" />
     <Compile Include="Core\TextElement.cs" />
+    <Compile Include="Formats\Obj\ObjMesh.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\ModelManager.cs" />
     <Compile Include="Managers\SceneManager.cs" />
@@ -64,6 +67,7 @@
     <Compile Include="Rendering\IGameObject.cs" />
     <Compile Include="Rendering\Models\IndexedCube.cs" />
     <Compile Include="Rendering\Models\Cube.cs" />
+    <Compile Include="Rendering\Models\LoadedModel.cs" />
     <Compile Include="Rendering\Models\Model.cs" />
     <Compile Include="Rendering\Models\Quad.cs" />
     <Compile Include="Rendering\Models\Sphere.cs" />
@@ -72,6 +76,7 @@
     <Compile Include="Rendering\VertexFormat.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Objects\Crate.bmp" />
     <Content Include="Rendering\Textures\alphaChan.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -94,6 +99,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="App.config" />
+    <Content Include="Objects\test.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Objects\test.mtl" />
     <None Include="packages.config" />
     <Content Include="Rendering\Shaders\Textured\fragmentShader.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
