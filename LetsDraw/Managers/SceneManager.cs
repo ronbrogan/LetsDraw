@@ -12,7 +12,7 @@ using OpenTK.Input;
 
 namespace LetsDraw.Managers
 {
-    public class SceneManager : IListener
+    public class SceneManager : IListener, IDisposable
     {
         private ShaderManager shaderManager;
         private ModelManager modelManager;
@@ -31,14 +31,14 @@ namespace LetsDraw.Managers
 
             textureLoader = new TextureLoader();
 
-            firstPersonCamera = new FpCamera(new Vector3(0, 2, 10));
+            firstPersonCamera = new FpCamera(new Vector3(0, 12, 10));
 
             modelManager = new ModelManager(shaderManager, textureLoader);
         }
 
-        public void NotifyBeginFrame()
+        public void NotifyBeginFrame(double deltaTime)
         {
-            firstPersonCamera.UpdateCamera();
+            firstPersonCamera.UpdateCamera(deltaTime);
             modelManager.Update();
             
         }

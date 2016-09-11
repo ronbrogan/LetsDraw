@@ -13,8 +13,8 @@ namespace LetsDraw.Rendering
 {
     public class FpCamera
     {
-        private float speed = 0.01f;
-        private float fov = (float)Math.PI / 3;
+        private float speed = 1f;
+        private float fov = (float)Math.PI / 2;
 
 
 
@@ -34,10 +34,10 @@ namespace LetsDraw.Rendering
             UpdateView();
         }
 
-        public void UpdateCamera()
+        public void UpdateCamera(double deltaTime)
         {
             foreach (var key in InputManager.DownKeys)
-                KeyPressed(key);
+                KeyPressed(key, deltaTime);
 
             if(isMousePressed == false && InputManager.MouseDown == true)
             {
@@ -81,12 +81,12 @@ namespace LetsDraw.Rendering
             return ProjectionMatrix;
         }
 
-        public void KeyPressed(Key key)
+        public void KeyPressed(Key key, double deltaTime)
         {
             float dx = 0;
             float dz = 0;
 
-            float sensitivity = 6f;
+            const float sensitivity = 6;
 
 
 
@@ -123,9 +123,9 @@ namespace LetsDraw.Rendering
             var forward = new Vector3(mat[0, 2], mat[1, 2], mat[2, 2]);
             var strafe = new Vector3(mat[0,0], mat[1,0], mat[2,0]);
 
-            EyeVector += (-dz * forward + dx * strafe) * speed;
+            EyeVector += (-dz * forward + dx * strafe) * (float)deltaTime * speed;
 
-            EyeVector.Y = .5f;
+            EyeVector.Y = 12f;
         }
 
         public void MouseMove(int x, int y)

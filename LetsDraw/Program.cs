@@ -35,7 +35,7 @@ namespace LetsDraw
             
 
             //Render
-            game.Run(30);
+            game.Run(60, 60);
 
             game.Dispose();
         }
@@ -46,14 +46,15 @@ namespace LetsDraw
 
             game = new GameWindow(720, 480, GraphicsMode.Default);
             game.Title = "Test Engine v0.1";
+            game.CursorVisible = false;
+            
 
             //models = new GameModels();
             scene = new SceneManager(game.Size);
 
             game.Load += (sender, e) =>
             {
-                game.VSync = VSyncMode.On;
-                //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+                game.VSync = VSyncMode.Off;
 
                 GL.Enable(EnableCap.DebugOutput);
                 GL.Enable(EnableCap.Blend);
@@ -69,16 +70,12 @@ namespace LetsDraw
             game.UpdateFrame += Update;
 
             game.RenderFrame += Render;
-
-            
         }
 
         public static void Update(object sender, FrameEventArgs e)
         {
             if (game.Keyboard[Key.Escape])
                 CloseGame();
-
-            
 
             game.KeyDown += InputManager.NotifyKeyDown;
             game.KeyUp += InputManager.NotifyKeyUp;
@@ -89,17 +86,17 @@ namespace LetsDraw
 
         public static void Render(object sender, FrameEventArgs e)
         {
-            scene.NotifyBeginFrame();
+            scene.NotifyBeginFrame(e.Time);
             // render graphics
             scene.NotifyDisplayFrame();
 
             scene.NotifyEndFrame(game);
+            Console.Write("\r " + game.RenderFrequency.ToString("0.0") + " fps     ");
         }
 
         public static void CloseGame()
         {
             game.Exit();
-            //models.Dispose();
             scene.Dispose();
         }
 

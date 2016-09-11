@@ -10,7 +10,7 @@ namespace LetsDraw.Core
 {
     interface IListener : IDisposable
     {
-        void NotifyBeginFrame();
+        void NotifyBeginFrame(double deltaTime);
         void NotifyDisplayFrame();
         void NotifyEndFrame(GameWindow game);
 
