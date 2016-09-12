@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace LetsDraw.Rendering
 {
-    public class TextureLoader
+    public static class TextureLoader
     {
-        public uint LoadTexture(BitmapData data, int width, int height)
+        public static uint LoadTexture(BitmapData data, int width, int height, PixelFormat inputFormat = PixelFormat.Format24bppRgb)
         {
             uint textureObject;
 
@@ -31,7 +32,19 @@ namespace LetsDraw.Rendering
 
             GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgr, PixelType.UnsignedByte, data.Scan0);
+            switch (inputFormat)
+            {
+                case PixelFormat.Format32bppArgb:
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+                    break;
+                
+                case PixelFormat.Format24bppRgb:
+                default:
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgr, PixelType.UnsignedByte, data.Scan0);
+                    break;
+            }
+
+
 
             var error1 = GL.GetError();
             if (error1 != ErrorCode.NoError)
@@ -40,13 +53,13 @@ namespace LetsDraw.Rendering
             }
             else
             {
-                Console.WriteLine("No Error - Texture Loading");
+                //Console.WriteLine("No Error - Texture Loading");
             }
 
             return textureObject;
         }
 
-        public uint LoadTexture(string filename)
+        public static uint LoadTexture(string filename)
         {
 
             var error1 = GL.GetError();
@@ -56,7 +69,7 @@ namespace LetsDraw.Rendering
             }
             else
             {
-                Console.WriteLine("No Error - " + filename);
+                //Console.WriteLine("No Error - " + filename);
             }
 
             
@@ -73,7 +86,7 @@ namespace LetsDraw.Rendering
             }
             else
             {
-                Console.WriteLine("No Error - " + filename);
+                //Console.WriteLine("No Error - " + filename);
             }
 
             return LoadTexture(data, bmp.Width, bmp.Height);

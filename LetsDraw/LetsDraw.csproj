@@ -52,11 +52,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Core\IHudElement.cs" />
     <Compile Include="Core\IListener.cs" />
     <Compile Include="Core\IndexedDictionary.cs" />
-    <Compile Include="Formats\Obj\ObjLoader.cs" />
-    <Compile Include="Core\TextElement.cs" />
-    <Compile Include="Formats\Obj\ObjMesh.cs" />
+    <Compile Include="Core\TextDisplay.cs" />
+    <Compile Include="Formats\WavefrontObj\ObjLoader.cs" />
+    <Compile Include="Formats\WavefrontObj\ObjMesh.cs" />
+    <Compile Include="Managers\HudManager.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\ModelManager.cs" />
     <Compile Include="Managers\SceneManager.cs" />

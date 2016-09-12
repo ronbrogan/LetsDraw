@@ -18,17 +18,14 @@ namespace LetsDraw.Managers
         private Dictionary<string, Model> GameModels;
         private ShaderManager shaderManager;
 
-        private TextureLoader textureLoader;
-
-        public ModelManager(ShaderManager shaderManager, TextureLoader textureLoader)
+        public ModelManager(ShaderManager shaderManager)
         {
             this.shaderManager = shaderManager;
-            this.textureLoader = textureLoader;
             GameModels = new Dictionary<string, Model>();
 
             var loaded = new LoadedModel();
             loaded.SetShader(shaderManager.GetShader("CrateShader"));
-            loaded.SetTexture("crate", textureLoader.LoadTexture("Rendering/Textures/Crate.bmp"));
+            loaded.SetTexture("crate", TextureLoader.LoadTexture("Rendering/Textures/Crate.bmp"));
             loaded.Create();
             GameModels.Add("Loaded1", loaded);
         }
