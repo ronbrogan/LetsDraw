@@ -97,31 +97,26 @@ namespace LetsDraw.Rendering.Models
             Rotation = new Vector3(0f, 0f, 0f);
         }
 
-        public override void Update()
-        {
-            base.Update();
-        }
-
         public override void Draw(Matrix4 Projection, Matrix4 View)
         {
             var modelTransforms = Matrix4.Identity;
 
             Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), (float)Math.PI / 3, out modelTransforms);
 
-            GL.UseProgram(base.Program);
+            GL.UseProgram(base.ShaderProgram);
             GL.BindVertexArray(base.Vao);
 
             
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, base.Textures["crate"]);
 
-            GL.Uniform1(GL.GetUniformLocation(base.Program, "texture1"), 0);
+            GL.Uniform1(GL.GetUniformLocation(base.ShaderProgram, "texture1"), 0);
 
-            GL.UniformMatrix4(GL.GetUniformLocation(base.Program, "model"), false, ref modelTransforms);
+            GL.UniformMatrix4(GL.GetUniformLocation(base.ShaderProgram, "model"), false, ref modelTransforms);
 
-            GL.UniformMatrix4(GL.GetUniformLocation(base.Program, "view_matrix"), false, ref View);
+            GL.UniformMatrix4(GL.GetUniformLocation(base.ShaderProgram, "view_matrix"), false, ref View);
 
-            GL.UniformMatrix4(GL.GetUniformLocation(base.Program, "projection_matrix"), false, ref Projection);
+            GL.UniformMatrix4(GL.GetUniformLocation(base.ShaderProgram, "projection_matrix"), false, ref Projection);
 
             
             GL.DrawElements(PrimitiveType.Triangles, 36, DrawElementsType.UnsignedInt, 0);

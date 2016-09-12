@@ -13,10 +13,11 @@ namespace LetsDraw.Rendering
 {
     public class FpCamera
     {
+        private float piOverTwo = (float)Math.PI / 2;
         private float speed = 1f;
         private float fov = (float)Math.PI / 2;
 
-
+        public bool flyMode = false;
 
         private Vector2 MousePosition;
         private bool isMousePressed = false;
@@ -55,8 +56,20 @@ namespace LetsDraw.Rendering
 
         public void UpdateView()
         {
+            // Clamp Pitch to +- 90deg
+            Pitch = Math.Max(Math.Min(piOverTwo, Pitch), piOverTwo * -1);
+
             Quaternion qPitch = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), Pitch);
             Quaternion qYaw = Quaternion.FromAxisAngle(new Vector3(0, 1, 0), Yaw);
+
+            if (qPitch.X < -1)
+            {
+                qPitch.X = -1;
+            }
+            else if (qPitch.X > 1)
+            {
+                qPitch.X = 1;
+            }
 
             //For a FPS camera we can omit roll
             Quaternion orientation = qPitch * qYaw;
@@ -85,6 +98,7 @@ namespace LetsDraw.Rendering
         {
             float dx = 0;
             float dz = 0;
+            float dy = 0;
 
             const float sensitivity = 6;
 
@@ -114,6 +128,16 @@ namespace LetsDraw.Rendering
                         dx = sensitivity;
                         break;
                     }
+                case Key.Space:
+                    {
+                        dy = sensitivity;
+                        break;
+                    }
+                case Key.LShift:
+                    {
+                        dy = -sensitivity;
+                        break;
+                    }
                 default:
                     break;
             }
@@ -121,11 +145,18 @@ namespace LetsDraw.Rendering
             var mat = GetViewMatrix();
 
             var forward = new Vector3(mat[0, 2], mat[1, 2], mat[2, 2]);
+            var jump = new Vector3(mat[0, 1], mat[1, 1], mat[2, 1]);
             var strafe = new Vector3(mat[0,0], mat[1,0], mat[2,0]);
 
-            EyeVector += (-dz * forward + dx * strafe) * (float)deltaTime * speed;
+            strafe.Normalize();
 
-            EyeVector.Y = 12f;
+            if (!flyMode)
+            {
+                forward.Y = 0;
+                forward.Z = forward.Z >= 0 ? 1 : -1;
+            }
+
+            EyeVector += (-dz * forward + dx * strafe + dy * jump) * (float)deltaTime * speed;
         }
 
         public void MouseMove(int x, int y)

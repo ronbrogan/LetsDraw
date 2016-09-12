@@ -26,24 +26,6 @@ namespace LetsDraw.Managers
             this.textureLoader = textureLoader;
             GameModels = new Dictionary<string, Model>();
 
-            //Test IndexedCube
-            var cube = new IndexedCube();
-            cube.SetShader(shaderManager.GetShader("CrateShader"));
-            cube.SetTexture("crate", textureLoader.LoadTexture("Rendering/Textures/Crate.bmp"));
-            cube.Create();
-            GameModels.Add("Cube1", cube);
-
-            //Sphere
-            var sph = new Sphere();
-            sph.SetShader(shaderManager.GetShader("SphereShader"));
-            sph.SetTexture("BaseTexture", textureLoader.LoadTexture("Rendering/Textures/nebula1.png"));
-            sph.SetTexture("SecondTexture", textureLoader.LoadTexture("Rendering/Textures/nebula2.png"));
-            sph.SetTexture("ThirdTexture", textureLoader.LoadTexture("Rendering/Textures/nebula3.png"));
-            sph.SetTexture("AlphaChanTexture", textureLoader.LoadTexture("Rendering/Textures/alphaChan.png"));
-            sph.SetTexture("RampTexture", textureLoader.LoadTexture("Rendering/Textures/ramp.png"));
-            sph.Create(1.2f, 24, 48);
-            GameModels.Add("Sphere", sph);
-
             var loaded = new LoadedModel();
             loaded.SetShader(shaderManager.GetShader("CrateShader"));
             loaded.SetTexture("crate", textureLoader.LoadTexture("Rendering/Textures/Crate.bmp"));
@@ -59,11 +41,11 @@ namespace LetsDraw.Managers
             }
         }
 
-        public void Update()
+        public void Update(double deltaTime)
         {
             foreach(var model in GameModels.Values)
             {
-                model.Update();
+                model.Update(deltaTime);
             }
         }
 

@@ -42,12 +42,9 @@ namespace LetsDraw
 
         public static void InitializeEngine()
         {
-            
-
             game = new GameWindow(720, 480, GraphicsMode.Default);
             game.Title = "Test Engine v0.1";
-            game.CursorVisible = false;
-            
+            //game.CursorVisible = false;
 
             //models = new GameModels();
             scene = new SceneManager(game.Size);
@@ -59,6 +56,11 @@ namespace LetsDraw
                 GL.Enable(EnableCap.DebugOutput);
                 GL.Enable(EnableCap.Blend);
                 GL.Enable(EnableCap.DepthTest);
+                GL.Enable(EnableCap.Lighting);
+                GL.Enable(EnableCap.Light0);
+                GL.Light(LightName.Light0, LightParameter.Diffuse, Color4.Red);
+                GL.Light(LightName.Light0, LightParameter.Position, new [] { 3f, 3f, 3f });
+
             };
 
             game.Resize += (sender, e) =>
@@ -91,7 +93,7 @@ namespace LetsDraw
             scene.NotifyDisplayFrame();
 
             scene.NotifyEndFrame(game);
-            Console.Write("\r " + game.RenderFrequency.ToString("0.0") + " fps     ");
+            //Console.Write("\r " + game.RenderFrequency.ToString("0.0") + " fps     ");
         }
 
         public static void CloseGame()

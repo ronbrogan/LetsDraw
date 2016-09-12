@@ -13,8 +13,11 @@ namespace LetsDraw.Rendering.Models
 {
     public class LoadedModel : Model
     {
-        private Vector3 RotationSpeed;
-        private Vector3 Rotation;
+        private float rotationAngle = 0;
+        public Vector3 WorldPosition = new Vector3(0, 15, 0);
+        public Vector3 Scale = new Vector3(1, 1, 1);
+
+        private Matrix4 RelativeTransformation = Matrix4.Identity;
 
         private float pi = (float)Math.PI;
         private ObjMesh mesh { get; set; }
@@ -54,38 +57,49 @@ namespace LetsDraw.Rendering.Models
             base.Vao = vao;
             base.Vbos.Add(vbo);
             base.Vbos.Add(ibo);
-
-            RotationSpeed = new Vector3(90f, 90f, 90f);
-            Rotation = new Vector3(0f, 0f, 0f);
         }
 
-        public override void Update()
+        public override void Update(double deltaTime = 0)
         {
-            base.Update();
+            var rotSpeed = 1f;
+            rotationAngle += rotSpeed * (float)deltaTime;
+
+            var scaleFactor = Math.Abs((float)Math.Sin(rotationAngle));
+
+            Scale.X = scaleFactor;
+            Scale.Y = scaleFactor;
+            //Scale.Z = scaleFactor;
+
+            var rotationMatrix = Matrix4.Identity;
+            var translateMatrix = Matrix4.Identity;
+            var scaleMatrix = Matrix4.Identity;
+
+            Matrix4.CreateScale(ref Scale, out scaleMatrix);
+            Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), rotationAngle, out rotationMatrix);
+            Matrix4.CreateTranslation(ref WorldPosition, out translateMatrix);
+
+            Matrix4.Mult(ref scaleMatrix, ref rotationMatrix, out rotationMatrix);
+            Matrix4.Mult(ref rotationMatrix, ref translateMatrix, out RelativeTransformation);
+
+            base.Update(deltaTime);
         }
 
         public override void Draw(Matrix4 Projection, Matrix4 View)
         {
-            var modelTransforms = Matrix4.Identity;
-
-            Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), (float)Math.PI / 3, out modelTransforms);
-
-            GL.UseProgram(base.Program);
+            GL.UseProgram(base.ShaderProgram);
             GL.BindVertexArray(base.Vao);
 
 
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, base.Textures["crate"]);
 
-            GL.Uniform1(GL.GetUniformLocation(base.Program, "texture1"), 0);
+            GL.Uniform1(GL.GetUniformLocation(base.ShaderProgram, "texture1"), 0);
 
+            GL.UniformMatrix4(GL.GetUniformLocation(base.ShaderProgram, "model"), false, ref RelativeTransformation);
 
+            GL.UniformMatrix4(GL.GetUniformLocation(base.ShaderProgram, "view_matrix"), false, ref View);
 
-            GL.UniformMatrix4(GL.GetUniformLocation(base.Program, "model"), false, ref modelTransforms);
-
-            GL.UniformMatrix4(GL.GetUniformLocation(base.Program, "view_matrix"), false, ref View);
-
-            GL.UniformMatrix4(GL.GetUniformLocation(base.Program, "projection_matrix"), false, ref Projection);
+            GL.UniformMatrix4(GL.GetUniformLocation(base.ShaderProgram, "projection_matrix"), false, ref Projection);
 
 
             GL.DrawElements(PrimitiveType.Triangles, mesh.Indicies.Count, DrawElementsType.UnsignedInt, 0);

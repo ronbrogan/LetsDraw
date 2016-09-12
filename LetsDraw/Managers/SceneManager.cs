@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LetsDraw.Core;
 using LetsDraw.Rendering;
 using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 
@@ -39,7 +40,7 @@ namespace LetsDraw.Managers
         public void NotifyBeginFrame(double deltaTime)
         {
             firstPersonCamera.UpdateCamera(deltaTime);
-            modelManager.Update();
+            modelManager.Update(deltaTime);
             
         }
 

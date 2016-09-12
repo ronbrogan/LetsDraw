@@ -98,45 +98,40 @@ namespace LetsDraw.Rendering.Models
             //}
         }
 
-        public override void Update()
-        {
-            base.Update();
-        }
-
         public override void Draw(Matrix4 Projection, Matrix4 View)
         {
-            GL.UseProgram(base.Program);
+            GL.UseProgram(base.ShaderProgram);
             GL.BindVertexArray(base.Vao);
 
 
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, base.Textures["BaseTexture"]);
-            GL.Uniform1(GL.GetUniformLocation(base.Program, "nebulaTex1"), 0);
+            GL.Uniform1(GL.GetUniformLocation(base.ShaderProgram, "nebulaTex1"), 0);
 
             GL.ActiveTexture(TextureUnit.Texture1);
             GL.BindTexture(TextureTarget.Texture2D, base.Textures["SecondTexture"]);
-            GL.Uniform1(GL.GetUniformLocation(base.Program, "nebulaTex2"), 1);
+            GL.Uniform1(GL.GetUniformLocation(base.ShaderProgram, "nebulaTex2"), 1);
 
             GL.ActiveTexture(TextureUnit.Texture2);
             GL.BindTexture(TextureTarget.Texture2D, base.Textures["ThirdTexture"]);
-            GL.Uniform1(GL.GetUniformLocation(base.Program, "nebulaTex3"), 2);
+            GL.Uniform1(GL.GetUniformLocation(base.ShaderProgram, "nebulaTex3"), 2);
 
             GL.ActiveTexture(TextureUnit.Texture3);
             GL.BindTexture(TextureTarget.Texture2D, base.Textures["AlphaChanTexture"]);
-            GL.Uniform1(GL.GetUniformLocation(base.Program, "alphaChanTex"), 3);
+            GL.Uniform1(GL.GetUniformLocation(base.ShaderProgram, "alphaChanTex"), 3);
 
             GL.ActiveTexture(TextureUnit.Texture4);
             GL.BindTexture(TextureTarget.Texture2D, base.Textures["RampTexture"]);
-            GL.Uniform1(GL.GetUniformLocation(base.Program, "rampTex"), 4);
+            GL.Uniform1(GL.GetUniformLocation(base.ShaderProgram, "rampTex"), 4);
 
 
             var endTime = DateTime.Now;                               // get current time
             var dt = endTime - startTime;                            // calculate total elapsed time since app started
             var dtMS = dt.TotalMilliseconds;
-            GL.Uniform1(GL.GetUniformLocation(base.Program, "Timer"), (float)dtMS);  // tuck it in a uniform and pass it on to the shader
+            GL.Uniform1(GL.GetUniformLocation(base.ShaderProgram, "Timer"), (float)dtMS);  // tuck it in a uniform and pass it on to the shader
 
-            GL.UniformMatrix4(GL.GetUniformLocation(base.Program, "view_matrix"), false, ref View);
-            GL.UniformMatrix4(GL.GetUniformLocation(base.Program, "projection_matrix"), false, ref Projection);
+            GL.UniformMatrix4(GL.GetUniformLocation(base.ShaderProgram, "view_matrix"), false, ref View);
+            GL.UniformMatrix4(GL.GetUniformLocation(base.ShaderProgram, "projection_matrix"), false, ref Projection);
 
             // Need to draw the object twice since the textures are scrolling and 
             // We do not wish to see overlapping geometry (due to the blend equation)

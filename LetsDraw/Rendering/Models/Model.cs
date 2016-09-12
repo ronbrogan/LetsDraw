@@ -12,7 +12,7 @@ namespace LetsDraw.Rendering.Models
     {
         protected uint Vao;
         protected List<uint> Vbos;
-        protected int Program;
+        protected int ShaderProgram;
 
         protected Dictionary<string, uint> Textures;
 
@@ -27,14 +27,14 @@ namespace LetsDraw.Rendering.Models
 
         }
 
-        public virtual void Update()
+        public virtual void Update(double deltaTime = 0)
         {
             
         }
 
         public virtual void SetShader(int ProgramHandle)
         {
-            Program = ProgramHandle;
+            ShaderProgram = ProgramHandle;
         }
 
         public void SetTexture(string textureName, uint glTextureHandle)

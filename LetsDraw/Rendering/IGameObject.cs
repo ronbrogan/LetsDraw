@@ -10,7 +10,7 @@ namespace LetsDraw.Rendering
     public interface IGameObject : IDisposable
     {
         void Draw(Matrix4 ProjectionMatrix, Matrix4 ViewMatrix);
-        void Update();
+        void Update(double deltaTime = 0);
         void SetShader(int ProgramHandle);
 
         void SetTexture(string textureName, uint handle);

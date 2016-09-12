@@ -42,14 +42,9 @@ namespace LetsDraw.Rendering.Models
             base.Vbos.Add(vbo);
         }
 
-        public override void Update()
-        {
-            base.Update();
-        }
-
         public override void Draw(Matrix4 Projection, Matrix4 View)
         {
-            GL.UseProgram(base.Program);
+            GL.UseProgram(base.ShaderProgram);
             GL.BindVertexArray(base.Vao);
             GL.DrawArrays(PrimitiveType.TriangleStrip, 0, 4);
         }

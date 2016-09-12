@@ -99,24 +99,19 @@ namespace LetsDraw.Rendering.Models
             Rotation = new Vector3(0f, 0f, 0f);
         }
 
-        public override void Update()
-        {
-            base.Update();
-        }
-
         public override void Draw(Matrix4 Projection, Matrix4 View)
         {
             Rotation = 0.01f * RotationSpeed + Rotation;
 
             var RotationSin = new Vector3(Rotation.X * pi / 180f, Rotation.X * pi / 180f, Rotation.X * pi / 180f);
 
-            GL.UseProgram(base.Program);
+            GL.UseProgram(base.ShaderProgram);
 
-            GL.Uniform3(GL.GetUniformLocation(base.Program, "rotation"), RotationSin);
+            GL.Uniform3(GL.GetUniformLocation(base.ShaderProgram, "rotation"), RotationSin);
 
-            GL.UniformMatrix4(GL.GetUniformLocation(base.Program, "view_matrix"), false, ref View);
+            GL.UniformMatrix4(GL.GetUniformLocation(base.ShaderProgram, "view_matrix"), false, ref View);
 
-            GL.UniformMatrix4(GL.GetUniformLocation(base.Program, "projection_matrix"), false, ref Projection);
+            GL.UniformMatrix4(GL.GetUniformLocation(base.ShaderProgram, "projection_matrix"), false, ref Projection);
 
             GL.BindVertexArray(base.Vao);
             GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
