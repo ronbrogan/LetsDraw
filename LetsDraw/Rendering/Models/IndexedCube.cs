@@ -37,40 +37,40 @@ namespace LetsDraw.Rendering.Models
             List<VertexFormat> vertices = new List<VertexFormat>
             {
                   //front
-                  new VertexFormat(new Vector3(-1.0f, -1.0f, 1.0f), new Vector2(0, 0)),
-                  new VertexFormat(new Vector3( 1.0f, -1.0f, 1.0f), new Vector2(1, 0)),
-                  new VertexFormat(new Vector3( 1.0f, 1.0f, 1.0f), new Vector2(1, 1)),
-                  new VertexFormat(new Vector3(-1.0f, 1.0f, 1.0f), new Vector2(0, 1)),
+                  new VertexFormat(new Vector3(-1.0f, -1.0f, 1.0f), new Vector2(0, 0), Vector3.One),
+                  new VertexFormat(new Vector3( 1.0f, -1.0f, 1.0f), new Vector2(1, 0), Vector3.One),
+                  new VertexFormat(new Vector3( 1.0f, 1.0f, 1.0f), new Vector2(1, 1), Vector3.One),
+                  new VertexFormat(new Vector3(-1.0f, 1.0f, 1.0f), new Vector2(0, 1), Vector3.One),
  
                   //right
-                  new VertexFormat(new Vector3(1.0f, 1.0f, 1.0f), new Vector2(0, 0)),
-                  new VertexFormat(new Vector3(1.0f, 1.0f, -1.0f), new Vector2(1, 0)),
-                  new VertexFormat(new Vector3(1.0f, -1.0f, -1.0f), new Vector2(1, 1)),
-                  new VertexFormat(new Vector3(1.0f, -1.0f, 1.0f), new Vector2(0, 1)),
+                  new VertexFormat(new Vector3(1.0f, 1.0f, 1.0f), new Vector2(0, 0), Vector3.One),
+                  new VertexFormat(new Vector3(1.0f, 1.0f, -1.0f), new Vector2(1, 0), Vector3.One),
+                  new VertexFormat(new Vector3(1.0f, -1.0f, -1.0f), new Vector2(1, 1), Vector3.One),
+                  new VertexFormat(new Vector3(1.0f, -1.0f, 1.0f), new Vector2(0, 1), Vector3.One),
  
                   //back
-                  new VertexFormat(new Vector3(-1.0f, -1.0f, -1.0f), new Vector2(0, 0)),
-                  new VertexFormat(new Vector3( 1.0f, -1.0f, -1.0f), new Vector2(1, 0)),
-                  new VertexFormat(new Vector3( 1.0f, 1.0f, -1.0f), new Vector2(1, 1)),
-                  new VertexFormat(new Vector3(-1.0f, 1.0f, -1.0f), new Vector2(0, 1)),
+                  new VertexFormat(new Vector3(-1.0f, -1.0f, -1.0f), new Vector2(0, 0), Vector3.One),
+                  new VertexFormat(new Vector3( 1.0f, -1.0f, -1.0f), new Vector2(1, 0), Vector3.One),
+                  new VertexFormat(new Vector3( 1.0f, 1.0f, -1.0f), new Vector2(1, 1), Vector3.One),
+                  new VertexFormat(new Vector3(-1.0f, 1.0f, -1.0f), new Vector2(0, 1), Vector3.One),
  
                   //left
-                  new VertexFormat(new Vector3(-1.0f, -1.0f, -1.0f), new Vector2(0, 0)),
-                  new VertexFormat(new Vector3(-1.0f, -1.0f, 1.0f), new Vector2(1, 0)),
-                  new VertexFormat(new Vector3(-1.0f, 1.0f, 1.0f), new Vector2(1, 1)),
-                  new VertexFormat(new Vector3(-1.0f, 1.0f, -1.0f), new Vector2(0, 1)),
+                  new VertexFormat(new Vector3(-1.0f, -1.0f, -1.0f), new Vector2(0, 0), Vector3.One),
+                  new VertexFormat(new Vector3(-1.0f, -1.0f, 1.0f), new Vector2(1, 0), Vector3.One),
+                  new VertexFormat(new Vector3(-1.0f, 1.0f, 1.0f), new Vector2(1, 1), Vector3.One),
+                  new VertexFormat(new Vector3(-1.0f, 1.0f, -1.0f), new Vector2(0, 1), Vector3.One),
  
                   //upper
-                  new VertexFormat(new Vector3( 1.0f, 1.0f, 1.0f), new Vector2(0, 0)),
-                  new VertexFormat(new Vector3(-1.0f, 1.0f, 1.0f), new Vector2(1, 0)),
-                  new VertexFormat(new Vector3(-1.0f, 1.0f, -1.0f), new Vector2(1, 1)),
-                  new VertexFormat(new Vector3( 1.0f, 1.0f, -1.0f), new Vector2(0, 1)),
+                  new VertexFormat(new Vector3( 1.0f, 1.0f, 1.0f), new Vector2(0, 0), Vector3.One),
+                  new VertexFormat(new Vector3(-1.0f, 1.0f, 1.0f), new Vector2(1, 0), Vector3.One),
+                  new VertexFormat(new Vector3(-1.0f, 1.0f, -1.0f), new Vector2(1, 1), Vector3.One),
+                  new VertexFormat(new Vector3( 1.0f, 1.0f, -1.0f), new Vector2(0, 1), Vector3.One),
  
                   //bottom
-                  new VertexFormat(new Vector3(-1.0f, -1.0f, -1.0f), new Vector2(0, 0)),
-                  new VertexFormat(new Vector3( 1.0f, -1.0f, -1.0f), new Vector2(1, 0)),
-                  new VertexFormat(new Vector3( 1.0f, -1.0f, 1.0f), new Vector2(1, 1)),
-                  new VertexFormat(new Vector3(-1.0f, -1.0f, 1.0f), new Vector2(0, 1))
+                  new VertexFormat(new Vector3(-1.0f, -1.0f, -1.0f), new Vector2(0, 0), Vector3.One),
+                  new VertexFormat(new Vector3( 1.0f, -1.0f, -1.0f), new Vector2(1, 0), Vector3.One),
+                  new VertexFormat(new Vector3( 1.0f, -1.0f, 1.0f), new Vector2(1, 1), Vector3.One),
+                  new VertexFormat(new Vector3(-1.0f, -1.0f, 1.0f), new Vector2(0, 1), Vector3.One)
             };
 
             var vertexFormatSize = BlittableValueType.StrideOf<VertexFormat>(new VertexFormat());

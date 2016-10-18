@@ -8,7 +8,7 @@ using OpenTK.Input;
 
 namespace LetsDraw.Core
 {
-    interface IListener : IDisposable
+    public interface IListener : IDisposable
     {
         void NotifyBeginFrame(double deltaTime);
         void NotifyDisplayFrame();

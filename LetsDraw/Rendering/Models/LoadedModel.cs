@@ -31,10 +31,10 @@ namespace LetsDraw.Rendering.Models
             GL.GenVertexArrays(1, out vao);
             GL.BindVertexArray(vao);
 
-            var obj = new ObjLoader("Objects/test.obj");
+            var obj = new ObjLoader("Objects/block.obj");
             mesh = obj.Meshes.First();
 
-            var vertexFormatSize = BlittableValueType.StrideOf<VertexFormat>(new VertexFormat());
+            var vertexFormatSize = BlittableValueType.StrideOf(new VertexFormat());
 
             GL.GenBuffers(1, out vbo);
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
@@ -51,8 +51,13 @@ namespace LetsDraw.Rendering.Models
 
             // Enables binding to location 1 in vertex shader
             GL.EnableVertexAttribArray(1);
-            // At location 1 there'll be two floats, and FYI, that's 12 bytes (3 * 4) in
+            // At location 1 there'll be two floats, and FYI, that's 12 bytes (3 * 4) in to the format
             GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, vertexFormatSize, 12);
+
+            // Enables binding to location 2 in vertex shader
+            GL.EnableVertexAttribArray(2);
+            // At location 2 there'll be three floats, 20 bytes (3 * 4) + (2 * 4) in to the format
+            GL.VertexAttribPointer(2, 3, VertexAttribPointerType.Float, false, vertexFormatSize, 20);
 
             base.Vao = vao;
             base.Vbos.Add(vbo);
@@ -61,13 +66,13 @@ namespace LetsDraw.Rendering.Models
 
         public override void Update(double deltaTime = 0)
         {
-            var rotSpeed = 1f;
-            rotationAngle += rotSpeed * (float)deltaTime;
+            var rotSpeed = .01f;
+            //rotationAngle += rotSpeed * (float)deltaTime;
 
-            var scaleFactor = Math.Abs((float)Math.Sin(rotationAngle));
+            //var scaleFactor = Math.Abs((float)Math.Sin(rotationAngle));
 
-            Scale.X = scaleFactor;
-            Scale.Y = scaleFactor;
+            //Scale.X = scaleFactor;
+            //Scale.Y = scaleFactor;
             //Scale.Z = scaleFactor;
 
             var rotationMatrix = Matrix4.Identity;
@@ -89,11 +94,14 @@ namespace LetsDraw.Rendering.Models
             GL.UseProgram(base.ShaderProgram);
             GL.BindVertexArray(base.Vao);
 
+            var NormalMatrix = Matrix3.Transpose(Matrix3.Invert(new Matrix3(RelativeTransformation)));
 
             GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2D, base.Textures["crate"]);
+            GL.BindTexture(TextureTarget.Texture2D, base.Textures["diffuse"]);
 
             GL.Uniform1(GL.GetUniformLocation(base.ShaderProgram, "texture1"), 0);
+
+            GL.UniformMatrix3(GL.GetUniformLocation(base.ShaderProgram, "normal_matrix"), false, ref NormalMatrix);
 
             GL.UniformMatrix4(GL.GetUniformLocation(base.ShaderProgram, "model"), false, ref RelativeTransformation);
 

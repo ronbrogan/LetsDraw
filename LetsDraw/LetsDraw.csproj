@@ -51,11 +51,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Engine.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\IHudElement.cs" />
     <Compile Include="Core\IListener.cs" />
     <Compile Include="Core\IndexedDictionary.cs" />
-    <Compile Include="Core\TextDisplay.cs" />
+    <Compile Include="Rendering\HUD\FramesDisplay.cs" />
+    <Compile Include="Rendering\HUD\TextDisplay.cs" />
     <Compile Include="Formats\WavefrontObj\ObjLoader.cs" />
     <Compile Include="Formats\WavefrontObj\ObjMesh.cs" />
     <Compile Include="Managers\HudManager.cs" />
@@ -78,6 +80,9 @@
     <Compile Include="Rendering\VertexFormat.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Objects\block.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Objects\Crate.bmp" />
     <Content Include="Rendering\Textures\alphaChan.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -104,6 +109,10 @@
     <Content Include="Objects\test.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Objects\block.mtl" />
+    <None Include="Objects\block.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Objects\test.mtl" />
     <None Include="packages.config" />
     <Content Include="Rendering\Shaders\Textured\fragmentShader.glsl">

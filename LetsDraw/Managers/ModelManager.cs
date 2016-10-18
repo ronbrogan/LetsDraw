@@ -24,8 +24,8 @@ namespace LetsDraw.Managers
             GameModels = new Dictionary<string, Model>();
 
             var loaded = new LoadedModel();
-            loaded.SetShader(shaderManager.GetShader("CrateShader"));
-            loaded.SetTexture("crate", TextureLoader.LoadTexture("Rendering/Textures/Crate.bmp"));
+            loaded.SetShader(shaderManager.GetShader("TexturedShader"));
+            loaded.SetTexture("diffuse", TextureLoader.LoadTexture("Objects/block.png"));
             loaded.Create();
             GameModels.Add("Loaded1", loaded);
         }

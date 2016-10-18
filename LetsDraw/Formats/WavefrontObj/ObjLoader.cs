@@ -4,6 +4,7 @@ using System.Linq;
 using LetsDraw.Core;
 using LetsDraw.Rendering;
 using OpenTK;
+using System.Text.RegularExpressions;
 
 namespace LetsDraw.Formats.Obj
 {
@@ -18,18 +19,20 @@ namespace LetsDraw.Formats.Obj
         public ObjLoader(string filePath)
         {
             var lines = File.ReadAllLines(filePath).Select(l => l.Trim()).Where(l => !l.StartsWith("#"));
-            ObjMesh currMesh = null;
+            ObjMesh currMesh = new ObjMesh("");
 
             var vertexDict = new IndexedDictionary<string, VertexFormat>();
 
             foreach(var line in lines)
             {
+                new Regex("/ +/g").Replace(line, " ");
+
                 var parts = line.Split(' ');
 
                 switch (parts[0])
                 {
                     case "v":
-                        RawVerts.Add(new Vector3(float.Parse(parts[2]), float.Parse(parts[3]), float.Parse(parts[4])));
+                        RawVerts.Add(new Vector3(float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3])));
                         break;
 
                     case "vt":
@@ -54,7 +57,7 @@ namespace LetsDraw.Formats.Obj
                         {
                             var indicies = parts[i].Split('/');
 
-                            var index = vertexDict.Add(parts[i], new VertexFormat(RawVerts[int.Parse(indicies[0]) - 1], TextureCoords[int.Parse(indicies[1]) - 1]));
+                            var index = vertexDict.Add(parts[i], new VertexFormat(RawVerts[int.Parse(indicies[0]) - 1], TextureCoords[int.Parse(indicies[1]) - 1], Normals[int.Parse(indicies[2]) - 1]));
                             currMesh.Indicies.Add((uint)index);
                         }
                         currMesh.Faces++;

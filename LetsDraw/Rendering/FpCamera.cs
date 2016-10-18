@@ -62,15 +62,6 @@ namespace LetsDraw.Rendering
             Quaternion qPitch = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), Pitch);
             Quaternion qYaw = Quaternion.FromAxisAngle(new Vector3(0, 1, 0), Yaw);
 
-            if (qPitch.X < -1)
-            {
-                qPitch.X = -1;
-            }
-            else if (qPitch.X > 1)
-            {
-                qPitch.X = 1;
-            }
-
             //For a FPS camera we can omit roll
             Quaternion orientation = qPitch * qYaw;
             orientation = Quaternion.Normalize(orientation);
@@ -148,15 +139,14 @@ namespace LetsDraw.Rendering
             var jump = new Vector3(mat[0, 1], mat[1, 1], mat[2, 1]);
             var strafe = new Vector3(mat[0,0], mat[1,0], mat[2,0]);
 
-            strafe.Normalize();
-
             if (!flyMode)
             {
                 forward.Y = 0;
-                forward.Z = forward.Z >= 0 ? 1 : -1;
             }
 
-            EyeVector += (-dz * forward + dx * strafe + dy * jump) * (float)deltaTime * speed;
+            var offset = (-dz * forward + dx * strafe + dy * jump);
+
+            EyeVector += offset * (float)deltaTime * speed;
         }
 
         public void MouseMove(int x, int y)

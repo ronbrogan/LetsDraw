@@ -37,7 +37,7 @@ namespace LetsDraw.Rendering.Models
                     float x = (float)Math.Cos(2 * pi * countSectors * SectorsRecip) * (float)Math.Sin(pi * countRings * RingsRecip);
                     float z = (float)Math.Sin(2 * pi * countSectors * SectorsRecip) * (float)Math.Sin(pi * countRings * RingsRecip);
 
-                    vertices.Add(new VertexFormat(new Vector3(x * radius, y, z * radius), new Vector2(countSectors * SectorsRecip, countRings * RingsRecip)));
+                    vertices.Add(new VertexFormat(new Vector3(x * radius, y, z * radius), new Vector2(countSectors * SectorsRecip, countRings * RingsRecip), Vector3.One));
                 }
             }
 

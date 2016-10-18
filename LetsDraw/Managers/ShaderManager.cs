@@ -24,6 +24,8 @@ namespace LetsDraw.Managers
 
         private int CompileShader(ShaderType type, string sourceCode, string shaderName) 
         {
+            Console.Write("Compiling shader: {0}...", shaderName);
+
             int statusCode = 0;
             int shader = GL.CreateShader(type);
 
@@ -42,6 +44,8 @@ namespace LetsDraw.Managers
                 Console.WriteLine(shaderStatus);
                 return 0;
             }
+
+            Console.WriteLine("Done.");
 
             return shader;
         }

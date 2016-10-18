@@ -24,21 +24,23 @@ namespace LetsDraw.Managers
         public SceneManager(Size screenSize)
         {
             shaderManager = new ShaderManager();
-            shaderManager.CreateShader("CrateShader", "Rendering/Shaders/Textured/vertexShader.glsl", "Rendering/Shaders/Textured/fragmentShader.glsl");
+            shaderManager.CreateShader("TexturedShader", "Rendering/Shaders/Textured/vertexShader.glsl", "Rendering/Shaders/Textured/fragmentShader.glsl");
             shaderManager.CreateShader("SphereShader", "Rendering/Shaders/Sphere/vertexShader.glsl", "Rendering/Shaders/Sphere/fragmentShader.glsl");
             shaderManager.CreateShader("HudShader", "Rendering/Shaders/HUD/hudVertex.glsl", "Rendering/Shaders/HUD/hudFragment.glsl");
 
             firstPersonCamera = new FpCamera(new Vector3(0, 12, 10));
 
-            hudManager = new HudManager(shaderManager);
+            hudManager = new HudManager(screenSize, shaderManager);
+            Console.Write("Initializing Models...");
             modelManager = new ModelManager(shaderManager);
+            Console.WriteLine("Done.");
         }
 
         public void NotifyBeginFrame(double deltaTime)
         {
             firstPersonCamera.UpdateCamera(deltaTime);
             modelManager.Update(deltaTime);
-            
+            hudManager.Update(deltaTime);
         }
 
         public void NotifyDisplayFrame()
