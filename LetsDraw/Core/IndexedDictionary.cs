@@ -29,7 +29,9 @@ namespace LetsDraw.Core
             }
 
             values.Add(value);
-            var addedIndex = values.IndexOf(value);
+            // Doing LastIndexOf here starts from the end of the list,
+            // which is where we're adding the value we care about.
+            var addedIndex = values.LastIndexOf(value);
             indicies.Add(key, addedIndex);
             return addedIndex;
         }

@@ -23,9 +23,9 @@ namespace LetsDraw.Formats.Obj
 
             var vertexDict = new IndexedDictionary<string, VertexFormat>();
 
-            foreach(var line in lines)
+            foreach(var rawline in lines)
             {
-                new Regex("/ +/g").Replace(line, " ");
+                var line = rawline.ReduceWhitespace();
 
                 var parts = line.Split(' ');
 
@@ -44,7 +44,7 @@ namespace LetsDraw.Formats.Obj
                         break;
 
                     case "g":
-                        if(currMesh != null)
+                        if (currMesh != null)
                         {
                             currMesh.Verticies = vertexDict.Values;
                             Meshes.Add(currMesh);
@@ -53,7 +53,7 @@ namespace LetsDraw.Formats.Obj
                         break;
 
                     case "f":
-                        for(int i = 1; i < 4; i++)
+                        for (int i = 1; i < 4; i++)
                         {
                             var indicies = parts[i].Split('/');
 
@@ -61,7 +61,7 @@ namespace LetsDraw.Formats.Obj
                             currMesh.Indicies.Add((uint)index);
                         }
                         currMesh.Faces++;
-                        
+
 
                         break;
 

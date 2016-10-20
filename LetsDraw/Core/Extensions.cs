@@ -10,6 +10,32 @@ namespace LetsDraw.Core
 {
     public static class Extensions
     {
+        public static string ReduceWhitespace(this string value)
+        {
+            var newString = new StringBuilder();
+            var previousIsWhitespace = false;
+            foreach (var c in value)
+            {
+                if (char.IsWhiteSpace(c))
+                {
+                    if (previousIsWhitespace)
+                    {
+                        continue;
+                    }
+
+                    previousIsWhitespace = true;
+                }
+                else
+                {
+                    previousIsWhitespace = false;
+                }
+
+                newString.Append(c);
+            }
+
+            return newString.ToString();
+        }
+
         public static Matrix4 MatrixFromYawPitchRoll(float yaw, float pitch, float roll)
         {
             return Matrix4.CreateFromQuaternion(QuaternionFromYawPitchRoll(yaw, pitch, roll));
