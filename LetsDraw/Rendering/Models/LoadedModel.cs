@@ -19,7 +19,6 @@ namespace LetsDraw.Rendering.Models
 
         private Matrix4 RelativeTransformation = Matrix4.Identity;
 
-        private float pi = (float)Math.PI;
         private ObjMesh mesh { get; set; }
 
         public void Create()
@@ -31,7 +30,7 @@ namespace LetsDraw.Rendering.Models
             GL.GenVertexArrays(1, out vao);
             GL.BindVertexArray(vao);
 
-            var obj = new ObjLoader("Objects/block.obj");
+            var obj = new ObjLoader("Objects/map.obj");
             mesh = obj.Meshes.First();
 
             var vertexFormatSize = BlittableValueType.StrideOf(new VertexFormat());

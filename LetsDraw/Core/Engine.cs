@@ -34,8 +34,6 @@ namespace LetsDraw.Core
                 GL.Enable(EnableCap.DebugOutput);
                 GL.Enable(EnableCap.Blend);
                 GL.Enable(EnableCap.DepthTest);
-                GL.Enable(EnableCap.Lighting);
-                GL.Enable(EnableCap.Light0);
                 GL.Enable(EnableCap.Multisample);
             };
 

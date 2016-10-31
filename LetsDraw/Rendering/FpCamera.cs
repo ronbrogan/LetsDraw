@@ -14,7 +14,7 @@ namespace LetsDraw.Rendering
     public class FpCamera
     {
         private float piOverTwo = (float)Math.PI / 2;
-        private float speed = 1f;
+        private float speed = 10f;
         private float fov = (float)Math.PI / 2;
 
         public bool flyMode = false;
@@ -24,14 +24,14 @@ namespace LetsDraw.Rendering
 
         private float Pitch = 0f;
         private float Yaw = 0f;
-        private Vector3 EyeVector;
+        private Vector3 Position;
 
         private Matrix4 ViewMatrix;
         private Matrix4 ProjectionMatrix;
 
         public FpCamera(Vector3 startingPosition)
         {
-            EyeVector = startingPosition;
+            Position = startingPosition;
             UpdateView();
         }
 
@@ -69,7 +69,7 @@ namespace LetsDraw.Rendering
 
             Matrix4 translate = Matrix4.Identity;
 
-            var look = EyeVector * -1;
+            var look = Position * -1;
             Matrix4.CreateTranslation(ref look, out translate);
 
             Matrix4.Mult(ref translate, ref rotate, out ViewMatrix);
@@ -146,7 +146,9 @@ namespace LetsDraw.Rendering
 
             var offset = (-dz * forward + dx * strafe + dy * jump);
 
-            EyeVector += offset * (float)deltaTime * speed;
+            var scaleFactor = (float)deltaTime * speed;
+
+            Position += offset * scaleFactor;
         }
 
         public void MouseMove(int x, int y)

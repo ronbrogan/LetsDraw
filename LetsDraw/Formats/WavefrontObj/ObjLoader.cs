@@ -19,7 +19,7 @@ namespace LetsDraw.Formats.Obj
         public ObjLoader(string filePath)
         {
             var lines = File.ReadAllLines(filePath).Select(l => l.Trim()).Where(l => !l.StartsWith("#"));
-            ObjMesh currMesh = new ObjMesh("");
+            ObjMesh currMesh = null;
 
             var vertexDict = new IndexedDictionary<string, VertexFormat>();
 
