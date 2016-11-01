@@ -134,6 +134,11 @@ namespace LetsDraw.Rendering
             }
 
             var mat = GetViewMatrix();
+            
+            Quaternion iPitch = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -Pitch);
+            Matrix4 rotate = Matrix4.CreateFromQuaternion(iPitch);
+
+            mat = Matrix4.Mult(mat, rotate);
 
             var forward = new Vector3(mat[0, 2], mat[1, 2], mat[2, 2]);
             var jump = new Vector3(mat[0, 1], mat[1, 1], mat[2, 1]);
