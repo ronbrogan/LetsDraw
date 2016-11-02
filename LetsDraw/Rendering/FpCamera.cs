@@ -22,7 +22,7 @@ namespace LetsDraw.Rendering
         private Vector2 MousePosition;
         private bool isMousePressed = false;
 
-        private float Pitch = 0f;
+        private float Pitch = 1f;
         private float Yaw = 0f;
         private Vector3 Position;
 

@@ -7,12 +7,16 @@ using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using LetsDraw.Rendering;
 
 namespace LetsDraw.Managers
 {
     public class ShaderManager : IDisposable
     {
         private Dictionary<string, int> Shaders = new Dictionary<string, int>();
+
+        public static Dictionary<int, ShaderUniformCatalog> UniformCatalog = new Dictionary<int, ShaderUniformCatalog>();
+
 
         private string ReadShader(string file)
         {

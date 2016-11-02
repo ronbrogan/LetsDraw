@@ -22,20 +22,19 @@ namespace LetsDraw.Rendering
             
 
             GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
+            var mipMapLevels = 1 + (int)Math.Floor(Math.Log(Math.Max(width, height), 2));
 
             switch (inputFormat)
             {
                 case PixelFormat.Format32bppArgb:
-                    GL.TexStorage2D(TextureTarget2d.Texture2D, 8, SizedInternalFormat.Rgba8, width, height);
+                    GL.TexStorage2D(TextureTarget2d.Texture2D, mipMapLevels, SizedInternalFormat.Rgba8, width, height);
                     GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, width, height, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-                    //GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
                     break;
                 
                 case PixelFormat.Format24bppRgb:
                 default:
-                    GL.TexStorage2D(TextureTarget2d.Texture2D, 8, SizedInternalFormat.Rgba8, width, height);
+                    GL.TexStorage2D(TextureTarget2d.Texture2D, mipMapLevels, SizedInternalFormat.Rgba8, width, height);
                     GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, width, height, OpenTK.Graphics.OpenGL.PixelFormat.Bgr, PixelType.UnsignedByte, data.Scan0);
-                    //GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgr, PixelType.UnsignedByte, data.Scan0);
                     break;
             }
 
@@ -51,15 +50,10 @@ namespace LetsDraw.Rendering
             GL.GetFloat((GetPName)ExtTextureFilterAnisotropic.MaxTextureMaxAnisotropyExt, out maxAniso);
             GL.TexParameter(TextureTarget.Texture2D, (TextureParameterName)ExtTextureFilterAnisotropic.TextureMaxAnisotropyExt, maxAniso);
 
-
             var error1 = GL.GetError();
             if (error1 != ErrorCode.NoError)
             {
                 Console.WriteLine("-- Error {0} occured at {1}", error1, "some place in texture loader");
-            }
-            else
-            {
-                //Console.WriteLine("No Error - Texture Loading");
             }
 
             return textureObject;
@@ -73,12 +67,6 @@ namespace LetsDraw.Rendering
             {
                 Console.WriteLine("-- Error {0} occured at {1}", error1, "some place in the texture loader, beginning");
             }
-            else
-            {
-                //Console.WriteLine("No Error - " + filename);
-            }
-
-            
 
             var fullPath = Path.GetFullPath(filename);
 
@@ -90,12 +78,10 @@ namespace LetsDraw.Rendering
             {
                 Console.WriteLine("-- Error {0} occured at {1}", error1, "some place in texture loader");
             }
-            else
-            {
-                //Console.WriteLine("No Error - " + filename);
-            }
 
-            return LoadTexture(data, bmp.Width, bmp.Height);
+            var texAddr = LoadTexture(data, bmp.Width, bmp.Height);
+            bmp.UnlockBits(data);
+            return texAddr;
         }
     }
 }

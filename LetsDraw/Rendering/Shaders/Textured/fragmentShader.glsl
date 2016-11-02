@@ -15,8 +15,10 @@ void main()
 
 	float cosTheta = clamp(dot(world_normal, lightDirection), 0, 1);
 
-	vec4 diffuse = texture(texture1, texcoord);
-	vec4 ambient = diffuse * vec4(0.2, 0.2, 0.2, 1);
+	vec4 ambient = vec4(lightColor, 1) * vec4(0.2, 0.2, 0.2, 1);
+	vec4 diffuse = vec4(lightColor, 1) * cosTheta;
 
-	out_color = ambient + diffuse * vec4(lightColor, 1) * cosTheta;
+	vec4 texColor = texture(texture1, texcoord);
+
+	out_color = vec4(ambient + diffuse) * texColor;
 }

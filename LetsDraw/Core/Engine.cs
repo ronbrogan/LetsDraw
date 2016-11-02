@@ -20,9 +20,11 @@ namespace LetsDraw.Core
 
         public Engine()
         {
-            game = new GameWindow(720, 480, new GraphicsMode(32, 24, 0, 8))
+            var msaaSamples = 8;
+
+            game = new GameWindow(720, 480, new GraphicsMode(32, 24, 0, msaaSamples))
             {
-                Title = "Test Engine v0.1"
+                Title = "LetsDrawEngine"
             };
 
             scene = new SceneManager(game.Size);
@@ -35,6 +37,7 @@ namespace LetsDraw.Core
                 GL.Enable(EnableCap.Blend);
                 GL.Enable(EnableCap.DepthTest);
                 GL.Enable(EnableCap.Multisample);
+                GL.Enable(EnableCap.CullFace);
             };
 
             game.Resize += (sender, e) =>
@@ -76,7 +79,6 @@ namespace LetsDraw.Core
             scene.NotifyDisplayFrame();
 
             scene.NotifyEndFrame(game);
-            Console.Write("\r " + game.RenderFrequency.ToString("0.0") + " fps     ");
         }
 
         private void CloseGame()

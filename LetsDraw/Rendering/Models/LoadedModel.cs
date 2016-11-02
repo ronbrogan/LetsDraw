@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using LetsDraw.Core;
 using LetsDraw.Formats;
 using LetsDraw.Formats.Obj;
+using LetsDraw.Managers;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -20,6 +21,7 @@ namespace LetsDraw.Rendering.Models
         private Matrix4 RelativeTransformation = Matrix4.Identity;
 
         private ObjMesh mesh { get; set; }
+
 
         public void Create()
         {
@@ -61,6 +63,16 @@ namespace LetsDraw.Rendering.Models
             base.Vao = vao;
             base.Vbos.Add(vbo);
             base.Vbos.Add(ibo);
+
+            var cat = new ShaderUniformCatalog
+            {
+                NormalMatrix = GL.GetUniformLocation(base.ShaderProgram, "normal_matrix"),
+                ModelMatrix = GL.GetUniformLocation(base.ShaderProgram, "model_matrix"),
+                ViewMatrix = GL.GetUniformLocation(base.ShaderProgram, "view_matrix"),
+                ProjectionMatrix = GL.GetUniformLocation(base.ShaderProgram, "projection_matrix")
+            };
+
+            ShaderManager.UniformCatalog.Add(base.ShaderProgram, cat);
         }
 
         public override void Update(double deltaTime = 0)
@@ -100,13 +112,15 @@ namespace LetsDraw.Rendering.Models
 
             GL.Uniform1(GL.GetUniformLocation(base.ShaderProgram, "texture1"), 0);
 
-            GL.UniformMatrix3(GL.GetUniformLocation(base.ShaderProgram, "normal_matrix"), false, ref NormalMatrix);
+            var lookup = ShaderManager.UniformCatalog[base.ShaderProgram];
 
-            GL.UniformMatrix4(GL.GetUniformLocation(base.ShaderProgram, "model"), false, ref RelativeTransformation);
+            GL.UniformMatrix3(lookup.NormalMatrix, false, ref NormalMatrix);
 
-            GL.UniformMatrix4(GL.GetUniformLocation(base.ShaderProgram, "view_matrix"), false, ref View);
+            GL.UniformMatrix4(lookup.ModelMatrix, false, ref RelativeTransformation);
 
-            GL.UniformMatrix4(GL.GetUniformLocation(base.ShaderProgram, "projection_matrix"), false, ref Projection);
+            GL.UniformMatrix4(lookup.ViewMatrix, false, ref View);
+
+            GL.UniformMatrix4(lookup.ProjectionMatrix, false, ref Projection);
 
 
             GL.DrawElements(PrimitiveType.Triangles, mesh.Indicies.Count, DrawElementsType.UnsignedInt, 0);

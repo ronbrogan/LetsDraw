@@ -28,7 +28,7 @@ namespace LetsDraw.Managers
             shaderManager.CreateShader("SphereShader", "Rendering/Shaders/Sphere/vertexShader.glsl", "Rendering/Shaders/Sphere/fragmentShader.glsl");
             shaderManager.CreateShader("HudShader", "Rendering/Shaders/HUD/hudVertex.glsl", "Rendering/Shaders/HUD/hudFragment.glsl");
 
-            firstPersonCamera = new FpCamera(new Vector3(0, 60, 10));
+            firstPersonCamera = new FpCamera(new Vector3(80, 290, 30));
 
             hudManager = new HudManager(screenSize, shaderManager);
             Console.Write("Initializing Models...");
