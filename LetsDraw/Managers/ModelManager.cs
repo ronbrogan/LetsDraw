@@ -16,15 +16,13 @@ namespace LetsDraw.Managers
     public class ModelManager : IDisposable
     {
         private Dictionary<string, Model> GameModels;
-        private ShaderManager shaderManager;
 
-        public ModelManager(ShaderManager shaderManager)
+        public ModelManager()
         {
-            this.shaderManager = shaderManager;
             GameModels = new Dictionary<string, Model>();
 
             var loaded = new LoadedModel();
-            loaded.SetShader(shaderManager.GetShader("TexturedShader"));
+            loaded.SetShader(ShaderManager.GetShader("TexturedShader"));
             loaded.SetTexture("diffuse", TextureLoader.LoadTexture("Objects/TexturesCom_Grass0139_1_seamless_S.jpg"));
             loaded.Create();
             GameModels.Add("Loaded1", loaded);

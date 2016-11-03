@@ -11,7 +11,7 @@ in vec3 world_normal;
 void main()
 {
 	vec3 lightColor = vec3(1, 0.98, 0.84);
-	vec3 lightDirection = vec3(1, 0.707, 0.5);
+	vec3 lightDirection = vec3(-1, 1, 0.5);
 
 	float cosTheta = clamp(dot(world_normal, lightDirection), 0, 1);
 

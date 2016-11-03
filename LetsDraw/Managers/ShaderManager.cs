@@ -11,14 +11,14 @@ using LetsDraw.Rendering;
 
 namespace LetsDraw.Managers
 {
-    public class ShaderManager : IDisposable
+    public static class ShaderManager
     {
-        private Dictionary<string, int> Shaders = new Dictionary<string, int>();
+        private static Dictionary<string, int> Shaders = new Dictionary<string, int>();
 
         public static Dictionary<int, ShaderUniformCatalog> UniformCatalog = new Dictionary<int, ShaderUniformCatalog>();
 
 
-        private string ReadShader(string file)
+        private static string ReadShader(string file)
         {
             if(File.Exists(file))
                 return File.ReadAllText(file);
@@ -26,7 +26,7 @@ namespace LetsDraw.Managers
             return string.Empty;
         }
 
-        private int CompileShader(ShaderType type, string sourceCode, string shaderName) 
+        private static int CompileShader(ShaderType type, string sourceCode, string shaderName) 
         {
             Console.Write("Compiling shader: {0}...", shaderName);
 
@@ -54,7 +54,7 @@ namespace LetsDraw.Managers
             return shader;
         }
 
-        public int CreateShader(string shaderName, string vertexFilename, string fragmentFilename)
+        public static int CreateShader(string shaderName, string vertexFilename, string fragmentFilename)
         {
             var vertexSource = ReadShader(vertexFilename);
             var fragmentSource = ReadShader(fragmentFilename);
@@ -99,7 +99,7 @@ namespace LetsDraw.Managers
             return program;
         }
 
-        public int GetShader(string shaderName)
+        public static int GetShader(string shaderName)
         {
             if (!Shaders.ContainsKey(shaderName))
             {
@@ -111,7 +111,7 @@ namespace LetsDraw.Managers
             return Shaders[shaderName];
         }
 
-        public void DeleteShader(string shaderName)
+        public static void DeleteShader(string shaderName)
         {
             if (!Shaders.ContainsKey(shaderName))
                 return;
@@ -119,7 +119,7 @@ namespace LetsDraw.Managers
             GL.DeleteProgram(Shaders[shaderName]);
         }
 
-        public void Dispose()
+        public static void Dispose()
         {
             foreach(var program in Shaders)
             {

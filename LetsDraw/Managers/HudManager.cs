@@ -16,16 +16,14 @@ namespace LetsDraw.Managers
     public class HudManager
     {
         private Dictionary<string, IHudElement> Elements;
-        private ShaderManager shaderManager;
 
-        public HudManager(Size screenSize, ShaderManager shaderManager)
+        public HudManager(Size screenSize)
         {
-            this.shaderManager = shaderManager;
             Elements = new Dictionary<string, IHudElement>();
 
             // Manually add test hud element here.
             var fpsReadout = new FramesDisplay(screenSize, -1, 1, "Test String");
-            fpsReadout.SetShader(shaderManager.GetShader("HudShader"));
+            fpsReadout.SetShader(ShaderManager.GetShader("HudShader"));
             Elements.Add("FpsReadout", fpsReadout);
         }
 

@@ -78,6 +78,7 @@
     <Compile Include="Rendering\Models\Sphere.cs" />
     <Compile Include="Rendering\Models\Triangle.cs" />
     <Compile Include="Rendering\ShaderUniformCatalog.cs" />
+    <Compile Include="Rendering\Skyboxes\Skybox.cs" />
     <Compile Include="Rendering\TextureLoader.cs" />
     <Compile Include="Rendering\VertexFormat.cs" />
   </ItemGroup>
@@ -89,7 +90,9 @@
     <Content Include="Objects\TexturesCom_Grass0139_1_seamless_S.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Rendering\Skyboxes\Skybox01\texture.png" />
+    <Content Include="Rendering\Skyboxes\Skybox01\texture.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Rendering\Textures\alphaChan.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -125,6 +128,10 @@
     <None Include="Objects\map.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Objects\mappedcube.mtl" />
+    <None Include="Objects\mappedcube.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Objects\test.mtl" />
     <None Include="packages.config" />
     <Content Include="Rendering\Shaders\Textured\fragmentShader.glsl">
@@ -143,6 +150,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Rendering\Shaders\HUD\hudVertex.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Rendering\Shaders\Skybox\fragmentShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Rendering\Shaders\Skybox\vertexShader.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
