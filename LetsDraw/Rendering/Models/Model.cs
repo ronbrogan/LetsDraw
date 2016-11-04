@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetsDraw.Core.Rendering;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace LetsDraw.Rendering.Models
 {
-    public class Model : IGameObject
+    public class Model : IRenderable
     {
         protected uint Vao;
         protected List<uint> Vbos;

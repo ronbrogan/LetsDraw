@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LetsDraw.Formats.Obj;
+using LetsDraw.Core;
+using LetsDraw.Core.Rendering;
+using LetsDraw.Loaders;
 using LetsDraw.Managers;
 using LetsDraw.Rendering.Models;
 using OpenTK;
@@ -21,7 +23,7 @@ namespace LetsDraw.Rendering.Skyboxes
 
         private Matrix4 RelativeTransformation = Matrix4.Identity;
 
-        private ObjMesh mesh { get; set; }
+        private RenderMesh mesh { get; set; }
 
 
         public Skybox(string VertexShaderPath, string FragmentShaderPath, string TexturePath)
@@ -36,7 +38,7 @@ namespace LetsDraw.Rendering.Skyboxes
             GL.GenVertexArrays(1, out vao);
             GL.BindVertexArray(vao);
 
-            var obj = new ObjLoader("Objects/mappedcube.obj");
+            var obj = new ObjLoader("Data/Objects/mappedcube.obj");
             mesh = obj.Meshes.First();
 
             var vertexFormatSize = BlittableValueType.StrideOf(new VertexFormat());

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetsDraw.Managers;
+using LetsDraw.Rendering;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -13,8 +14,7 @@ namespace LetsDraw.Core
 {
     public class Engine
     {
-        //public static GameModels models;
-        public IListener scene;
+        public SceneManager scene;
 
         public GameWindow game;
 
@@ -61,6 +61,8 @@ namespace LetsDraw.Core
         public void Start()
         {
             game.Run();
+
+            scene.Load(new Scene());
 
             game.Dispose();
         }

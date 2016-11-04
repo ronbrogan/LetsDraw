@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetsDraw.Core;
+using LetsDraw.Core.Rendering;
 using LetsDraw.Rendering;
 using LetsDraw.Rendering.HUD;
 using LetsDraw.Rendering.Models;

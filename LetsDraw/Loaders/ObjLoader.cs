@@ -2,11 +2,10 @@
 using System.IO;
 using System.Linq;
 using LetsDraw.Core;
-using LetsDraw.Rendering;
+using LetsDraw.Core.Rendering;
 using OpenTK;
-using System.Text.RegularExpressions;
 
-namespace LetsDraw.Formats.Obj
+namespace LetsDraw.Loaders
 {
     public class ObjLoader
     {
@@ -14,12 +13,12 @@ namespace LetsDraw.Formats.Obj
         public List<Vector2> TextureCoords = new List<Vector2>();
         public List<Vector3> Normals = new List<Vector3>();
 
-        public List<ObjMesh> Meshes = new List<ObjMesh>();
+        public List<RenderMesh> Meshes = new List<RenderMesh>();
 
         public ObjLoader(string filePath)
         {
             var lines = File.ReadAllLines(filePath).Select(l => l.Trim()).Where(l => !l.StartsWith("#"));
-            ObjMesh currMesh = null;
+            RenderMesh currMesh = null;
 
             var vertexDict = new IndexedDictionary<string, VertexFormat>();
 
@@ -49,7 +48,7 @@ namespace LetsDraw.Formats.Obj
                             currMesh.Verticies = vertexDict.Values;
                             Meshes.Add(currMesh);
                         }
-                        currMesh = new ObjMesh(parts[1]);
+                        currMesh = new RenderMesh(parts[1]);
                         break;
 
                     case "f":

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetsDraw.Core;
+using LetsDraw.Loaders;
 using LetsDraw.Rendering;
 using LetsDraw.Rendering.Models;
 using OpenTK;
@@ -23,7 +24,7 @@ namespace LetsDraw.Managers
 
             var loaded = new LoadedModel();
             loaded.SetShader(ShaderManager.GetShader("TexturedShader"));
-            loaded.SetTexture("diffuse", TextureLoader.LoadTexture("Objects/TexturesCom_Grass0139_1_seamless_S.jpg"));
+            loaded.SetTexture("diffuse", TextureLoader.LoadTexture("Data/Objects/TexturesCom_Grass0139_1_seamless_S.jpg"));
             loaded.Create();
             GameModels.Add("Loaded1", loaded);
         }

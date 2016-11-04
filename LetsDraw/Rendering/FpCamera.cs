@@ -7,12 +7,20 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using LetsDraw.Core;
+using LetsDraw.Core.Rendering;
 using LetsDraw.Managers;
 
 namespace LetsDraw.Rendering
 {
-    public class FpCamera
+    public class FpCamera : ICamera
     {
+        public float Pitch { get; set; }
+        public float Yaw { get; set; }
+        public Vector3 Position { get; set; }
+        public Matrix4 ViewMatrix { get; set; }
+        public Matrix4 ProjectionMatrix { get; set; }
+
+
         private float piOverTwo = (float)Math.PI / 2;
         private float speed = 10f;
         private float fov = (float)Math.PI / 2;
@@ -22,18 +30,16 @@ namespace LetsDraw.Rendering
         private Vector2 MousePosition;
         private bool isMousePressed = false;
 
-        private float Pitch = 1f;
-        private float Yaw = 0f;
-        private Vector3 Position;
-
-        private Matrix4 ViewMatrix;
-        private Matrix4 ProjectionMatrix;
 
         public FpCamera(Vector3 startingPosition)
         {
+            Pitch = 1;
+            Yaw = 0;
             Position = startingPosition;
             UpdateView();
         }
+
+        
 
         public void UpdateCamera(double deltaTime)
         {
@@ -63,16 +69,10 @@ namespace LetsDraw.Rendering
             Quaternion qYaw = Quaternion.FromAxisAngle(new Vector3(0, 1, 0), Yaw);
 
             //For a FPS camera we can omit roll
-            Quaternion orientation = qPitch * qYaw;
-            orientation = Quaternion.Normalize(orientation);
+            Quaternion orientation = Quaternion.Normalize(qPitch * qYaw);
             Matrix4 rotate = Matrix4.CreateFromQuaternion(orientation);
-
-            Matrix4 translate = Matrix4.Identity;
-
-            var look = Position * -1;
-            Matrix4.CreateTranslation(ref look, out translate);
-
-            Matrix4.Mult(ref translate, ref rotate, out ViewMatrix);
+            var translate = Matrix4.CreateTranslation(Position * -1);
+            ViewMatrix = Matrix4.Mult(translate, rotate);
         }
 
         public Matrix4 GetViewMatrix()

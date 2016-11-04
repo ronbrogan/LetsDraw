@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LetsDraw.Core;
+using LetsDraw.Core.Rendering;
 using LetsDraw.Formats;
-using LetsDraw.Formats.Obj;
+using LetsDraw.Loaders;
 using LetsDraw.Managers;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -20,7 +21,7 @@ namespace LetsDraw.Rendering.Models
 
         private Matrix4 RelativeTransformation = Matrix4.Identity;
 
-        private ObjMesh mesh { get; set; }
+        private RenderMesh mesh { get; set; }
 
 
         public void Create()
@@ -32,7 +33,7 @@ namespace LetsDraw.Rendering.Models
             GL.GenVertexArrays(1, out vao);
             GL.BindVertexArray(vao);
 
-            var obj = new ObjLoader("Objects/map.obj");
+            var obj = new ObjLoader("Data/Objects/map.obj");
             mesh = obj.Meshes.First();
 
             var vertexFormatSize = BlittableValueType.StrideOf(new VertexFormat());

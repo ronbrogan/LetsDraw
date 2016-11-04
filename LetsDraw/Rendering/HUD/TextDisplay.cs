@@ -3,17 +3,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LetsDraw.Rendering;
-using LetsDraw.Rendering.Models;
+using LetsDraw.Core.Rendering;
+using LetsDraw.Loaders;
 using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
-namespace LetsDraw.Core
+namespace LetsDraw.Rendering.HUD
 {
     public class TextDisplay : IHudElement
     {

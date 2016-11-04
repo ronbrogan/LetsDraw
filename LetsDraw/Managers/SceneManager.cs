@@ -14,7 +14,7 @@ using OpenTK.Input;
 
 namespace LetsDraw.Managers
 {
-    public class SceneManager : IListener, IDisposable
+    public class SceneManager : IListener
     {
         private ModelManager modelManager;
         private HudManager hudManager;
@@ -22,13 +22,17 @@ namespace LetsDraw.Managers
         private FpCamera firstPersonCamera;
         private Skybox skybox;
 
+        private Scene scene { get; set; }
+
+        
+
         public SceneManager(Size screenSize)
         {
-            ShaderManager.CreateShader("TexturedShader", "Rendering/Shaders/Textured/vertexShader.glsl", "Rendering/Shaders/Textured/fragmentShader.glsl");
-            ShaderManager.CreateShader("SphereShader", "Rendering/Shaders/Sphere/vertexShader.glsl", "Rendering/Shaders/Sphere/fragmentShader.glsl");
-            ShaderManager.CreateShader("HudShader", "Rendering/Shaders/HUD/hudVertex.glsl", "Rendering/Shaders/HUD/hudFragment.glsl");
+            ShaderManager.CreateShader("TexturedShader", "Data/Shaders/Textured/vertexShader.glsl", "Data/Shaders/Textured/fragmentShader.glsl");
+            ShaderManager.CreateShader("SphereShader", "Data/Shaders/Sphere/vertexShader.glsl", "Data/Shaders/Sphere/fragmentShader.glsl");
+            ShaderManager.CreateShader("HudShader", "Data/Shaders/HUD/hudVertex.glsl", "Data/Shaders/HUD/hudFragment.glsl");
 
-            skybox = new Skybox("Rendering/Shaders/Skybox/vertexShader.glsl", "Rendering/Shaders/Skybox/fragmentShader.glsl", "Rendering/Skyboxes/Skybox01/texture.png");
+            skybox = new Skybox("Data/Shaders/Skybox/vertexShader.glsl", "Data/Shaders/Skybox/fragmentShader.glsl", "Rendering/Skyboxes/Skybox01/texture.png");
 
             firstPersonCamera = new FpCamera(new Vector3(80, 290, 30));
 
@@ -36,6 +40,17 @@ namespace LetsDraw.Managers
             Console.Write("Initializing Models...");
             modelManager = new ModelManager();
             Console.WriteLine("Done.");
+        }
+
+        public void Load(Scene newScene)
+        {
+            if(scene != null)
+            {
+                scene.Unload();
+            }
+
+            scene = newScene;
+            scene.Load();
         }
 
         public void NotifyBeginFrame(double deltaTime)

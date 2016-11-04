@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
-using LetsDraw.Rendering;
-using OpenTK;
+using LetsDraw.Loaders;
 
-namespace LetsDraw.Formats.Obj
+namespace LetsDraw.Core.Rendering
 {
-    public class ObjMesh
+    public class RenderMesh
     {
         public string Name { get; set; }
         public int Faces = 0;
         public List<uint> Indicies = new List<uint>();
         public List<VertexFormat> Verticies = new List<VertexFormat>();
 
-        public ObjMesh(string name)
+        public RenderMesh(string name)
         {
             Name = name;
         }
