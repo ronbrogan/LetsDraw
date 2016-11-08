@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace LetsDraw.Core.Rendering
 {
-    public interface IRenderableComponent
+    public interface IRenderableComponent : IRenderable
     {
-        List<RenderMesh> Meshes { get; set; }
-
-        void Draw();
+        List<Mesh> Meshes { get; set; }
 
     }
 }

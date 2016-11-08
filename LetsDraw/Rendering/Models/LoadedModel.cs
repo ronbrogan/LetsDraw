@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using LetsDraw.Core;
 using LetsDraw.Core.Rendering;
-using LetsDraw.Formats;
 using LetsDraw.Loaders;
 using LetsDraw.Managers;
 using OpenTK;
@@ -21,7 +20,7 @@ namespace LetsDraw.Rendering.Models
 
         private Matrix4 RelativeTransformation = Matrix4.Identity;
 
-        private RenderMesh mesh { get; set; }
+        private Mesh mesh { get; set; }
 
 
         public void Create()

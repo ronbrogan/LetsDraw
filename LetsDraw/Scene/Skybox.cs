@@ -23,7 +23,7 @@ namespace LetsDraw.Rendering.Skyboxes
 
         private Matrix4 RelativeTransformation = Matrix4.Identity;
 
-        private RenderMesh mesh { get; set; }
+        private Mesh mesh { get; set; }
 
 
         public Skybox(string VertexShaderPath, string FragmentShaderPath, string TexturePath)

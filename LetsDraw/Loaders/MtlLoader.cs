@@ -1,0 +1,131 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using LetsDraw.Core.Rendering;
+using LetsDraw.Data.Enums;
+using OpenTK;
+
+namespace LetsDraw.Loaders
+{
+    public class MtlLoader
+    {
+        public List<Material> Materials = new List<Material>();
+
+        public MtlLoader(string filePath)
+        {
+            var lines = File.ReadAllLines(filePath).Select(l => l.Trim()).Where(l => !l.StartsWith("#")).Select(t => t.ReduceWhitespace().Replace('\t', ' '));
+
+            Material currentMaterial = new Material(null);
+
+            foreach(var line in lines)
+            {
+                var parts = line.Split(' ');
+
+                switch (parts[0])
+                {
+                    case "newmtl":
+                        if(currentMaterial.MaterialName != null)
+                        {
+                            Materials.Add(currentMaterial);
+                        }
+                        currentMaterial = new Material(parts[1]);
+                        break;
+
+                    case "Ka":
+                        currentMaterial.AmbientColor = new Vector3(float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3]));
+                        break;
+
+                    case "Kd":
+                        currentMaterial.DiffuseColor = new Vector3(float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3]));
+                        break;
+
+                    case "Ks":
+                        currentMaterial.SpecularColor = new Vector3(float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3]));
+                        break;
+
+                    case "Ke":
+                        // Unused, Emissive color?
+                        break;
+
+                    case "d":
+                        currentMaterial.Transparency = 1 - float.Parse(parts[1]);
+                        break;
+
+                    case "Tr":
+                        currentMaterial.Transparency = float.Parse(parts[1]);
+                        break;
+
+                    case "illum":
+                        currentMaterial.IlluminationModel = (IlluminationModel)int.Parse(parts[1]);
+                        break;
+
+                    case "tf":
+                        currentMaterial.TransmissionFilter = new Vector3(float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3]));
+                        break;
+
+                    case "Ns":
+                        currentMaterial.SpecularExponent = float.Parse(parts[1]);
+                        break;
+
+                    case "sharpness":
+                        // Unused
+                        break;
+
+                    case "Ni":
+                        currentMaterial.IndexOfRefraction = float.Parse(parts[1]);
+                        break;
+
+                    case "map_Ka":
+                        currentMaterial.AmbientMap = ParseMap(Path.GetDirectoryName(filePath), string.Join(" ", parts.Skip(1)));
+                        break;
+
+                    case "map_Kd":
+                        currentMaterial.DiffuseMap = ParseMap(Path.GetDirectoryName(filePath), string.Join(" ", parts.Skip(1)));
+                        break;
+
+                    case "map_Ks":
+                        currentMaterial.SpecularMap = ParseMap(Path.GetDirectoryName(filePath), string.Join(" ", parts.Skip(1)));
+                        break;
+
+                    case "map_Ns":
+                        currentMaterial.SpecularHighlightMap = ParseMap(Path.GetDirectoryName(filePath), string.Join(" ", parts.Skip(1)));
+                        break;
+
+                    case "map_d":
+                        currentMaterial.AlphaMap = ParseMap(Path.GetDirectoryName(filePath), string.Join(" ", parts.Skip(1)));
+                        break;
+
+                    case "map_bump":
+                    case "bump":
+                        currentMaterial.BumpMap = ParseMap(Path.GetDirectoryName(filePath), string.Join(" ", parts.Skip(1)));
+                        break;
+
+                }
+
+            }
+            Materials.Add(currentMaterial);
+        }
+
+        public TextureMap ParseMap(string basePath, string mapOptions)
+        {
+            var map = new TextureMap();
+
+            var parts = mapOptions.Split(' ');
+
+            if(parts.Length == 1)
+            {
+                map.TexturePath = Path.Combine(basePath, parts[0]);
+                return map;
+            }
+
+            map.TexturePath = Path.Combine(basePath, parts[parts.Length - 1]);
+
+            // TODO: Implement map options
+
+            return map;
+        }
+    }
+}

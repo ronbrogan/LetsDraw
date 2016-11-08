@@ -53,16 +53,23 @@
   <ItemGroup>
     <Compile Include="Core\Engine.cs" />
     <Compile Include="Core\Rendering\IRenderableComponent.cs" />
+    <Compile Include="Core\Rendering\Material.cs" />
+    <Compile Include="Core\Rendering\TextureMap.cs" />
+    <Compile Include="Core\Terrain.cs" />
+    <Compile Include="Data\Enums\IlluminationModel.cs" />
+    <Compile Include="Data\Enums\ImfChanOption.cs" />
+    <Compile Include="Data\Enums\ReflectionMapType.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Core\Rendering\ICamera.cs" />
     <Compile Include="Core\Rendering\IHudElement.cs" />
     <Compile Include="Core\IListener.cs" />
     <Compile Include="Core\IndexedDictionary.cs" />
     <Compile Include="Data\Enums\MeshShaderType.cs" />
+    <Compile Include="Loaders\MtlLoader.cs" />
     <Compile Include="Rendering\HUD\FramesDisplay.cs" />
     <Compile Include="Rendering\HUD\TextDisplay.cs" />
     <Compile Include="Loaders\ObjLoader.cs" />
-    <Compile Include="Core\Rendering\RenderMesh.cs" />
+    <Compile Include="Core\Rendering\Mesh.cs" />
     <Compile Include="Managers\HudManager.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\ModelManager.cs" />
@@ -70,15 +77,16 @@
     <Compile Include="Managers\ShaderManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rendering\FpCamera.cs" />
+    <Compile Include="Rendering\Models\PrimitiveGenerator.cs" />
+    <Compile Include="Scene\Cameras\FpCamera.cs" />
     <Compile Include="Core\Rendering\IRenderable.cs" />
     <Compile Include="Rendering\Models\LoadedModel.cs" />
     <Compile Include="Rendering\Models\Model.cs" />
     <Compile Include="Loaders\ShaderUniformCatalog.cs" />
-    <Compile Include="Rendering\Scene.cs" />
-    <Compile Include="Rendering\Skyboxes\Skybox.cs" />
+    <Compile Include="Scene\Scene.cs" />
+    <Compile Include="Scene\Skybox.cs" />
     <Compile Include="Loaders\TextureLoader.cs" />
-    <Compile Include="Loaders\VertexFormat.cs" />
+    <Compile Include="Core\VertexFormat.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\Objects\block.png" />
@@ -95,12 +103,16 @@
     <None Include="App.config" />
     <None Include="Data\Objects\block.mtl" />
     <None Include="Data\Objects\block.obj" />
-    <None Include="Data\Objects\map.mtl" />
+    <None Include="Data\Objects\map.mtl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Data\Objects\map.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Data\Objects\map.old.obj" />
-    <None Include="Data\Objects\mappedcube.mtl" />
+    <None Include="Data\Objects\mappedcube.mtl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Data\Objects\mappedcube.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

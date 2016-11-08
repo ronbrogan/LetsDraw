@@ -13,7 +13,7 @@ namespace LetsDraw.Rendering
     {
         public ICamera Camera { get; set; }
 
-        public RenderMesh Geometry { get; set; }
+        public Mesh Geometry { get; set; }
 
         public Skybox Skybox { get; set; }
 
