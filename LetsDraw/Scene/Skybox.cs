@@ -39,7 +39,7 @@ namespace LetsDraw.Rendering.Skyboxes
             GL.BindVertexArray(vao);
 
             var obj = new ObjLoader("Data/Objects/mappedcube.obj");
-            mesh = obj.Meshes.First();
+            mesh = obj.Meshes.First(m => m.Value.Verticies.Count > 0).Value;
 
             var vertexFormatSize = BlittableValueType.StrideOf(new VertexFormat());
 

@@ -13,18 +13,16 @@ namespace LetsDraw.Loaders
         public List<Vector2> TextureCoords = new List<Vector2>();
         public List<Vector3> Normals = new List<Vector3>();
 
-        public List<Mesh> Meshes = new List<Mesh>();
-
         public Dictionary<string, Material> Materials = new Dictionary<string, Material>();
+
+        public Dictionary<string, Mesh> Meshes = new Dictionary<string, Mesh>();
 
         public ObjLoader(string filePath)
         {
-
-
             var lines = File.ReadAllLines(filePath).Select(l => l.Trim()).Where(l => !l.StartsWith("#"));
-            Mesh currMesh = null;
 
             var vertexDict = new IndexedDictionary<string, VertexFormat>();
+            var currentMeshKey = "";
 
             foreach(var rawline in lines)
             {
@@ -39,6 +37,7 @@ namespace LetsDraw.Loaders
                         foreach(var mat in mats.Materials)
                         {
                             Materials.Add(mat.MaterialName, mat);
+                            Meshes.Add(mat.MaterialName, new Mesh());
                         }
                         break;
 
@@ -54,13 +53,12 @@ namespace LetsDraw.Loaders
                         Normals.Add(new Vector3(float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3])));
                         break;
 
-                    case "g":
-                        if (currMesh != null)
+                    case "usemtl":
+                        if (!string.IsNullOrWhiteSpace(currentMeshKey))
                         {
-                            currMesh.Verticies = vertexDict.Values;
-                            Meshes.Add(currMesh);
+                            Meshes[currentMeshKey].Verticies = vertexDict.Values;
                         }
-                        currMesh = new Mesh();
+                        currentMeshKey = parts[1];
                         break;
 
                     case "f":
@@ -69,19 +67,13 @@ namespace LetsDraw.Loaders
                             var indicies = parts[i].Split('/');
 
                             var index = vertexDict.Add(parts[i], new VertexFormat(RawVerts[int.Parse(indicies[0]) - 1], TextureCoords[int.Parse(indicies[1]) - 1], Normals[int.Parse(indicies[2]) - 1]));
-                            currMesh.Indicies.Add((uint)index);
+                            Meshes[currentMeshKey].Indicies.Add((uint)index);
                         }
 
                         break;
-
                 }
-
             }
-            currMesh.Verticies = vertexDict.Values;
-            Meshes.Add(currMesh);
-
+            Meshes[currentMeshKey].Verticies = vertexDict.Values;
         }
-
-
     }
 }
