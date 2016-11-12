@@ -10,6 +10,9 @@ using LetsDraw.Managers;
 using LetsDraw.Rendering.Models;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using System.Numerics;
+using Vector3 = OpenTK.Vector3;
+using Vector4 = OpenTK.Vector4;
 
 namespace LetsDraw.Rendering.Skyboxes
 {

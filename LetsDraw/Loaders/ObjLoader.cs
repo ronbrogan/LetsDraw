@@ -13,8 +13,6 @@ namespace LetsDraw.Loaders
         public List<Vector2> TextureCoords = new List<Vector2>();
         public List<Vector3> Normals = new List<Vector3>();
 
-        public Dictionary<string, Material> Materials = new Dictionary<string, Material>();
-
         public Dictionary<string, Mesh> Meshes = new Dictionary<string, Mesh>();
 
         public ObjLoader(string filePath)
@@ -36,8 +34,7 @@ namespace LetsDraw.Loaders
                         var mats = new MtlLoader(Path.Combine(Path.GetDirectoryName(filePath), parts[1]));
                         foreach(var mat in mats.Materials)
                         {
-                            Materials.Add(mat.MaterialName, mat);
-                            Meshes.Add(mat.MaterialName, new Mesh());
+                            Meshes.Add(mat.MaterialName, new Mesh(mat));
                         }
                         break;
 

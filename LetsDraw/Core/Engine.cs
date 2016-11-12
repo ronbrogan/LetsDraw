@@ -14,6 +14,7 @@ namespace LetsDraw.Core
 {
     public class Engine
     {
+        public ShaderManager shaderManager;
         public SceneManager scene;
 
         public GameWindow game;
@@ -22,13 +23,14 @@ namespace LetsDraw.Core
         {
             var msaaSamples = 8;
 
-            game = new GameWindow(720, 480, new GraphicsMode(32, 24, 0, msaaSamples))
+            game = new GameWindow(1600, 900, new GraphicsMode(32, 24, 0, msaaSamples))
             {
                 Title = "LetsDrawEngine"
             };
 
+            shaderManager = new ShaderManager();
             scene = new SceneManager(game.Size);
-
+            
             game.Load += (sender, e) =>
             {
                 game.VSync = VSyncMode.Off;
@@ -38,6 +40,7 @@ namespace LetsDraw.Core
                 GL.Enable(EnableCap.DepthTest);
                 GL.Enable(EnableCap.Multisample);
                 GL.Enable(EnableCap.CullFace);
+                GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             };
 
             game.Resize += (sender, e) =>
@@ -60,9 +63,10 @@ namespace LetsDraw.Core
 
         public void Start()
         {
+            scene.Load(new Scene());
+
             game.Run();
 
-            scene.Load(new Scene());
 
             game.Dispose();
         }

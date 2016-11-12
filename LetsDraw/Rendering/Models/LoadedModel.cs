@@ -72,7 +72,7 @@ namespace LetsDraw.Rendering.Models
                 ProjectionMatrix = GL.GetUniformLocation(base.ShaderProgram, "projection_matrix")
             };
 
-            ShaderManager.UniformCatalog.Add(base.ShaderProgram, cat);
+            //ShaderManager.UniformCatalog.Add(base.ShaderProgram, cat);
         }
 
         public override void Update(double deltaTime = 0)
@@ -102,28 +102,29 @@ namespace LetsDraw.Rendering.Models
 
         public override void Draw(Matrix4 Projection, Matrix4 View)
         {
-            GL.UseProgram(base.ShaderProgram);
-            GL.BindVertexArray(base.Vao);
+            //GL.UseProgram(base.ShaderProgram);
+            //GL.BindVertexArray(base.Vao);
 
-            var NormalMatrix = Matrix3.Transpose(Matrix3.Invert(new Matrix3(RelativeTransformation)));
+            //var NormalMatrix = Matrix3.Transpose(Matrix3.Invert(new Matrix3(RelativeTransformation)));
 
-            GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2D, base.Textures["diffuse"]);
+            //GL.ActiveTexture(TextureUnit.Texture0);
+            //GL.BindTexture(TextureTarget.Texture2D, base.Textures["diffuse"]);
 
-            GL.Uniform1(GL.GetUniformLocation(base.ShaderProgram, "texture1"), 0);
+            //GL.Uniform1(GL.GetUniformLocation(base.ShaderProgram, "texture1"), 0);
 
-            var lookup = ShaderManager.UniformCatalog[base.ShaderProgram];
+            //var lookup = ShaderManager.UniformCatalog[base.ShaderProgram];
 
-            GL.UniformMatrix3(lookup.NormalMatrix, false, ref NormalMatrix);
+            //GL.UniformMatrix3(lookup.NormalMatrix, false, ref NormalMatrix);
 
-            GL.UniformMatrix4(lookup.ModelMatrix, false, ref RelativeTransformation);
+            //GL.UniformMatrix4(lookup.ModelMatrix, false, ref RelativeTransformation);
 
-            GL.UniformMatrix4(lookup.ViewMatrix, false, ref View);
+            //GL.UniformMatrix4(lookup.ViewMatrix, false, ref View);
 
-            GL.UniformMatrix4(lookup.ProjectionMatrix, false, ref Projection);
+            //GL.UniformMatrix4(lookup.ProjectionMatrix, false, ref Projection);
 
 
-            GL.DrawElements(PrimitiveType.Triangles, mesh.Indicies.Count, DrawElementsType.UnsignedInt, 0);
+            //GL.DrawElements(PrimitiveType.Triangles, mesh.Indicies.Count, DrawElementsType.UnsignedInt, 0);
+            
         }
     }
 }

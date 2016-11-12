@@ -29,13 +29,14 @@ namespace LetsDraw.Rendering.HUD
         }
 
         private string text = "";
-        public int FontSize = 36;
+        public int FontSize = 40;
         private Size ScreenSize;
-        public Brush Color = Brushes.Yellow;
+        public Brush Color = Brushes.White;
 
         protected uint Vao;
         protected List<uint> Vbos;
         protected int ShaderProgram;
+        protected int TextureLocation;
         protected uint Texture;
 
         protected bool RegenTexture = true;
@@ -73,13 +74,10 @@ namespace LetsDraw.Rendering.HUD
             //Draw it
             GL.UseProgram(ShaderProgram);
             GL.BindVertexArray(Vao);
-            GL.BlendFuncSeparate(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha, BlendingFactorSrc.One, BlendingFactorDest.Zero);
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, Texture);
-
-            GL.Uniform1(GL.GetUniformLocation(ShaderProgram, "texture1"), 0);
+            GL.Uniform1(TextureLocation, 0);
             GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, 0);
-            GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.Zero);
         }
 
         public virtual void Update()
@@ -95,6 +93,7 @@ namespace LetsDraw.Rendering.HUD
         public void SetShader(int ProgramHandle)
         {
             ShaderProgram = ProgramHandle;
+            TextureLocation = GL.GetUniformLocation(ShaderProgram, "texture1");
         }
 
         private void GenerateTexture()
@@ -102,7 +101,7 @@ namespace LetsDraw.Rendering.HUD
             
             var bmp = new Bitmap(1, 1);
             Graphics g = Graphics.FromImage(bmp);
-            var size = g.MeasureString(text, new Font(FontFamily.GenericMonospace, FontSize));
+            var size = g.MeasureString(text, new Font(FontFamily.GenericMonospace, FontSize, FontStyle.Bold));
             bmp = new Bitmap((int)Math.Ceiling(size.Width), (int)Math.Ceiling(size.Height), PixelFormat.Format32bppArgb);
             g = Graphics.FromImage(bmp);
             g.FillRectangle(Brushes.Transparent, 0, 0, (int)Math.Ceiling(size.Width), (int)Math.Ceiling(size.Height));

@@ -3,7 +3,11 @@
  
 layout(location = 0) out vec4 out_color;
 
-uniform sampler2D texture1;
+uniform bool use_diffuse_map;
+uniform sampler2D diffuse_map;
+uniform vec3 diffuse_color;
+
+uniform float alpha;
  
 in vec2 texcoord;
 in vec3 world_normal;
@@ -15,10 +19,15 @@ void main()
 
 	float cosTheta = clamp(dot(world_normal, lightDirection), 0, 1);
 
-	vec4 ambient = vec4(lightColor, 1) * vec4(0.2, 0.2, 0.2, 1);
-	vec4 diffuse = vec4(lightColor, 1) * cosTheta;
+	vec4 light_ambient = vec4(lightColor, 1) * vec4(0.2, 0.2, 0.2, 1);
+	vec4 light_diffuse = vec4(lightColor, 1) * cosTheta;
+	vec4 lighting = light_ambient + light_diffuse;
 
-	vec4 texColor = texture(texture1, texcoord);
+	vec4 diffuse = vec4(diffuse_color, 0);
 
-	out_color = vec4(ambient + diffuse) * texColor;
+	if(use_diffuse_map){
+		 diffuse = texture(diffuse_map, texcoord);
+	}
+
+	out_color = vec4(lighting.xyz * diffuse.xyz, alpha);
 }

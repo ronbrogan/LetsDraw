@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
+using System.Numerics;
+using Quaternion = OpenTK.Quaternion;
 
 namespace LetsDraw
 {
@@ -34,6 +36,21 @@ namespace LetsDraw
             }
 
             return newString.ToString();
+        }
+
+        public static Matrix4x4 ToNumerics(this Matrix4 mat)
+        {
+            return new Matrix4x4(mat.M11, mat.M12, mat.M13, mat.M14, mat.M21, mat.M22, mat.M23, mat.M24, mat.M31, mat.M32, mat.M33, mat.M34, mat.M41, mat.M42, mat.M43, mat.M44);
+        }
+
+        public static Matrix4 ToGl(this Matrix4x4 mat)
+        {
+            return new Matrix4(mat.M11, mat.M12, mat.M13, mat.M14, mat.M21, mat.M22, mat.M23, mat.M24, mat.M31, mat.M32, mat.M33, mat.M34, mat.M41, mat.M42, mat.M43, mat.M44);
+        }
+
+        public static float[] ToArray(this Matrix4 mat)
+        {
+            return new [] { mat.M11, mat.M12, mat.M13, mat.M14, mat.M21, mat.M22, mat.M23, mat.M24, mat.M31, mat.M32, mat.M33, mat.M34, mat.M41, mat.M42, mat.M43, mat.M44 };
         }
 
         public static Matrix4 MatrixFromYawPitchRoll(float yaw, float pitch, float roll)

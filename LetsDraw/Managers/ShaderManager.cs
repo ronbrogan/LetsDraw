@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LetsDraw.Core.Rendering;
+using LetsDraw.Data.Enums;
 using LetsDraw.Loaders;
 using OpenTK;
 using OpenTK.Graphics;
@@ -12,12 +14,45 @@ using LetsDraw.Rendering;
 
 namespace LetsDraw.Managers
 {
-    public static class ShaderManager
+    public class ShaderManager
     {
         private static Dictionary<string, int> Shaders = new Dictionary<string, int>();
 
         public static Dictionary<int, ShaderUniformCatalog> UniformCatalog = new Dictionary<int, ShaderUniformCatalog>();
 
+        public ShaderManager()
+        {
+            var generic = CreateShader("Generic", "Data/Shaders/Textured/vertexShader.glsl", "Data/Shaders/Textured/fragmentShader.glsl");
+
+            var genericCat = new ShaderUniformCatalog
+            {
+                NormalMatrix = GL.GetUniformLocation(generic, "normal_matrix"),
+                ModelMatrix = GL.GetUniformLocation(generic, "model_matrix"),
+                ViewMatrix = GL.GetUniformLocation(generic, "view_matrix"),
+                ProjectionMatrix = GL.GetUniformLocation(generic, "projection_matrix"),
+
+                UseDiffuseMap = GL.GetUniformLocation(generic, "use_diffuse_map"),
+                DiffuseColor = GL.GetUniformLocation(generic, "diffuse_color"),
+                DiffuseMap = GL.GetUniformLocation(generic, "diffuse_map"),
+                Alpha = GL.GetUniformLocation(generic, "alpha")
+            };
+
+            ShaderManager.UniformCatalog.Add(generic, genericCat);
+
+
+            CreateShader("HudShader", "Data/Shaders/HUD/hudVertex.glsl", "Data/Shaders/HUD/hudFragment.glsl");
+        }
+
+        public static int GetShaderForMaterial(Material mat)
+        {
+            switch (mat.IlluminationModel)
+            {
+
+                default:
+                    return Shaders["Generic"];
+            }
+
+        }
 
         private static string ReadShader(string file)
         {
@@ -108,7 +143,7 @@ namespace LetsDraw.Managers
                 Console.WriteLine("-- Could not find shader: {0}", shaderName);
                 return 0;
             }
-                
+
             return Shaders[shaderName];
         }
 
@@ -122,7 +157,7 @@ namespace LetsDraw.Managers
 
         public static void Dispose()
         {
-            foreach(var program in Shaders)
+            foreach (var program in Shaders)
             {
                 GL.DeleteProgram(program.Value);
             }

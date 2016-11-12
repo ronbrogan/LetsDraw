@@ -24,7 +24,6 @@ namespace LetsDraw
         {
             var engine = new Engine();
 
-            Console.Clear();
             Console.WriteLine(GL.GetString(StringName.Version));
             Console.WriteLine(GL.GetString(StringName.Renderer));
             Console.WriteLine(GL.GetString(StringName.Vendor));

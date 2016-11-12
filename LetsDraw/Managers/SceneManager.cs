@@ -16,11 +16,11 @@ namespace LetsDraw.Managers
 {
     public class SceneManager : IListener
     {
-        private ModelManager modelManager;
+        //private ModelManager modelManager;
         private HudManager hudManager;
 
-        private FpCamera firstPersonCamera;
-        private Skybox skybox;
+        //private FpCamera firstPersonCamera;
+        //private Skybox skybox;
 
         private Scene scene { get; set; }
 
@@ -28,18 +28,7 @@ namespace LetsDraw.Managers
 
         public SceneManager(Size screenSize)
         {
-            ShaderManager.CreateShader("TexturedShader", "Data/Shaders/Textured/vertexShader.glsl", "Data/Shaders/Textured/fragmentShader.glsl");
-            ShaderManager.CreateShader("SphereShader", "Data/Shaders/Sphere/vertexShader.glsl", "Data/Shaders/Sphere/fragmentShader.glsl");
-            ShaderManager.CreateShader("HudShader", "Data/Shaders/HUD/hudVertex.glsl", "Data/Shaders/HUD/hudFragment.glsl");
-
-            skybox = new Skybox("Data/Shaders/Skybox/vertexShader.glsl", "Data/Shaders/Skybox/fragmentShader.glsl", "Rendering/Skyboxes/Skybox01/texture.png");
-
-            firstPersonCamera = new FpCamera(new Vector3(80, 290, 30));
-
             hudManager = new HudManager(screenSize);
-            Console.Write("Initializing Models...");
-            modelManager = new ModelManager();
-            Console.WriteLine("Done.");
         }
 
         public void Load(Scene newScene)
@@ -55,21 +44,18 @@ namespace LetsDraw.Managers
 
         public void NotifyBeginFrame(double deltaTime)
         {
-            skybox.Update(deltaTime);
-            firstPersonCamera.UpdateCamera(deltaTime);
-            modelManager.Update(deltaTime);
+            scene.Update(deltaTime);
+
+            //modelManager.Update(deltaTime);
             hudManager.Update(deltaTime);
         }
 
         public void NotifyDisplayFrame()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            GL.ClearColor(Color.LightSlateGray);
-
-            skybox.Draw(firstPersonCamera.GetProjectionMatrix(), firstPersonCamera.GetViewMatrix());
-
-            modelManager.Draw(firstPersonCamera.GetProjectionMatrix(), firstPersonCamera.GetViewMatrix());
+            scene.Draw();
             hudManager.Draw();
+
         }
 
         public void NotifyEndFrame(GameWindow game)
@@ -79,14 +65,16 @@ namespace LetsDraw.Managers
 
         public void NotifyResize(int width, int height, int prevWidth, int prevHeight)
         {
-            firstPersonCamera.UpdateProjectionMatrix(width, height);
+            if(scene != null)
+                scene.Camera.UpdateProjectionMatrix(width, height);
         }
 
 
         public void Dispose()
         {
             ShaderManager.Dispose();
-            modelManager.Dispose();
+            scene.Dispose();
+            //modelManager.Dispose();
         }
     }
 }

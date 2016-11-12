@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using LetsDraw.Core;
 using LetsDraw.Core.Rendering;
+using LetsDraw.Loaders;
+using LetsDraw.Rendering;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 namespace LetsDraw.Core
 {
@@ -16,9 +19,15 @@ namespace LetsDraw.Core
 
         public byte[] Lightmap { get; set; }
 
-        public void Draw()
+        public Terrain()
         {
-            throw new NotImplementedException();
+            var obj = new ObjLoader("Data/Objects/map.obj");
+            Meshes = obj.Meshes.Values.ToList();
+
+            foreach (var mesh in Meshes)
+            {
+                Renderer.CompileMesh(mesh);
+            }
         }
 
         public void Dispose()
@@ -28,7 +37,10 @@ namespace LetsDraw.Core
 
         public void Draw(Matrix4 ProjectionMatrix, Matrix4 ViewMatrix)
         {
-            throw new NotImplementedException();
+            foreach(var mesh in Meshes)
+            {
+                Renderer.RenderMesh(mesh, Matrix4.Identity, ViewMatrix, ProjectionMatrix);
+            }
         }
 
         public void Update(double deltaTime = 0)
