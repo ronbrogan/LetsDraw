@@ -50,8 +50,6 @@ namespace LetsDraw.Rendering
 
             Skybox.Draw(proj, view);
             Terrain.Draw(proj, view);
-
-
         }
 
         public void Resize()

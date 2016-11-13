@@ -22,7 +22,7 @@ namespace LetsDraw.Managers
 
         public ShaderManager()
         {
-            var generic = CreateShader("Generic", "Data/Shaders/Textured/vertexShader.glsl", "Data/Shaders/Textured/fragmentShader.glsl");
+            var generic = CreateShader("Generic", "Data/Shaders/Generic/vertexShader.glsl", "Data/Shaders/Generic/fragmentShader.glsl");
 
             var genericCat = new ShaderUniformCatalog
             {
@@ -117,8 +117,8 @@ namespace LetsDraw.Managers
             GL.LinkProgram(program);
 
             GL.GetProgram(program, GetProgramParameterName.LinkStatus, out linkResult);
-
-            if(linkResult == 0)
+            var linkError = GL.GetError();
+            if(linkResult == 0 || linkError != ErrorCode.NoError)
             {
                 string linkLog;
 

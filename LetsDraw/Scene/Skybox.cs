@@ -85,26 +85,6 @@ namespace LetsDraw.Rendering.Skyboxes
 
         public override void Update(double deltaTime = 0)
         {
-            var rotSpeed = .01f;
-            //rotationAngle += rotSpeed * (float)deltaTime;
-
-            //var scaleFactor = Math.Abs((float)Math.Sin(rotationAngle));
-
-            //Scale.X = scaleFactor;
-            //Scale.Y = scaleFactor;
-            //Scale.Z = scaleFactor;
-
-            var rotationMatrix = Matrix4.Identity;
-            var translateMatrix = Matrix4.Identity;
-            var scaleMatrix = Matrix4.Identity;
-
-            Matrix4.CreateScale(ref Scale, out scaleMatrix);
-            Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), rotationAngle, out rotationMatrix);
-            Matrix4.CreateTranslation(ref WorldPosition, out translateMatrix);
-
-            Matrix4.Mult(ref scaleMatrix, ref rotationMatrix, out rotationMatrix);
-            Matrix4.Mult(ref rotationMatrix, ref translateMatrix, out RelativeTransformation);
-
             base.Update(deltaTime);
         }
 

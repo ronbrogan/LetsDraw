@@ -18,7 +18,7 @@ namespace LetsDraw.Loaders
             
 
             GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
-            var mipMapLevels = 1 + (int)Math.Floor(Math.Log(Math.Max(width, height), 2));
+            var mipMapLevels = (int)Math.Floor(Math.Log(Math.Max(width, height), 2));
 
             switch (inputFormat)
             {

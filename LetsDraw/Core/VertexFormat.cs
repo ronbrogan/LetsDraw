@@ -16,5 +16,7 @@ namespace LetsDraw.Loaders
             texture = tex;
             normal = norm;
         }
+
+        public static readonly int Size = BlittableValueType<VertexFormat>.Stride;
     }
 }

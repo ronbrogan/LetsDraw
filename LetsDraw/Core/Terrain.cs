@@ -48,27 +48,7 @@ namespace LetsDraw.Core
             throw new NotImplementedException();
         }
 
-        public void SetShader(int ProgramHandle)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetTexture(string textureName, uint handle)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Destroy()
-        {
-            throw new NotImplementedException();
-        }
-
-        public uint GetVao()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<uint> GetVbos()
         {
             throw new NotImplementedException();
         }
