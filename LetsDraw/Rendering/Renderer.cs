@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using LetsDraw.Core.Rendering;
@@ -67,16 +68,15 @@ namespace LetsDraw.Rendering
             GL.UseProgram(shader);
             GL.BindVertexArray(VertexArrayObjects[mesh.Id]);
 
-            var NormalMat3 = Matrix3.Transpose(Matrix3.Invert(new Matrix3(RelativeTransformation)));
-
-
+            // Convert to numerics to take advantage of SIMD operations
+            var NormalMatrix = Matrix4x4.Transpose(Matrix4x4.Transpose(RelativeTransformation.ToNumerics())).ToGl();
 
             var data = new GenericUniform
             {
                 ModelMatrix = RelativeTransformation,
                 ViewMatrix = View,
                 ProjectionMatrix = Projection,
-                NormalMatrix = NormalMat3,
+                NormalMatrix = NormalMatrix,
                 Alpha = 1f - material.Transparency
             };
 
@@ -102,6 +102,5 @@ namespace LetsDraw.Rendering
 
             GL.DrawElements(PrimitiveType.Triangles, mesh.Indicies.Count, DrawElementsType.UnsignedInt, 0);
         }
-
     }
 }

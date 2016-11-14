@@ -37,9 +37,10 @@ namespace LetsDraw.Core
 
         public void Draw(Matrix4 ProjectionMatrix, Matrix4 ViewMatrix)
         {
+            var transform = Matrix4.Identity;
             foreach(var mesh in Meshes)
             {
-                Renderer.RenderMesh(mesh, Matrix4.Identity, ViewMatrix, ProjectionMatrix);
+                Renderer.RenderMesh(mesh, transform, ViewMatrix, ProjectionMatrix);
             }
         }
 

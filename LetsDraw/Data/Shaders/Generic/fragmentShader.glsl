@@ -10,7 +10,7 @@ layout (std140, binding = 1) uniform GenericUniform
 	mat4 ModelMatrix;
 	mat4 ViewMatrix;
 	mat4 ProjectionMatrix;
-	mat3 NormalMatrix;
+	mat4 NormalMatrix;
 	vec3 DiffuseColor;
 	float Alpha;
 	bool UseDiffuseMap;

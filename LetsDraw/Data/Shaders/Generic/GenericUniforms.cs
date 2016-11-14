@@ -21,15 +21,15 @@ namespace LetsDraw.Data.Shaders.Generic
         public Matrix4 ProjectionMatrix;
 
         [FieldOffset(192)]
-        public Matrix3 NormalMatrix;
-
-        [FieldOffset(240)]
-        public Vector3 DiffuseColor;
-
-        [FieldOffset(252)]
-        public float Alpha;
+        public Matrix4 NormalMatrix;
 
         [FieldOffset(256)]
+        public Vector3 DiffuseColor;
+
+        [FieldOffset(268)]
+        public float Alpha;
+
+        [FieldOffset(272)]
         public int UseDiffuseMap;
 
         public static readonly int Size = BlittableValueType<GenericUniform>.Stride;
