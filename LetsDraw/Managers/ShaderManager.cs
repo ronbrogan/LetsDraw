@@ -117,13 +117,11 @@ namespace LetsDraw.Managers
             GL.LinkProgram(program);
 
             GL.GetProgram(program, GetProgramParameterName.LinkStatus, out linkResult);
-            var linkError = GL.GetError();
-            if(linkResult == 0 || linkError != ErrorCode.NoError)
+            if(linkResult == 0)
             {
                 string linkLog;
 
                 GL.GetProgramInfoLog(program, out linkLog);
-
 
                 Console.WriteLine("CREATE PROGRAM FAILED");
                 Console.WriteLine(linkLog);
