@@ -21,7 +21,7 @@ namespace LetsDraw.Core
 
         public Terrain()
         {
-            var obj = new ObjLoader("Data/Objects/map.obj");
+            var obj = new ObjLoader("Data/Objects/powerhouse.obj");
             Meshes = obj.Meshes.Values.ToList();
 
             foreach (var mesh in Meshes)

@@ -93,11 +93,19 @@ namespace LetsDraw.Rendering
                 data.UseDiffuseMap = 0;
             }
 
-            uint dataBuffer;
-            GL.GenBuffers(1, out dataBuffer);
-            GL.BindBuffer(BufferTarget.UniformBuffer, dataBuffer);
-            GL.BufferData(BufferTarget.UniformBuffer, GenericUniform.Size, ref data, BufferUsageHint.DynamicDraw);
-            GL.BindBufferBase(BufferRangeTarget.UniformBuffer, 1, dataBuffer);
+            var needToInitBuffer = mesh.uniformBufferHandle == default(uint);
+
+            if (needToInitBuffer)
+                GL.GenBuffers(1, out mesh.uniformBufferHandle);
+
+            GL.BindBuffer(BufferTarget.UniformBuffer, mesh.uniformBufferHandle);
+
+            if (needToInitBuffer)
+                GL.BufferData(BufferTarget.UniformBuffer, GenericUniform.Size, ref data, BufferUsageHint.DynamicDraw);
+            else
+                GL.BufferSubData(BufferTarget.UniformBuffer, IntPtr.Zero, GenericUniform.Size, ref data);
+
+            GL.BindBufferBase(BufferRangeTarget.UniformBuffer, 1, mesh.uniformBufferHandle);
             GL.BindBuffer(BufferTarget.UniformBuffer, 0);
 
             GL.DrawElements(PrimitiveType.Triangles, mesh.Indicies.Count, DrawElementsType.UnsignedInt, 0);

@@ -13,6 +13,8 @@ namespace LetsDraw.Core.Rendering
 
         public Material Material { get; set; }
 
+        public uint uniformBufferHandle = 0;
+
         public Mesh()
         {
         }

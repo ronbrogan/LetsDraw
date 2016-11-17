@@ -62,6 +62,8 @@ namespace LetsDraw.Rendering
 
         public void UpdateView()
         {
+            // TODO Make this SIMD
+
             // Clamp Pitch to +- 90deg
             Pitch = Math.Max(Math.Min(piOverTwo, Pitch), piOverTwo * -1);
 
@@ -179,7 +181,7 @@ namespace LetsDraw.Rendering
         {
             float ar = (width / (float)height);
             var near1 = 0.1f;
-            var far1 = 2000.0f;
+            var far1 = 8000.0f;
 
             ProjectionMatrix = Matrix4.CreatePerspectiveFieldOfView(fov, ar, near1, far1);
         }
