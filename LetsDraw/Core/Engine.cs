@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using LetsDraw.Managers;
@@ -19,8 +22,16 @@ namespace LetsDraw.Core
 
         public GameWindow game;
 
+        public static void DebugCallbackF(DebugSource source, DebugType type, int id, DebugSeverity severity, int length, IntPtr message, IntPtr userParam)
+        {
+            string msg = Marshal.PtrToStringAnsi(message, length);
+            Console.WriteLine(msg);
+        }
+
         public Engine()
         {
+            var callback = (DebugProc)Delegate.CreateDelegate(typeof(DebugProc), GetType().GetMethod("DebugCallbackF"));
+
             var msaaSamples = 8;
 
             game = new GameWindow(1600, 900, new GraphicsMode(32, 24, 0, msaaSamples))
@@ -30,10 +41,12 @@ namespace LetsDraw.Core
 
             shaderManager = new ShaderManager();
             scene = new SceneManager(game.Size);
-            
+
             game.Load += (sender, e) =>
             {
                 game.VSync = VSyncMode.Off;
+
+                GL.DebugMessageCallback(callback, (IntPtr.Zero));
 
                 GL.Enable(EnableCap.DebugOutput);
                 GL.Enable(EnableCap.Blend);
