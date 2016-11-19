@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
@@ -9,6 +10,12 @@ using OpenTK.Input;
 using LetsDraw.Core;
 using LetsDraw.Core.Rendering;
 using LetsDraw.Managers;
+
+using Quat = System.Numerics.Quaternion;
+using Quaternion = OpenTK.Quaternion;
+using Vec3 = System.Numerics.Vector3;
+using Vector2 = OpenTK.Vector2;
+using Vector3 = OpenTK.Vector3;
 
 namespace LetsDraw.Rendering
 {
@@ -39,8 +46,6 @@ namespace LetsDraw.Rendering
             UpdateView();
         }
 
-        
-
         public void UpdateCamera(double deltaTime)
         {
             foreach (var key in InputManager.DownKeys)
@@ -62,19 +67,18 @@ namespace LetsDraw.Rendering
 
         public void UpdateView()
         {
-            // TODO Make this SIMD
-
             // Clamp Pitch to +- 90deg
             Pitch = Math.Max(Math.Min(piOverTwo, Pitch), piOverTwo * -1);
 
-            Quaternion qPitch = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), Pitch);
-            Quaternion qYaw = Quaternion.FromAxisAngle(new Vector3(0, 1, 0), Yaw);
+            var qPitch = Quat.CreateFromAxisAngle(new Vec3(1, 0, 0), Pitch);
+            var qYaw = Quat.CreateFromAxisAngle(new Vec3(0, 1, 0), Yaw);
 
             //For a FPS camera we can omit roll
-            Quaternion orientation = Quaternion.Normalize(qPitch * qYaw);
-            Matrix4 rotate = Matrix4.CreateFromQuaternion(orientation);
-            var translate = Matrix4.CreateTranslation(Position * -1);
-            ViewMatrix = Matrix4.Mult(translate, rotate);
+            var orient = Quat.Normalize(qPitch * qYaw);
+            var rotation = Matrix4x4.CreateFromQuaternion(orient);
+            var translation = Matrix4x4.CreateTranslation(Position.ToNumerics() * -1);
+
+            ViewMatrix = Matrix4x4.Multiply(translation, rotation).ToGl();
         }
 
         public Matrix4 GetViewMatrix()
@@ -135,16 +139,16 @@ namespace LetsDraw.Rendering
                     break;
             }
 
-            var mat = GetViewMatrix();
+            var mat = GetViewMatrix().ToNumerics();
             
-            Quaternion iPitch = Quaternion.FromAxisAngle(new Vector3(1, 0, 0), -Pitch);
-            Matrix4 rotate = Matrix4.CreateFromQuaternion(iPitch);
+            var iPitch = Quat.CreateFromAxisAngle(new Vec3(1, 0, 0), -Pitch);
+            var rotate = Matrix4x4.CreateFromQuaternion(iPitch);
 
-            mat = Matrix4.Mult(mat, rotate);
+            mat = Matrix4x4.Multiply(mat, rotate);
 
-            var forward = new Vector3(mat[0, 2], mat[1, 2], mat[2, 2]);
-            var jump = new Vector3(mat[0, 1], mat[1, 1], mat[2, 1]);
-            var strafe = new Vector3(mat[0,0], mat[1,0], mat[2,0]);
+            var forward = new Vector3(mat.M13, mat.M23, mat.M33);
+            var jump = new Vector3(mat.M12, mat.M22, mat.M32);
+            var strafe = new Vector3(mat.M11, mat.M21, mat.M31);
 
             if (!flyMode)
             {
@@ -183,7 +187,7 @@ namespace LetsDraw.Rendering
             var near1 = 0.1f;
             var far1 = 8000.0f;
 
-            ProjectionMatrix = Matrix4.CreatePerspectiveFieldOfView(fov, ar, near1, far1);
+            ProjectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(fov, ar, near1, far1).ToGl();
         }
     }
 }

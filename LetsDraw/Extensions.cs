@@ -9,6 +9,7 @@ using System.Numerics;
 using LetsDraw.Managers;
 using OpenTK.Graphics.OpenGL;
 using Quaternion = OpenTK.Quaternion;
+using Vector3 = System.Numerics.Vector3;
 
 namespace LetsDraw
 {
@@ -48,6 +49,16 @@ namespace LetsDraw
         public static Matrix4 ToGl(this Matrix4x4 mat)
         {
             return new Matrix4(mat.M11, mat.M12, mat.M13, mat.M14, mat.M21, mat.M22, mat.M23, mat.M24, mat.M31, mat.M32, mat.M33, mat.M34, mat.M41, mat.M42, mat.M43, mat.M44);
+        }
+
+        public static Vector3 ToNumerics(this OpenTK.Vector3 vec)
+        {
+            return new Vector3(vec.X, vec.Y, vec.Z);
+        }
+
+        public static OpenTK.Vector3 ToGl(this Vector3 vec)
+        {
+            return new OpenTK.Vector3(vec.X, vec.Y, vec.Z);
         }
 
         public static float[] ToArray(this Matrix4 mat)
