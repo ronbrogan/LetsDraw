@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using LetsDraw.Core.Rendering;
 using LetsDraw.Loaders;
+using LetsDraw.Managers;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
@@ -43,6 +44,8 @@ namespace LetsDraw.Rendering.HUD
 
         public Vector2 Position;
 
+        public SizeF LastSize { get; set; }
+
         public TextDisplay(Size screenSize, float originX, float originY, string text = "", int fontSize = 36, Brush color = null)
         {
             //Vbos = new List<uint>();
@@ -72,7 +75,7 @@ namespace LetsDraw.Rendering.HUD
                 GenerateTexture();
 
             //Draw it
-            GL.UseProgram(ShaderProgram);
+            ShaderManager.SetShader(ShaderProgram);
             GL.BindVertexArray(Vao);
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, Texture);
@@ -115,14 +118,15 @@ namespace LetsDraw.Rendering.HUD
             Texture = TextureLoader.LoadTexture(data, bmp.Width, bmp.Height, PixelFormat.Format32bppArgb);
             RegenTexture = false;
 
-            UpdateGeometry(size);
+            if(LastSize != size)
+                UpdateGeometry(size);
         }
 
         private void UpdateGeometry(SizeF size)
         {
             uint vao;
-            uint vbo;
-            uint ibo;
+            uint vbo = 0;
+            uint ibo = 0;
 
             GL.GenVertexArrays(1, out vao);
             GL.BindVertexArray(vao);
@@ -145,13 +149,36 @@ namespace LetsDraw.Rendering.HUD
 
             var vertexFormatSize = BlittableValueType.StrideOf<VertexFormat>(new VertexFormat());
 
-            GL.GenBuffers(1, out vbo);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Count * vertexFormatSize), vertices.ToArray(), BufferUsageHint.StaticDraw);
+            var generateBuffer = vbo == 0;
+            var generatedBuffer = false;
 
-            GL.GenBuffers(1, out ibo);
+            if (generateBuffer)
+            {
+                GL.GenBuffers(1, out vbo);
+                generatedBuffer = true;
+            }
+            
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+            if (generatedBuffer)
+                GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(vertices.Count * vertexFormatSize), vertices.ToArray(), BufferUsageHint.StaticDraw);
+            else
+                GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)0, (vertices.Count * vertexFormatSize), vertices.ToArray());
+
+            generateBuffer = ibo == 0;
+            generatedBuffer = false;
+
+            if (generateBuffer)
+            {
+                GL.GenBuffers(1, out ibo);
+                generatedBuffer = true;
+            }
+            
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ibo);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(indices.Count * sizeof(uint)), indices.ToArray(), BufferUsageHint.StaticDraw);
+
+            if(generatedBuffer)
+                GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(indices.Count * sizeof(uint)), indices.ToArray(), BufferUsageHint.StaticDraw);
+            else
+                GL.BufferSubData(BufferTarget.ElementArrayBuffer, (IntPtr)0, (indices.Count * sizeof(uint)), indices.ToArray());
 
             GL.EnableVertexAttribArray(0);
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, vertexFormatSize, 0);
@@ -160,6 +187,7 @@ namespace LetsDraw.Rendering.HUD
             GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, vertexFormatSize, 12);
 
             Vao = vao;
+            LastSize = size;
         }
     }
 }

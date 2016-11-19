@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
 using System.Numerics;
+using LetsDraw.Managers;
+using OpenTK.Graphics.OpenGL;
 using Quaternion = OpenTK.Quaternion;
 
 namespace LetsDraw
@@ -76,5 +78,9 @@ namespace LetsDraw
             result.W = ((num * num3) * num5) + ((num2 * num4) * num6);
             return result;
         }
+
+        
     }
+
+    
 }

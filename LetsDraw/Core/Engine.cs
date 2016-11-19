@@ -24,6 +24,9 @@ namespace LetsDraw.Core
 
         public static void DebugCallbackF(DebugSource source, DebugType type, int id, DebugSeverity severity, int length, IntPtr message, IntPtr userParam)
         {
+            if (severity == DebugSeverity.DebugSeverityNotification)
+                return;
+
             string msg = Marshal.PtrToStringAnsi(message, length);
             Console.WriteLine(msg);
         }
@@ -54,6 +57,8 @@ namespace LetsDraw.Core
                 GL.Enable(EnableCap.Multisample);
                 GL.Enable(EnableCap.CullFace);
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+
+                
             };
 
             game.Resize += (sender, e) =>

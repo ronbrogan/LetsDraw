@@ -16,7 +16,6 @@ namespace LetsDraw.Core
     {
         public List<Mesh> Meshes { get; set; }
 
-
         public byte[] Lightmap { get; set; }
 
         public Terrain()

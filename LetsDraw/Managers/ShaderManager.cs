@@ -16,6 +16,7 @@ namespace LetsDraw.Managers
 {
     public class ShaderManager
     {
+        public static int CurrentShader = -1;
         private static Dictionary<string, int> Shaders = new Dictionary<string, int>();
 
         public static Dictionary<int, ShaderUniformCatalog> UniformCatalog = new Dictionary<int, ShaderUniformCatalog>();
@@ -151,6 +152,17 @@ namespace LetsDraw.Managers
                 return;
 
             GL.DeleteProgram(Shaders[shaderName]);
+        }
+
+        public static bool SetShader(int ShaderProgram)
+        {
+            if(CurrentShader != ShaderProgram)
+            {
+                GL.UseProgram(ShaderProgram);
+                CurrentShader = ShaderProgram;
+                return true;
+            }
+            return false;
         }
 
         public static void Dispose()

@@ -59,6 +59,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
@@ -90,6 +91,7 @@
     <Compile Include="Core\IndexedDictionary.cs" />
     <Compile Include="Data\Enums\MeshShaderType.cs" />
     <Compile Include="Loaders\MtlLoader.cs" />
+    <Compile Include="Managers\TextureManager.cs" />
     <Compile Include="Rendering\HUD\FramesDisplay.cs" />
     <Compile Include="Rendering\HUD\TextDisplay.cs" />
     <Compile Include="Loaders\ObjLoader.cs" />

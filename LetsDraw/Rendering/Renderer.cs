@@ -19,6 +19,8 @@ namespace LetsDraw.Rendering
         private static Dictionary<Guid, uint> VertexBufferObjects = new Dictionary<Guid, uint>();
         private static Dictionary<Guid, uint> IndexBufferObjects = new Dictionary<Guid, uint>();
 
+        private static int LastShader = -1;
+
         public static void CompileMesh(Mesh mesh)
         {
             uint vao, vbo, ibo;
@@ -55,17 +57,17 @@ namespace LetsDraw.Rendering
 
         }
 
-        public static void RenderMesh(Mesh mesh, Matrix4 RelativeTransformation, Matrix4 View, Matrix4 Projection)
+        public static void RenderMesh(Mesh mesh, Matrix4 RelativeTransformation, Matrix4 View, Matrix4 Projection, int? ShaderOverride = null)
         {
             var material = mesh.Material;
 
             if (material.Transparency == 1f)
                 return;
 
-            var shader = ShaderManager.GetShaderForMaterial(material);
+            var shader = ShaderOverride ?? ShaderManager.GetShaderForMaterial(material);
             var unifs = ShaderManager.UniformCatalog[shader];
 
-            GL.UseProgram(shader);
+            ShaderManager.SetShader(shader);
             GL.BindVertexArray(VertexArrayObjects[mesh.Id]);
 
             // Convert to numerics to take advantage of SIMD operations
@@ -109,6 +111,38 @@ namespace LetsDraw.Rendering
             GL.BindBuffer(BufferTarget.UniformBuffer, 0);
 
             GL.DrawElements(PrimitiveType.Triangles, mesh.Indicies.Count, DrawElementsType.UnsignedInt, 0);
+        }
+
+        public static void AddAndSortMeshes(Dictionary<int, List<Mesh>> sortedMeshes, List<Mesh> rawMeshes)
+        {
+            var shaderAndMesh = rawMeshes.Select(m => new KeyValuePair<int, Mesh>(ShaderManager.GetShaderForMaterial(m.Material), m));
+
+            var meshesByShader = shaderAndMesh.GroupBy(m => m.Key, m => m.Value);
+
+            foreach(var grouping in meshesByShader)
+            {
+                var meshes = grouping.ToList();
+
+                if (sortedMeshes.ContainsKey(grouping.Key))
+                {
+                    sortedMeshes[grouping.Key].AddRange(meshes);
+                }
+                else
+                {
+                    sortedMeshes.Add(grouping.Key, meshes);
+                }
+            }
+        }
+
+        public static void DrawSortedMeshes(Dictionary<int, List<Mesh>> meshes, Matrix4 RelativeTransformation, Matrix4 View, Matrix4 Projection)
+        {
+            foreach(var group in meshes)
+            {
+                foreach(var mesh in group.Value)
+                {
+                    RenderMesh(mesh, RelativeTransformation, View, Projection, group.Key);
+                }
+            }
         }
     }
 }

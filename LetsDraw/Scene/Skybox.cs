@@ -29,13 +29,13 @@ namespace LetsDraw.Rendering.Skyboxes
         private Mesh mesh { get; set; }
 
 
-        public Skybox(string VertexShaderPath, string FragmentShaderPath, string TexturePath)
+        public Skybox(string TexturePath)
         {
             uint vao;
             uint vbo;
             uint ibo;
 
-            base.ShaderProgram = ShaderManager.CreateShader("Skybox01Shader", VertexShaderPath, FragmentShaderPath);
+            base.ShaderProgram = ShaderManager.CreateShader("Skybox01Shader", "Data/Shaders/Skybox/vertexShader.glsl", "Data/Shaders/Skybox/fragmentShader.glsl");
             Texture = TextureLoader.LoadTexture(TexturePath);
 
             GL.GenVertexArrays(1, out vao);
@@ -91,7 +91,7 @@ namespace LetsDraw.Rendering.Skyboxes
         public override void Draw(Matrix4 Projection, Matrix4 View)
         {
             GL.DepthMask(false);
-            GL.UseProgram(base.ShaderProgram);
+            ShaderManager.SetShader(base.ShaderProgram);
             GL.BindVertexArray(base.Vao);
 
             GL.ActiveTexture(TextureUnit.Texture0);

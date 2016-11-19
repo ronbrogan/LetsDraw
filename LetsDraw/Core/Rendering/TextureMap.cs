@@ -5,12 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using LetsDraw.Data.Enums;
 using LetsDraw.Loaders;
+using LetsDraw.Managers;
 using OpenTK;
 
 namespace LetsDraw.Core.Rendering
 {
     public class TextureMap
     {
+        public uint TextureArray { get; set; }
+        public int ArrayIndex { get; set; }
+
         public uint TextureBinding { get; private set; }
 
         public string TexturePath { get; set; }
@@ -25,6 +29,7 @@ namespace LetsDraw.Core.Rendering
 
         public TextureMap(string texPath)
         {
+            TextureManager.StageTexture(texPath);
             TextureBinding = TextureLoader.LoadTexture(texPath);
             TexturePath = texPath;
         }
