@@ -5,11 +5,16 @@ layout(location = 0) out vec4 out_color;
 
 uniform sampler2D diffuse_map;
 
-layout (std140, binding = 1) uniform GenericUniform
+layout(std140, binding = 0) uniform MatrixUniform
 {
-	mat4 ModelMatrix;
 	mat4 ViewMatrix;
 	mat4 ProjectionMatrix;
+	mat4 DetranslatedViewMatrix;
+} Matricies;
+
+layout(std140, binding = 1) uniform GenericUniform
+{
+	mat4 ModelMatrix;
 	mat4 NormalMatrix;
 	vec3 DiffuseColor;
 	float Alpha;

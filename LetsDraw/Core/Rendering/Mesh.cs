@@ -7,6 +7,7 @@ namespace LetsDraw.Core.Rendering
     public class Mesh
     {
         public Guid Id = Guid.NewGuid();
+        public Guid Parent { get; set; }
 
         public List<uint> Indicies = new List<uint>();
         public List<VertexFormat> Verticies = new List<VertexFormat>();
@@ -19,7 +20,7 @@ namespace LetsDraw.Core.Rendering
         {
         }
 
-        public Mesh(Material mat)
+        public Mesh(Material mat, Guid ObjSource)
         {
             Material = mat;
         }

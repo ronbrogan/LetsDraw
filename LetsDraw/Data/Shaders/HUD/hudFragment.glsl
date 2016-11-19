@@ -9,8 +9,7 @@ in vec2 texcoord;
  
 void main()
 {
-  vec4 color = texture(texture1, texcoord);
-  /*if (color.a < 0.2)
-	  discard;*/
-  out_color = color;
+	vec4 color = texture(texture1, texcoord);
+
+	out_color = color;
 }

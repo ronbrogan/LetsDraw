@@ -49,16 +49,20 @@ namespace LetsDraw.Rendering
         {
             Skybox.Update(time);
             Camera.UpdateCamera(time);
+
+            var proj = Camera.GetProjectionMatrix();
+            var view = Camera.GetViewMatrix();
+
+            Renderer.SetMatricies(view, proj);
         }
 
         public void Draw()
         {
-            var proj = Camera.GetProjectionMatrix();
-            var view = Camera.GetViewMatrix();
+            
 
-            Skybox.Draw(proj, view);
+            Skybox.Draw();
             //Terrain.Draw(proj, view);
-            Renderer.DrawSortedMeshes(MeshRegistry, Matrix4.Identity, view, proj);
+            Renderer.DrawSortedMeshes(MeshRegistry, Matrix4.Identity);
         }
 
         public void Resize()

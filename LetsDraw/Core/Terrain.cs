@@ -39,7 +39,7 @@ namespace LetsDraw.Core
             var transform = Matrix4.Identity;
             foreach(var mesh in Meshes)
             {
-                Renderer.RenderMesh(mesh, transform, ViewMatrix, ProjectionMatrix);
+                Renderer.RenderMesh(mesh, transform);
             }
         }
 

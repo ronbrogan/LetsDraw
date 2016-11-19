@@ -28,6 +28,8 @@ namespace LetsDraw.Rendering.Models
 
         }
 
+        public virtual void Draw() { }
+
         public virtual void Update(double deltaTime = 0)
         {
             

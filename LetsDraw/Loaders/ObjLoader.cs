@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LetsDraw.Core;
@@ -9,6 +10,7 @@ namespace LetsDraw.Loaders
 {
     public class ObjLoader
     {
+        public Guid Id = Guid.NewGuid();
         public List<Vector3> RawVerts = new List<Vector3>();
         public List<Vector2> TextureCoords = new List<Vector2>();
         public List<Vector3> Normals = new List<Vector3>();
@@ -34,7 +36,7 @@ namespace LetsDraw.Loaders
                         var mats = new MtlLoader(Path.Combine(Path.GetDirectoryName(filePath), parts[1]));
                         foreach(var mat in mats.Materials)
                         {
-                            Meshes.Add(mat.MaterialName, new Mesh(mat));
+                            Meshes.Add(mat.MaterialName, new Mesh(mat, Id));
                         }
                         break;
 

@@ -84,6 +84,7 @@
     <Compile Include="Data\Enums\ImfChanOption.cs" />
     <Compile Include="Data\Enums\ReflectionMapType.cs" />
     <Compile Include="Data\Shaders\Generic\GenericUniforms.cs" />
+    <Compile Include="Data\Shaders\MatriciesUniform.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Core\Rendering\ICamera.cs" />
     <Compile Include="Core\Rendering\IHudElement.cs" />
@@ -231,12 +232,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Shaders\Generic\vertexShader.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\Shaders\Sphere\fragmentShader.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\Shaders\Sphere\vertexShader.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Shaders\HUD\hudFragment.glsl">

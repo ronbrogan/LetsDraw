@@ -88,29 +88,16 @@ namespace LetsDraw.Rendering.Skyboxes
             base.Update(deltaTime);
         }
 
-        public override void Draw(Matrix4 Projection, Matrix4 View)
+        public override void Draw()
         {
-            GL.DepthMask(false);
             ShaderManager.SetShader(base.ShaderProgram);
             GL.BindVertexArray(base.Vao);
 
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, Texture);
-
             GL.Uniform1(GL.GetUniformLocation(base.ShaderProgram, "texture1"), 0);
 
-            var lookup = ShaderManager.UniformCatalog[base.ShaderProgram];
-
-            GL.UniformMatrix4(lookup.ModelMatrix, false, ref RelativeTransformation);
-
-            var detranslatedView = View.ClearTranslation();
-            
-            GL.UniformMatrix4(lookup.ViewMatrix, false, ref detranslatedView);
-
-            GL.UniformMatrix4(lookup.ProjectionMatrix, false, ref Projection);
-
             GL.DrawElements(PrimitiveType.Triangles, mesh.Indicies.Count, DrawElementsType.UnsignedInt, 0);
-            GL.DepthMask(true);
         }
     }
 }
