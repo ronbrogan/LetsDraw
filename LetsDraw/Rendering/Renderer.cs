@@ -71,7 +71,9 @@ namespace LetsDraw.Rendering
             GL.BindVertexArray(VertexArrayObjects[mesh.Id]);
 
             // Convert to numerics to take advantage of SIMD operations
-            var NormalMatrix = Matrix4x4.Transpose(Matrix4x4.Transpose(RelativeTransformation.ToNumerics())).ToGl();
+            Matrix4x4 invertedNormal;
+            Matrix4x4.Invert(RelativeTransformation.ToNumerics(), out invertedNormal);
+            var NormalMatrix = Matrix4x4.Transpose(invertedNormal).ToGl();
 
             var data = new GenericUniform
             {
