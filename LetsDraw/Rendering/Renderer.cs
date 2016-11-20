@@ -97,9 +97,9 @@ namespace LetsDraw.Rendering
                 data.ModelMatrix = RelativeTransformation;
                 data.NormalMatrix = NormalMatrix;
                 data.Alpha = 1f - material.Transparency;
-
+                
                 SetMaterialProperties(material, ref data, unifs);
-
+                
                 GL.GenBuffers(1, out mesh.uniformBufferHandle);
                 GL.BindBuffer(BufferTarget.UniformBuffer, mesh.uniformBufferHandle);
                 GL.BufferData(BufferTarget.UniformBuffer, GenericUniform.Size, ref data, BufferUsageHint.StaticDraw);
@@ -115,11 +115,12 @@ namespace LetsDraw.Rendering
 
         private static void SetMaterialProperties(Material material, ref GenericUniform data, ShaderUniformCatalog unifs)
         {
+
+
             if (material.DiffuseMap != null)
             {
-                GL.ActiveTexture(TextureUnit.Texture0);
-                GL.BindTexture(TextureTarget.Texture2D, material.DiffuseMap.TextureBinding);
-                GL.Uniform1(unifs.DiffuseMap, 0);
+                TextureManager.SetActiveTexture(material.DiffuseMap.TextureArray);
+                data.DiffuseMapIndex = material.DiffuseMap.ArrayIndex;
                 data.UseDiffuseMap = 1;
             }
             else

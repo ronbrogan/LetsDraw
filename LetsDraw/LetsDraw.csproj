@@ -80,6 +80,7 @@
     <Compile Include="Core\Rendering\Material.cs" />
     <Compile Include="Core\Rendering\TextureMap.cs" />
     <Compile Include="Core\Terrain.cs" />
+    <Compile Include="Core\TextureArray.cs" />
     <Compile Include="Data\Enums\IlluminationModel.cs" />
     <Compile Include="Data\Enums\ImfChanOption.cs" />
     <Compile Include="Data\Enums\ReflectionMapType.cs" />
@@ -161,6 +162,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Objects\Map__3_Noise.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Map__64_Physical Sun &amp; Sky Environment.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Map__65_Dent.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Objects\METAL.TIF">

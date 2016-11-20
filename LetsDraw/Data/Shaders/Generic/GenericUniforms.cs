@@ -24,7 +24,11 @@ namespace LetsDraw.Data.Shaders.Generic
         public float Alpha;
 
         [FieldOffset(144)]
+        public int DiffuseMapIndex;
+
+        [FieldOffset(148)]
         public int UseDiffuseMap;
+
 
         public static readonly int Size = BlittableValueType<GenericUniform>.Stride;
     }

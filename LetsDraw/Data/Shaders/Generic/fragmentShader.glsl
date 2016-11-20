@@ -3,8 +3,6 @@
  
 layout(location = 0) out vec4 out_color;
 
-uniform sampler2D diffuse_map;
-
 layout(std140, binding = 0) uniform MatrixUniform
 {
 	mat4 ViewMatrix;
@@ -18,8 +16,11 @@ layout(std140, binding = 1) uniform GenericUniform
 	mat4 NormalMatrix;
 	vec3 DiffuseColor;
 	float Alpha;
+	int DiffuseMapIndex;
 	bool UseDiffuseMap;
 } Data;
+
+layout(binding = 2) uniform sampler2DArray Textures;
 
 in vec2 texcoord;
 in vec3 world_normal;
@@ -37,9 +38,17 @@ void main()
 
 	vec4 diffuse = vec4(Data.DiffuseColor, 0);
 
-	if(Data.UseDiffuseMap){
-		 diffuse = texture(diffuse_map, texcoord);
+	float bug = 0.0;
+
+	if (Data.DiffuseMapIndex == 0) {
+		bug = 1.0;
 	}
 
-	out_color = vec4(lighting.xyz * diffuse.xyz, Data.Alpha);
+	if(Data.UseDiffuseMap){
+		 diffuse = texture(Textures, vec3(texcoord.x, texcoord.y, Data.DiffuseMapIndex));
+	}
+
+	vec4 color = vec4(lighting.xyz * diffuse.xyz, Data.Alpha);
+
+	out_color = color;// vec4(bug, 0, 0, 1);
 }

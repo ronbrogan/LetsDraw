@@ -17,6 +17,7 @@ layout(std140, binding = 1) uniform GenericUniform
 	mat4 NormalMatrix;
 	vec3 DiffuseColor;
 	float Alpha;
+	int DiffuseMapIndex;
 	bool UseDiffuseMap;
 } Data;
 
