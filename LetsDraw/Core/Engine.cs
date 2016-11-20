@@ -57,7 +57,6 @@ namespace LetsDraw.Core
                 GL.Enable(EnableCap.Multisample);
                 GL.Enable(EnableCap.CullFace);
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-
                 
             };
 

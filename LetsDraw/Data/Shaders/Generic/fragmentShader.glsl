@@ -3,7 +3,7 @@
  
 layout(location = 0) out vec4 out_color;
 
-uniform sampler2D diffuse_map;
+layout (binding = 0) uniform sampler2D diffuse_map;
 
 layout(std140, binding = 0) uniform MatrixUniform
 {

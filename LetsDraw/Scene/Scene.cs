@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using LetsDraw.Core;
 using LetsDraw.Core.Rendering;
 using LetsDraw.Managers;
 using LetsDraw.Rendering.Skyboxes;
-using OpenTK;
+using Vector3 = OpenTK.Vector3;
 
 namespace LetsDraw.Rendering
 {
@@ -58,11 +59,8 @@ namespace LetsDraw.Rendering
 
         public void Draw()
         {
-            
-
             Skybox.Draw();
-            //Terrain.Draw(proj, view);
-            Renderer.DrawSortedMeshes(MeshRegistry, Matrix4.Identity);
+            Renderer.DrawSortedMeshes(MeshRegistry, Matrix4x4.Identity);
         }
 
         public void Resize()

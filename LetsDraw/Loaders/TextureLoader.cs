@@ -9,9 +9,9 @@ namespace LetsDraw.Loaders
 {
     public static class TextureLoader
     {
-        public static uint LoadTexture(BitmapData data, int width, int height, PixelFormat inputFormat = PixelFormat.Format24bppRgb)
+        public static int LoadTexture(BitmapData data, int width, int height, PixelFormat inputFormat = PixelFormat.Format24bppRgb)
         {
-            uint textureObject;
+            int textureObject;
 
             GL.GenTextures(1, out textureObject);
             GL.BindTexture(TextureTarget.Texture2D, textureObject);
@@ -19,17 +19,16 @@ namespace LetsDraw.Loaders
 
             GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
             var mipMapLevels = (int)Math.Floor(Math.Log(Math.Max(width, height), 2));
+            GL.TexStorage2D(TextureTarget2d.Texture2D, mipMapLevels, SizedInternalFormat.Rgba8, width, height);
 
             switch (inputFormat)
             {
                 case PixelFormat.Format32bppArgb:
-                    GL.TexStorage2D(TextureTarget2d.Texture2D, mipMapLevels, SizedInternalFormat.Rgba8, width, height);
                     GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, width, height, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
                     break;
                 
                 case PixelFormat.Format24bppRgb:
                 default:
-                    GL.TexStorage2D(TextureTarget2d.Texture2D, mipMapLevels, SizedInternalFormat.Rgba8, width, height);
                     GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, width, height, OpenTK.Graphics.OpenGL.PixelFormat.Bgr, PixelType.UnsignedByte, data.Scan0);
                     break;
             }
@@ -55,7 +54,7 @@ namespace LetsDraw.Loaders
             return textureObject;
         }
 
-        public static uint LoadTexture(string filename)
+        public static int LoadTexture(string filename)
         {
 
             var error1 = GL.GetError();

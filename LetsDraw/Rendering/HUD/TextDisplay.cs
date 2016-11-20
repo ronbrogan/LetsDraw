@@ -38,7 +38,7 @@ namespace LetsDraw.Rendering.HUD
         protected List<uint> Vbos;
         protected int ShaderProgram;
         protected int TextureLocation;
-        protected uint Texture;
+        protected int Texture;
 
         protected bool RegenTexture = true;
 

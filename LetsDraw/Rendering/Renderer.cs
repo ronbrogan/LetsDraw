@@ -70,7 +70,7 @@ namespace LetsDraw.Rendering
 
         }
 
-        public static void RenderMesh(Mesh mesh, Matrix4 RelativeTransformation, int? ShaderOverride = null)
+        public static void RenderMesh(Mesh mesh, Matrix4x4 RelativeTransformation, int? ShaderOverride = null)
         {
             var material = mesh.Material;
 
@@ -91,10 +91,10 @@ namespace LetsDraw.Rendering
             {
                 // Convert to numerics to take advantage of SIMD operations
                 Matrix4x4 invertedNormal;
-                Matrix4x4.Invert(RelativeTransformation.ToNumerics(), out invertedNormal);
+                Matrix4x4.Invert(RelativeTransformation, out invertedNormal);
                 var NormalMatrix = Matrix4x4.Transpose(invertedNormal).ToGl();
 
-                data.ModelMatrix = RelativeTransformation;
+                data.ModelMatrix = RelativeTransformation.ToGl();
                 data.NormalMatrix = NormalMatrix;
                 data.Alpha = 1f - material.Transparency;
 
@@ -117,9 +117,7 @@ namespace LetsDraw.Rendering
         {
             if (material.DiffuseMap != null)
             {
-                GL.ActiveTexture(TextureUnit.Texture0);
-                GL.BindTexture(TextureTarget.Texture2D, material.DiffuseMap.TextureBinding);
-                GL.Uniform1(unifs.DiffuseMap, 0);
+                TextureManager.SetActiveTexture(material.DiffuseMap.TextureBinding, TextureUnit.Texture0);
                 data.UseDiffuseMap = 1;
             }
             else
@@ -147,10 +145,12 @@ namespace LetsDraw.Rendering
                 {
                     sortedMeshes.Add(grouping.Key, meshes);
                 }
+
+                sortedMeshes[grouping.Key] = sortedMeshes[grouping.Key].OrderBy(m => m.Material?.DiffuseMap?.TextureBinding).ToList();
             }
         }
 
-        public static void DrawSortedMeshes(Dictionary<int, List<Mesh>> meshes, Matrix4 RelativeTransformation)
+        public static void DrawSortedMeshes(Dictionary<int, List<Mesh>> meshes, Matrix4x4 RelativeTransformation)
         {
             foreach(var group in meshes)
             {

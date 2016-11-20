@@ -163,6 +163,12 @@
     <Content Include="Data\Objects\Map__3_Noise.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Data\Objects\Map__64_Physical Sun &amp; Sky Environment.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Map__65_Dent.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\Objects\METAL.TIF">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -15,7 +15,7 @@ namespace LetsDraw.Core.Rendering
         public uint TextureArray { get; set; }
         public int ArrayIndex { get; set; }
 
-        public uint TextureBinding { get; private set; }
+        public int TextureBinding { get; private set; }
 
         public string TexturePath { get; set; }
 
@@ -29,12 +29,12 @@ namespace LetsDraw.Core.Rendering
 
         public TextureMap(string texPath)
         {
-            TextureManager.StageTexture(texPath);
+            //TextureManager.StageTexture(texPath);
             TextureBinding = TextureLoader.LoadTexture(texPath);
             TexturePath = texPath;
         }
 
-        public uint RegenerateTexture(string path = null)
+        public int RegenerateTexture(string path = null)
         {
             if (!string.IsNullOrWhiteSpace(path))
             {
