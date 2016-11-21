@@ -31,8 +31,7 @@ void main()
 	mat4 modelView = Matricies.ViewMatrix * Data.ModelMatrix;
 	texcoord = in_texture;
 	world_normal = normalize(mat3(Data.NormalMatrix) * local_normal);
-	vec4 position4 = modelView * vec4(local_position, 1);
-	position = vec3(position4) / position4.w;
+	position = local_position;
 
 	gl_Position = Matricies.ProjectionMatrix * modelView * vec4(local_position, 1);
 }

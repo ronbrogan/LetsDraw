@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 20.11.2016 21:42:18
+# File Created: 20.11.2016 23:11:30
 
 newmtl Default
 	Ns 50.0000000
@@ -84,7 +84,7 @@ newmtl wood
 	map_Kd WOOD.TIF
 
 newmtl rocks
-	Ns 9.9999990
+	Ns 71.0000000
 	Ni 1.5000000
 	d 1.0000000
 	Tr 0.0000000
@@ -92,7 +92,7 @@ newmtl rocks
 	illum 2
 	Ka 0.5843138 0.5843138 0.5843138
 	Kd 0.5843138 0.5843138 0.5843138
-	Ks 0.0000000 0.0000000 0.0000000
+	Ks 0.8980393 0.8980393 0.8980393
 	Ke 0.0000000 0.0000000 0.0000000
 	map_Ka ROCKS.TIF
 	map_Kd ROCKS.TIF

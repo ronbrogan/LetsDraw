@@ -39,18 +39,19 @@ void main()
 	if(Data.UseDiffuseMap){
 		 color = texture(diffuse_map, texcoord);
 	}
+	vec4 tintedColor = vec4((color * lightColor).rgb, Data.Alpha);
 
-	vec4 light_ambient = (color * lightColor) * vec4(0.15, 0.15, 0.15, Data.Alpha);
+	vec4 light_ambient = vec4((tintedColor * 0.15).rgb, Data.Alpha);
 
 	float cosTheta = clamp(dot(lightDirection, world_normal), 0.0, 1.0);
-	vec4 light_diffuse = vec4(((color * lightColor) * cosTheta).rgb, Data.Alpha);
+	vec4 light_diffuse = vec4((tintedColor * cosTheta).rgb, Data.Alpha);
 
 	float specularAngle = max(dot(world_normal, halfwayDirection), 0.0);
-	float sepcularModifier = pow(specularAngle, Data.SpecularExponent);
-	vec4 light_specular = lightColor * sepcularModifier;
+	float specularModifier = pow(specularAngle, 1024 - pow(Data.SpecularExponent, 1.6));
+	vec4 light_specular = vec4((lightColor * specularModifier).rgb, 0);
 
 
-	vec4 lighting = light_ambient + light_diffuse + light_specular;
+	vec4 lighting = vec4((light_ambient + light_diffuse).rgb, Data.Alpha) + light_specular;
 
 	out_color = lighting;
 }
