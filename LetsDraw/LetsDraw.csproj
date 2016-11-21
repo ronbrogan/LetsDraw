@@ -78,6 +78,7 @@
     <Compile Include="Core\Engine.cs" />
     <Compile Include="Core\Rendering\IRenderableComponent.cs" />
     <Compile Include="Core\Rendering\Material.cs" />
+    <Compile Include="Core\Rendering\PointLight.cs" />
     <Compile Include="Core\Rendering\TextureMap.cs" />
     <Compile Include="Core\Terrain.cs" />
     <Compile Include="Data\Enums\IlluminationModel.cs" />

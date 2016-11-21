@@ -20,6 +20,9 @@ namespace LetsDraw.Data.Shaders
         [FieldOffset(128)]
         public Matrix4 DetranslatedViewMatrix;
 
+        [FieldOffset(192)]
+        public Vector3 ViewPosition;
+
         public static readonly int Size = BlittableValueType<MatriciesUniform>.Stride;
 
     }

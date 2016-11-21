@@ -54,7 +54,7 @@ namespace LetsDraw.Rendering
             var proj = Camera.GetProjectionMatrix();
             var view = Camera.GetViewMatrix();
 
-            Renderer.SetMatricies(view, proj);
+            Renderer.SetMatricies(Camera.Position, view, proj);
         }
 
         public void Draw()

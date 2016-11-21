@@ -24,6 +24,9 @@ namespace LetsDraw.Data.Shaders.Generic
         public float Alpha;
 
         [FieldOffset(144)]
+        public float SpecularExponent;
+
+        [FieldOffset(148)]
         public int UseDiffuseMap;
 
         public static readonly int Size = BlittableValueType<GenericUniform>.Stride;

@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 19.11.2016 19:28:28
+# File Created: 20.11.2016 21:42:18
 
 newmtl Default
 	Ns 50.0000000
@@ -14,7 +14,7 @@ newmtl Default
 	Ke 0.0000000 0.0000000 0.0000000
 
 newmtl leak
-	Ns 9.9999990
+	Ns 0.0000000
 	Ni 1.5000000
 	d 1.0000000
 	Tr 0.0000000
@@ -112,7 +112,7 @@ newmtl tiles
 	map_Kd TILES.TIF
 
 newmtl ground
-	Ns 9.9999990
+	Ns 0.0000000
 	Ni 1.5000000
 	d 1.0000000
 	Tr 0.0000000
@@ -126,7 +126,7 @@ newmtl ground
 	map_Kd groundmap.png
 
 newmtl roof
-	Ns 9.9999990
+	Ns 56.0000000
 	Ni 1.5000000
 	d 1.0000000
 	Tr 0.0000000
@@ -134,7 +134,7 @@ newmtl roof
 	illum 2
 	Ka 0.5843138 0.5843138 0.5843138
 	Kd 0.5843138 0.5843138 0.5843138
-	Ks 0.0000000 0.0000000 0.0000000
+	Ks 0.5657647 0.5657647 0.5657647
 	Ke 0.0000000 0.0000000 0.0000000
 	map_Ka ROOF.TIF
 	map_Kd ROOF.TIF

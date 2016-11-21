@@ -9,6 +9,7 @@ layout(std140, binding = 0) uniform MatrixUniform
 	mat4 ViewMatrix;
 	mat4 ProjectionMatrix;
 	mat4 DetranslatedViewMatrix;
+	vec3 ViewPosition;
 } Matricies;
 
 layout(std140, binding = 1) uniform GenericUniform
@@ -17,16 +18,21 @@ layout(std140, binding = 1) uniform GenericUniform
 	mat4 NormalMatrix;
 	vec3 DiffuseColor;
 	float Alpha;
+	float SpecularExponent;
 	bool UseDiffuseMap;
 } Data;
 
+out vec3 position;
 out vec2 texcoord;
 out vec3 world_normal;
 
 void main()
 {
+	mat4 modelView = Matricies.ViewMatrix * Data.ModelMatrix;
 	texcoord = in_texture;
 	world_normal = normalize(mat3(Data.NormalMatrix) * local_normal);
+	vec4 position4 = modelView * vec4(local_position, 1);
+	position = vec3(position4) / position4.w;
 
-	gl_Position = Matricies.ProjectionMatrix * Matricies.ViewMatrix * Data.ModelMatrix * vec4(local_position, 1);
+	gl_Position = Matricies.ProjectionMatrix * modelView * vec4(local_position, 1);
 }

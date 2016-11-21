@@ -91,19 +91,28 @@ namespace LetsDraw.Managers
             return shader;
         }
 
-        public static int CreateShader(string shaderName, string vertexFilename, string fragmentFilename)
+        public static int CreateShader(string shaderName, string vertexFilename, string fragmentFilename, string geometryFilename = null)
         {
             var vertexSource = ReadShader(vertexFilename);
             var fragmentSource = ReadShader(fragmentFilename);
 
             int vertexShader = 0;
             int fragmentShader = 0;
+            int geometryShader = 0;
 
             if (vertexSource != string.Empty)
                 vertexShader = CompileShader(ShaderType.VertexShader, vertexSource, "vertex::" + shaderName);
 
             if (fragmentSource != string.Empty)
                 fragmentShader = CompileShader(ShaderType.FragmentShader, fragmentSource, "fragment::" + shaderName);
+
+            if(!string.IsNullOrWhiteSpace(geometryFilename))
+            {
+                var geoSource = ReadShader(geometryFilename);
+
+                if (geoSource != string.Empty)
+                    geometryShader = CompileShader(ShaderType.GeometryShader, geoSource, "geometry::" + shaderName);
+            }
 
             int linkResult = 0;
 
@@ -114,6 +123,9 @@ namespace LetsDraw.Managers
 
             if (fragmentShader != 0)
                 GL.AttachShader(program, fragmentShader);
+
+            if (geometryShader != 0)
+                GL.AttachShader(program, geometryShader);
 
             GL.LinkProgram(program);
 

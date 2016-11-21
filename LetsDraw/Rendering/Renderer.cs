@@ -11,6 +11,7 @@ using LetsDraw.Loaders;
 using LetsDraw.Managers;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using Vector3 = OpenTK.Vector3;
 
 namespace LetsDraw.Rendering
 {
@@ -97,6 +98,7 @@ namespace LetsDraw.Rendering
                 data.ModelMatrix = RelativeTransformation.ToGl();
                 data.NormalMatrix = NormalMatrix;
                 data.Alpha = 1f - material.Transparency;
+                data.SpecularExponent = material.SpecularExponent;
 
                 SetMaterialProperties(material, ref data, unifs);
 
@@ -161,13 +163,14 @@ namespace LetsDraw.Rendering
             }
         }
 
-        public static void SetMatricies(Matrix4 view, Matrix4 proj)
+        public static void SetMatricies(Vector3 position, Matrix4 view, Matrix4 proj)
         {
             MatriciesUniform MatriciesUniform = new MatriciesUniform
             {
                 ViewMatrix = view,
                 ProjectionMatrix = proj,
-                DetranslatedViewMatrix = view.ClearTranslation()
+                DetranslatedViewMatrix = view.ClearTranslation(),
+                ViewPosition = position
             };
 
             var needToInitBuffer = MatriciesUniformHandle == default(uint);
