@@ -18,7 +18,7 @@ namespace LetsDraw.Loaders
             
 
             GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
-            var mipMapLevels = (int)Math.Floor(Math.Log(Math.Max(width, height), 2));
+            var mipMapLevels = (int)Math.Floor(Math.Log(Math.Max(width, height), 2)) + 1;
             GL.TexStorage2D(TextureTarget2d.Texture2D, mipMapLevels, SizedInternalFormat.Rgba8, width, height);
 
             switch (inputFormat)

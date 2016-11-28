@@ -18,15 +18,18 @@ namespace LetsDraw.Data.Shaders.Generic
         public Matrix4 NormalMatrix;
 
         [FieldOffset(128)]
-        public Vector3 DiffuseColor;
-
-        [FieldOffset(140)]
-        public float Alpha;
+        public Vector4 DiffuseColor;
 
         [FieldOffset(144)]
+        public Vector4 SpecularColor;
+
+        [FieldOffset(160)]
+        public float Alpha;
+
+        [FieldOffset(164)]
         public float SpecularExponent;
 
-        [FieldOffset(148)]
+        [FieldOffset(168)]
         public int UseDiffuseMap;
 
         public static readonly int Size = BlittableValueType<GenericUniform>.Stride;

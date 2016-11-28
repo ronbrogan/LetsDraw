@@ -24,6 +24,32 @@ namespace LetsDraw.Rendering
 
         public Skybox Skybox { get; set; }
 
+        public List<PointLight> PointLights = new List<PointLight>
+        {
+            new PointLight
+            {
+                Color = new OpenTK.Vector4(1f, 0f, 0f, 1f),
+                Intensity = 200,
+                Position = new OpenTK.Vector4(-200, 200, 100, 0),
+                Range = 200
+            },
+            new PointLight
+            {
+                Color = new OpenTK.Vector4(0f, 1f, 0f, 1f),
+                Intensity = 200,
+                Position = new OpenTK.Vector4(200, 200, 100, 0),
+                Range = 250
+            },
+            new PointLight
+            {
+                Color = new OpenTK.Vector4(0f, 0f, 1f, 1f),
+                Intensity = 200,
+                Position = new OpenTK.Vector4(0, 200, -200, 0),
+                Range = 200
+            },
+
+        };
+
         public Scene()
         {
             
@@ -38,7 +64,6 @@ namespace LetsDraw.Rendering
             Terrain = new Terrain();
 
             Renderer.AddAndSortMeshes(MeshRegistry, Terrain.Meshes);
-            
         }
 
         public void Unload()
@@ -54,13 +79,18 @@ namespace LetsDraw.Rendering
             var proj = Camera.GetProjectionMatrix();
             var view = Camera.GetViewMatrix();
 
+            Renderer.AddPointLights(PointLights);
+
             Renderer.SetMatricies(Camera.Position, view, proj);
+
         }
 
         public void Draw()
         {
             Skybox.Draw();
             Renderer.DrawSortedMeshes(MeshRegistry, Matrix4x4.Identity);
+
+            Renderer.DrawLightPoints(PointLights);
         }
 
         public void Resize()

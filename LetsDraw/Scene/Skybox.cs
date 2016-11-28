@@ -18,16 +18,9 @@ namespace LetsDraw.Rendering.Skyboxes
 {
     public class Skybox : Model
     {
-        private float rotationAngle = 0;
-        public Vector3 WorldPosition = new Vector3(0, 15, 0);
-        public Vector3 Scale = new Vector3(1, 1, 1);
-
         private int Texture;
 
-        private Matrix4 RelativeTransformation = Matrix4.Identity;
-
         private Mesh mesh { get; set; }
-
 
         public Skybox(string TexturePath)
         {

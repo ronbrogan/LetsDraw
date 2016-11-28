@@ -1,5 +1,15 @@
 ﻿//vertex shader
 #version 450 core
+const int MAX_NUM_TOTAL_LIGHTS = 8;
+struct PointLight {
+	vec4 position;
+	vec4 color;
+	float intensity;
+	float range;
+	bool castsShadows;
+	bool anotherFlag;
+};
+
 layout(location = 0) in vec3 local_position;
 layout(location = 1) in vec2 in_texture;
 layout(location = 2) in vec3 local_normal;
@@ -16,11 +26,17 @@ layout(std140, binding = 1) uniform GenericUniform
 {
 	mat4 ModelMatrix;
 	mat4 NormalMatrix;
-	vec3 DiffuseColor;
+	vec4 DiffuseColor;
+	vec4 SpecularColor;
 	float Alpha;
 	float SpecularExponent;
 	bool UseDiffuseMap;
 } Data;
+
+layout(std140, binding = 2) uniform PointLightContainer
+{
+	PointLight Lights[MAX_NUM_TOTAL_LIGHTS];
+} PointLights;
 
 out vec3 position;
 out vec2 texcoord;

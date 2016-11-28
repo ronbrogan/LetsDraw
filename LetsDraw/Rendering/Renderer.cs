@@ -21,9 +21,8 @@ namespace LetsDraw.Rendering
         private static Dictionary<Guid, uint> VertexBufferObjects = new Dictionary<Guid, uint>();
         private static Dictionary<Guid, uint> IndexBufferObjects = new Dictionary<Guid, uint>();
 
-        private static int LastShader = -1;
-
         private static uint MatriciesUniformHandle = 0;
+        private static uint PointLightContainerHandle = 0;
 
         public static void CompileMesh(Mesh mesh)
         {
@@ -99,6 +98,7 @@ namespace LetsDraw.Rendering
                 data.NormalMatrix = NormalMatrix;
                 data.Alpha = 1f - material.Transparency;
                 data.SpecularExponent = material.SpecularExponent;
+                data.SpecularColor = new OpenTK.Vector4(material.SpecularColor, 1);
 
                 SetMaterialProperties(material, ref data, unifs);
 
@@ -124,7 +124,7 @@ namespace LetsDraw.Rendering
             }
             else
             {
-                data.DiffuseColor = material.DiffuseColor;
+                data.DiffuseColor = new OpenTK.Vector4(material.DiffuseColor, 1);
                 data.UseDiffuseMap = 0;
             }
         }
@@ -161,6 +161,7 @@ namespace LetsDraw.Rendering
                     RenderMesh(mesh, RelativeTransformation);
                 }
             }
+
         }
 
         public static void SetMatricies(Vector3 position, Matrix4 view, Matrix4 proj)
@@ -187,6 +188,43 @@ namespace LetsDraw.Rendering
 
             GL.BindBufferBase(BufferRangeTarget.UniformBuffer, 0, MatriciesUniformHandle);
             GL.BindBuffer(BufferTarget.UniformBuffer, 0);
+        }
+
+        public static void AddPointLights(List<PointLight> pointLights)
+        {
+            var lights = pointLights.ToArray();
+
+            var lightsSize = PointLight.Size * lights.Length;
+
+            var needToInitBuffer = PointLightContainerHandle == default(uint);
+
+            if (needToInitBuffer)
+                GL.GenBuffers(1, out PointLightContainerHandle);
+
+            GL.BindBuffer(BufferTarget.UniformBuffer, PointLightContainerHandle);
+
+            if (needToInitBuffer)
+                GL.BufferData(BufferTarget.UniformBuffer, lightsSize, lights, BufferUsageHint.StaticDraw);
+            else
+                GL.BufferSubData(BufferTarget.UniformBuffer, IntPtr.Zero, lightsSize, lights);
+
+            GL.BindBufferBase(BufferRangeTarget.UniformBuffer, 2, PointLightContainerHandle);
+
+            GL.BindBuffer(BufferTarget.UniformBuffer, 0);
+        }
+
+        public static void DrawLightPoints(List<PointLight> pointLights)
+        {
+            GL.PointSize(50);
+            GL.Begin(PrimitiveType.Points);
+           
+            foreach (var light in pointLights)
+            {
+                GL.Vertex3(light.Position.Xyz);
+                GL.Color3(light.Color.Xyz);
+            }
+
+            GL.End();
         }
     }
 }

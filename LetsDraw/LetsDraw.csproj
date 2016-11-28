@@ -79,6 +79,7 @@
     <Compile Include="Core\Rendering\IRenderableComponent.cs" />
     <Compile Include="Core\Rendering\Material.cs" />
     <Compile Include="Core\Rendering\PointLight.cs" />
+    <Compile Include="Core\Rendering\PointLightContainer.cs" />
     <Compile Include="Core\Rendering\TextureMap.cs" />
     <Compile Include="Core\Terrain.cs" />
     <Compile Include="Data\Enums\IlluminationModel.cs" />
@@ -141,6 +142,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Objects\GLASS.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Grass0130_1_seamless_XL.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Objects\GRATING.TIF">
