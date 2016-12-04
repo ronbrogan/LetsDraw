@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using LetsDraw.Core;
 using LetsDraw.Core.Rendering;
-using OpenTK;
+using System.Numerics;
 
 namespace LetsDraw.Loaders
 {
@@ -21,7 +21,7 @@ namespace LetsDraw.Loaders
         {
             var lines = File.ReadAllLines(filePath).Select(l => l.Trim()).Where(l => !l.StartsWith("#"));
 
-            var vertexDict = new IndexedDictionary<string, VertexFormat>();
+            var vertexDict = new IndexedDictionary<string, VertexFormat>(900000);
             var currentMeshKey = "";
 
             foreach(var rawline in lines)
@@ -61,14 +61,40 @@ namespace LetsDraw.Loaders
                         break;
 
                     case "f":
-                        for (int i = 1; i < 4; i++)
-                        {
-                            var indicies = parts[i].Split('/');
 
-                            var index = vertexDict.Add(parts[i], new VertexFormat(RawVerts[int.Parse(indicies[0]) - 1], TextureCoords[int.Parse(indicies[1]) - 1], Normals[int.Parse(indicies[2]) - 1]));
-                            Meshes[currentMeshKey].Indicies.Add((uint)index);
-                        }
+                            var indicies0 = parts[1].Split('/');
+                            var vert0position = RawVerts[int.Parse(indicies0[0]) - 1];
+                            var vert0texture = TextureCoords[int.Parse(indicies0[1]) - 1];
+                            var vert0normal = Normals[int.Parse(indicies0[2]) - 1];
+                            
+                            var indicies1 = parts[2].Split('/');
+                            var vert1position = RawVerts[int.Parse(indicies1[0]) - 1];
+                            var vert1texture = TextureCoords[int.Parse(indicies1[1]) - 1];
+                            var vert1normal = Normals[int.Parse(indicies1[2]) - 1];
+                            
+                            var indicies2 = parts[3].Split('/');
+                            var vert2position = RawVerts[int.Parse(indicies2[0]) - 1];
+                            var vert2texture = TextureCoords[int.Parse(indicies2[1]) - 1];
+                            var vert2normal = Normals[int.Parse(indicies2[2]) - 1];
 
+                            var deltaPos1 = vert1position - vert0position;
+                            var deltaPos2 = vert2position - vert0position;
+                            var deltaUv1 = vert1texture - vert0texture;
+                            var deltaUv2 = vert2texture - vert0texture;
+                            var r = 1.0f / (deltaUv1.X * deltaUv2.Y - deltaUv1.Y * deltaUv2.X);
+                            var tangent = ((deltaPos1 * deltaUv2.Y - deltaPos2 * deltaUv1.Y) * r).ToGl();
+                            var bitangent = ((deltaPos2 * deltaUv1.X - deltaPos1 * deltaUv2.X) * r).ToGl();
+
+                            var vert0 = new VertexFormat(vert0position.ToGl(), vert0texture.ToGl(), vert0normal.ToGl(), tangent, bitangent);
+                            var vert1 = new VertexFormat(vert1position.ToGl(), vert1texture.ToGl(), vert1normal.ToGl(), tangent, bitangent);
+                            var vert2 = new VertexFormat(vert2position.ToGl(), vert2texture.ToGl(), vert2normal.ToGl(), tangent, bitangent);
+
+                            var index0 = vertexDict.Add(parts[1], vert0);
+                            Meshes[currentMeshKey].Indicies.Add((uint)index0);
+                            var index1 = vertexDict.Add(parts[2], vert1);
+                            Meshes[currentMeshKey].Indicies.Add((uint)index1);
+                            var index2 = vertexDict.Add(parts[3], vert2);
+                            Meshes[currentMeshKey].Indicies.Add((uint)index2);
                         break;
                 }
             }

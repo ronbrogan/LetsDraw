@@ -9,8 +9,20 @@ namespace LetsDraw.Core
 {
     public class IndexedDictionary<TKey, TValue>
     {
-        private List<TValue> values = new List<TValue>();
-        private Dictionary<TKey, int> indicies = new Dictionary<TKey, int>();
+        private List<TValue> values;
+        private Dictionary<TKey, int> indicies;
+
+        public IndexedDictionary()
+        {
+            values = new List<TValue>();
+            indicies = new Dictionary<TKey, int>();
+        }
+
+        public IndexedDictionary(int capacity)
+        {
+            values = new List<TValue>(capacity);
+            indicies = new Dictionary<TKey, int>(capacity);
+        }
 
         public bool ContainsKey(TKey key)
         {
@@ -28,12 +40,10 @@ namespace LetsDraw.Core
                 return indicies[key];
             }
 
-            values.Add(value);
-            // Doing LastIndexOf here starts from the end of the list,
-            // which is where we're adding the value we care about.
-            var addedIndex = values.LastIndexOf(value);
-            indicies.Add(key, addedIndex);
-            return addedIndex;
+            var current = values.Count;
+            values.Insert(current, value);
+            indicies.Add(key, current);
+            return current;
         }
 
         public List<TValue> Values => values;
