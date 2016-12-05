@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 27.11.2016 22:00:23
+# File Created: 04.12.2016 23:27:47
 
 newmtl 21___Default
 	Ns 9.99999905
@@ -14,19 +14,6 @@ newmtl 21___Default
 	Ke 0.00000000 0.00000000 0.00000000
 	map_Ka Map__65_Dent.png
 	map_Kd Map__65_Dent.png
-
-newmtl 15___Default
-	Ns 44.00000000
-	Ni 1.50000000
-	d 1.00000000
-	Tr 0.00000000
-	Tf 1.00000000 1.00000000 1.00000000 
-	illum 2
-	Ka 0.96078438 0.15686275 0.00000000
-	Kd 0.96078438 0.15686275 0.00000000
-	Ks 0.89999998 0.89999998 0.89999998
-	Ke 0.00000000 0.00000000 0.00000000
-	map_refl Map__64_Physical Sun & Sky Environment.png
 
 newmtl leak
 	Ns 0.00000000
@@ -55,6 +42,7 @@ newmtl concrete
 	Ke 0.00000000 0.00000000 0.00000000
 	map_Ka CONCRETE.TIF
 	map_Kd CONCRETE.TIF
+	map_bump Map__79_Normal Bump.png
 
 newmtl seawall
 	Ns 9.99999905
@@ -69,6 +57,8 @@ newmtl seawall
 	Ke 0.00000000 0.00000000 0.00000000
 	map_Ka SEAWALL.TIF
 	map_Kd SEAWALL.TIF
+	map_Ks seawall_specular.png
+	map_bump Map__82_Normal Bump.png
 
 newmtl dconc
 	Ns 9.99999905
@@ -113,7 +103,7 @@ newmtl rocks
 	map_Kd ROCKS.TIF
 
 newmtl tiles
-	Ns 9.99999905
+	Ns 50.00000000
 	Ni 1.50000000
 	d 1.00000000
 	Tr 0.00000000
@@ -121,10 +111,12 @@ newmtl tiles
 	illum 2
 	Ka 0.58431375 0.58431375 0.58431375
 	Kd 0.58431375 0.58431375 0.58431375
-	Ks 0.00000000 0.00000000 0.00000000
+	Ks 0.62862748 0.62862748 0.62862748
 	Ke 0.00000000 0.00000000 0.00000000
 	map_Ka TILES.TIF
 	map_Kd TILES.TIF
+	map_Ks tiles_bump.tif
+	map_bump Map__70_Normal Bump.png
 
 newmtl ground
 	Ns 70.00000000
@@ -153,6 +145,7 @@ newmtl roof
 	Ke 0.00000000 0.00000000 0.00000000
 	map_Ka ROOF.TIF
 	map_Kd ROOF.TIF
+	map_bump Map__73_Normal Bump.png
 
 newmtl bunker
 	Ns 9.99999905
@@ -181,6 +174,7 @@ newmtl diamond
 	Ke 0.00000000 0.00000000 0.00000000
 	map_Ka DIAMOND.TIF
 	map_Kd DIAMOND.TIF
+	map_bump Map__75_Normal Bump.png
 
 newmtl metal
 	Ns 9.99999905

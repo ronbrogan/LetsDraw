@@ -63,6 +63,16 @@ namespace LetsDraw.Rendering
             // At location 2 there'll be three floats, 20 bytes (3 * 4) + (2 * 4) in to the format
             GL.VertexAttribPointer(2, 3, VertexAttribPointerType.Float, false, VertexFormat.Size, 20);
 
+            // Enables binding to location 3 in vertex shader
+            GL.EnableVertexAttribArray(3);
+            // At location 3 there'll be three floats, 32 bytes in to the format
+            GL.VertexAttribPointer(3, 3, VertexAttribPointerType.Float, false, VertexFormat.Size, 32);
+
+            // Enables binding to location 4 in vertex shader
+            GL.EnableVertexAttribArray(4);
+            // At location 4 there'll be three floats, 20 bytes in to the format
+            GL.VertexAttribPointer(4, 3, VertexAttribPointerType.Float, false, VertexFormat.Size, 44);
+
             VertexArrayObjects.Add(mesh.Id, vao);
             if(!vboExists)
                 VertexBufferObjects.Add(mesh.Parent, vbo);
@@ -117,6 +127,10 @@ namespace LetsDraw.Rendering
 
         private static void SetMaterialProperties(Material material, ref GenericUniform data, ShaderUniformCatalog unifs)
         {
+            data.UseNormalMap = 0;
+            data.UseDiffuseMap = 0;
+            data.UseSpecularMap = 0;
+
             if (material.DiffuseMap != null)
             {
                 TextureManager.SetActiveTexture(material.DiffuseMap.TextureBinding, TextureUnit.Texture0);
@@ -125,7 +139,18 @@ namespace LetsDraw.Rendering
             else
             {
                 data.DiffuseColor = new OpenTK.Vector4(material.DiffuseColor, 1);
-                data.UseDiffuseMap = 0;
+            }
+
+            if(material.BumpMap != null)
+            {
+                TextureManager.SetActiveTexture(material.BumpMap.TextureBinding, TextureUnit.Texture1);
+                data.UseNormalMap = 1;
+            }
+
+            if(material.SpecularMap != null)
+            {
+                TextureManager.SetActiveTexture(material.SpecularMap.TextureBinding, TextureUnit.Texture2);
+                data.UseSpecularMap = 1;
             }
         }
 

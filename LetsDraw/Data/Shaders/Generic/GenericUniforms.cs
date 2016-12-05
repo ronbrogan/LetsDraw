@@ -32,6 +32,12 @@ namespace LetsDraw.Data.Shaders.Generic
         [FieldOffset(168)]
         public int UseDiffuseMap;
 
+        [FieldOffset(172)]
+        public int UseNormalMap;
+
+        [FieldOffset(176)]
+        public int UseSpecularMap;
+
         public static readonly int Size = BlittableValueType<GenericUniform>.Stride;
     }
 }

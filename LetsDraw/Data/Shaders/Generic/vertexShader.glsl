@@ -13,6 +13,8 @@ struct PointLight {
 layout(location = 0) in vec3 local_position;
 layout(location = 1) in vec2 in_texture;
 layout(location = 2) in vec3 local_normal;
+layout(location = 3) in vec3 tangent;
+layout(location = 4) in vec3 bitangent;
 
 layout(std140, binding = 0) uniform MatrixUniform
 {
@@ -31,6 +33,8 @@ layout(std140, binding = 1) uniform GenericUniform
 	float Alpha;
 	float SpecularExponent;
 	bool UseDiffuseMap;
+	bool UseNormalMap;
+	bool UseSpecularMap;
 } Data;
 
 layout(std140, binding = 2) uniform PointLightContainer
@@ -41,13 +45,32 @@ layout(std140, binding = 2) uniform PointLightContainer
 out vec3 position;
 out vec2 texcoord;
 out vec3 world_normal;
+out mat3 TBN;
 
 void main()
 {
 	mat4 modelView = Matricies.ViewMatrix * Data.ModelMatrix;
+	mat3 mat3nm = mat3(Data.NormalMatrix);
+
 	texcoord = in_texture;
-	world_normal = normalize(mat3(Data.NormalMatrix) * local_normal);
+	world_normal = normalize(mat3nm * local_normal);
 	position = local_position;
+
+	if (Data.UseNormalMap) {
+		vec3 world_tangent = normalize(mat3nm * tangent);
+		vec3 world_bitangent = normalize(mat3nm * bitangent);
+
+		TBN = transpose(mat3(
+			world_tangent,
+			world_bitangent,
+			world_normal
+		));
+	}
+	else {
+		TBN = mat3(1);
+	}
+
+	
 
 	gl_Position = Matricies.ProjectionMatrix * modelView * vec4(local_position, 1);
 }

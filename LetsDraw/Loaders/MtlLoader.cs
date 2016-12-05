@@ -111,17 +111,19 @@ namespace LetsDraw.Loaders
 
         public TextureMap ParseMap(string basePath, string mapOptions)
         {
-            var parts = mapOptions.Split(' ');
+            //var parts = mapOptions.Split(' ');
             var path = basePath;
 
-            if (parts.Length == 1)
-            {
-                path = Path.Combine(path, parts[0]);
-            }
-            else
-            {
-                path = Path.Combine(path, parts[parts.Length - 1]);
-            }
+            //if (parts.Length == 1)
+            //{
+            //    path = Path.Combine(path, parts[0]);
+            //}
+            //else
+            //{
+            //    path = Path.Combine(path, parts[parts.Length - 1]);
+            //}
+
+            path = Path.Combine(path, mapOptions);
 
             var map = new TextureMap(path);
 
