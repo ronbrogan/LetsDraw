@@ -209,6 +209,9 @@
     <Content Include="Data\Objects\ROOF.TIF">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Data\Objects\roof_specular.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\Objects\SEAWALL.TIF">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

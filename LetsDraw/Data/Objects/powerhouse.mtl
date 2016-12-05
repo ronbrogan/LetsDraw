@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 04.12.2016 23:27:47
+# File Created: 04.12.2016 23:45:58
 
 newmtl 21___Default
 	Ns 9.99999905
@@ -145,6 +145,7 @@ newmtl roof
 	Ke 0.00000000 0.00000000 0.00000000
 	map_Ka ROOF.TIF
 	map_Kd ROOF.TIF
+	map_Ks roof_specular.png
 	map_bump Map__73_Normal Bump.png
 
 newmtl bunker

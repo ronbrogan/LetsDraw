@@ -8,6 +8,7 @@ using LetsDraw.Core;
 using LetsDraw.Core.Rendering;
 using LetsDraw.Managers;
 using LetsDraw.Rendering.Skyboxes;
+using OpenTK;
 using Vector3 = OpenTK.Vector3;
 
 namespace LetsDraw.Rendering
@@ -75,6 +76,24 @@ namespace LetsDraw.Rendering
         {
             Skybox.Update(time);
             Camera.UpdateCamera(time);
+
+            var rotate = Matrix3.CreateRotationY(0.001f);
+
+
+
+            for (int l = 0; l < PointLights.Count; l++)
+            {
+                var newLight = new PointLight
+                {
+                    Position = new OpenTK.Vector4(PointLights[l].Position.Xyz * rotate),
+                    Color = PointLights[l].Color,
+                    Intensity = PointLights[l].Intensity,
+                    Range = PointLights[l].Range
+                };
+
+                PointLights.RemoveAt(l);
+                PointLights.Insert(l, newLight);
+            }
 
             var proj = Camera.GetProjectionMatrix();
             var view = Camera.GetViewMatrix();
