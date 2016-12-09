@@ -93,33 +93,34 @@ namespace LetsDraw.Rendering
             ShaderManager.SetShader(shader);
             GL.BindVertexArray(VertexArrayObjects[mesh.Id]);
 
-            var data = new GenericUniform();
+            // Convert to numerics to take advantage of SIMD operations
+            Matrix4x4 invertedNormal;
+            Matrix4x4.Invert(RelativeTransformation, out invertedNormal);
+            var NormalMatrix = Matrix4x4.Transpose(invertedNormal).ToGl();
+
+            var data = new GenericUniform()
+            {
+                ModelMatrix = RelativeTransformation.ToGl(),
+                NormalMatrix = NormalMatrix,
+                Alpha = 1f - material.Transparency,
+                SpecularExponent = material.SpecularExponent,
+                SpecularColor = new OpenTK.Vector4(material.SpecularColor, 1)
+            };
+
+            SetMaterialProperties(material, ref data, unifs);
 
             var needToInitBuffer = mesh.uniformBufferHandle == default(uint);
 
             if (needToInitBuffer)
-            {
-                // Convert to numerics to take advantage of SIMD operations
-                Matrix4x4 invertedNormal;
-                Matrix4x4.Invert(RelativeTransformation, out invertedNormal);
-                var NormalMatrix = Matrix4x4.Transpose(invertedNormal).ToGl();
-
-                data.ModelMatrix = RelativeTransformation.ToGl();
-                data.NormalMatrix = NormalMatrix;
-                data.Alpha = 1f - material.Transparency;
-                data.SpecularExponent = material.SpecularExponent;
-                data.SpecularColor = new OpenTK.Vector4(material.SpecularColor, 1);
-
-                SetMaterialProperties(material, ref data, unifs);
-
                 GL.GenBuffers(1, out mesh.uniformBufferHandle);
-                GL.BindBuffer(BufferTarget.UniformBuffer, mesh.uniformBufferHandle);
-                GL.BufferData(BufferTarget.UniformBuffer, GenericUniform.Size, ref data, BufferUsageHint.StaticDraw);
-            }
+
+            GL.BindBuffer(BufferTarget.UniformBuffer, mesh.uniformBufferHandle);
+
+            if (needToInitBuffer)
+                GL.BufferData(BufferTarget.UniformBuffer, GenericUniform.Size, ref data, BufferUsageHint.DynamicDraw);
             else
-            {
-                SetMaterialProperties(material, ref data, unifs);
-            }
+                GL.BufferSubData(BufferTarget.UniformBuffer, IntPtr.Zero, GenericUniform.Size, ref data);
+            
 
             GL.BindBufferBase(BufferRangeTarget.UniformBuffer, 1, mesh.uniformBufferHandle);
             GL.DrawElements(PrimitiveType.Triangles, mesh.Indicies.Count, DrawElementsType.UnsignedInt, 0);
@@ -177,12 +178,17 @@ namespace LetsDraw.Rendering
             }
         }
 
-        public static void DrawSortedMeshes(Dictionary<int, List<Mesh>> meshes, Matrix4x4 RelativeTransformation)
+        public static void DrawSortedMeshes(Dictionary<int, List<Mesh>> meshes, Dictionary<Guid, Matrix4> transformLookup)
         {
             foreach(var group in meshes)
             {
                 foreach(var mesh in group.Value)
                 {
+                    var RelativeTransformation = Matrix4x4.Identity;
+
+                    if (transformLookup.ContainsKey(mesh.Id))
+                        RelativeTransformation = transformLookup[mesh.Id].ToNumerics();
+
                     RenderMesh(mesh, RelativeTransformation);
                 }
             }

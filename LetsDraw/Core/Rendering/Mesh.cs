@@ -6,6 +6,22 @@ namespace LetsDraw.Core.Rendering
 {
     public class Mesh
     {
+        public Mesh()
+        {
+            Parent = Guid.NewGuid();
+        }
+
+        public Mesh(Material mat, Guid ObjSource)
+        {
+            Material = mat;
+            Parent = ObjSource;
+        }
+
+        public Mesh(Guid parent)
+        {
+            Parent = parent;
+        }
+
         public Guid Id = Guid.NewGuid();
         public Guid Parent { get; set; }
 
@@ -16,13 +32,6 @@ namespace LetsDraw.Core.Rendering
 
         public uint uniformBufferHandle = 0;
 
-        public Mesh()
-        {
-        }
-
-        public Mesh(Material mat, Guid ObjSource)
-        {
-            Material = mat;
-        }
+        
     }
 }

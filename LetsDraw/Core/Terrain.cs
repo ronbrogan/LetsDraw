@@ -15,12 +15,15 @@ namespace LetsDraw.Core
 {
     public class Terrain : IRenderableComponent
     {
+        public Matrix4x4 Transform { get; set; }
+
         public List<Mesh> Meshes { get; set; }
 
         public byte[] Lightmap { get; set; }
 
         public Terrain()
         {
+            Transform = Matrix4x4.Identity;
             var obj = new ObjLoader("Data/Objects/powerhouse.obj");
             Meshes = obj.Meshes.Values.ToList();
 
