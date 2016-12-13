@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LetsDraw.Core;
 using LetsDraw.Rendering;
-using LetsDraw.Rendering.Skyboxes;
+using LetsDraw.World;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;

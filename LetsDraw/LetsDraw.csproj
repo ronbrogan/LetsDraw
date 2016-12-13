@@ -111,13 +111,15 @@
     <Compile Include="Rendering\Models\PrimitiveGenerator.cs" />
     <Compile Include="Rendering\Renderer.cs" />
     <Compile Include="Rendering\RenderQueue.cs" />
-    <Compile Include="Scene\Cameras\FpCamera.cs" />
+    <Compile Include="World\StaticScenery.cs" />
+    <Compile Include="World\WorldTransform.cs" />
+    <Compile Include="World\Cameras\FpCamera.cs" />
     <Compile Include="Core\Rendering\IRenderable.cs" />
     <Compile Include="Rendering\Models\LoadedModel.cs" />
     <Compile Include="Rendering\Models\Model.cs" />
     <Compile Include="Core\Rendering\ShaderUniformCatalog.cs" />
-    <Compile Include="Scene\Scene.cs" />
-    <Compile Include="Scene\Skybox.cs" />
+    <Compile Include="World\Scene.cs" />
+    <Compile Include="World\Skybox.cs" />
     <Compile Include="Loaders\TextureLoader.cs" />
     <Compile Include="Core\VertexFormat.cs" />
   </ItemGroup>
@@ -202,6 +204,9 @@
     <Content Include="Data\Objects\METAL.TIF">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Data\Objects\ORANGE.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\Objects\PANELS.TIF">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -273,6 +278,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Data\Objects\powerhouse.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Objects\powerthing.mtl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Objects\powerthing.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Data\Objects\test.mtl" />

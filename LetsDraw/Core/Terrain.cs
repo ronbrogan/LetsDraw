@@ -15,42 +15,18 @@ namespace LetsDraw.Core
 {
     public class Terrain : IRenderableComponent
     {
+        public Guid Id { get; private set; }
+
         public Matrix4x4 Transform { get; set; }
 
         public List<Mesh> Meshes { get; set; }
-
-        public byte[] Lightmap { get; set; }
 
         public Terrain()
         {
             Transform = Matrix4x4.Identity;
             var obj = new ObjLoader("Data/Objects/powerhouse.obj");
+            Id = obj.Id;
             Meshes = obj.Meshes.Values.ToList();
-
-            foreach (var mesh in Meshes)
-            {
-                Renderer.CompileMesh(mesh);
-            }
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Draw(Matrix4 ProjectionMatrix, Matrix4 ViewMatrix)
-        {
-            
-        }
-
-        public void Update(double deltaTime = 0)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Destroy()
-        {
-            throw new NotImplementedException();
         }
     }
 }

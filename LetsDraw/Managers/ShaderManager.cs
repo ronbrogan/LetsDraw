@@ -48,11 +48,9 @@ namespace LetsDraw.Managers
         {
             switch (mat.IlluminationModel)
             {
-
                 default:
                     return Shaders["Generic"];
             }
-
         }
 
         private static string ReadShader(string file)

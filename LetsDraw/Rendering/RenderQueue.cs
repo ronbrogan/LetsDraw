@@ -1,34 +1,79 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using LetsDraw.Core.Rendering;
+using LetsDraw.Managers;
+using OpenTK;
 
 namespace LetsDraw.Rendering
 {
     public class RenderQueue
     {
-        private Dictionary<Guid, Mesh> Meshes { get; set; }
+        // Meshes grouped by shader
+        // Eventually by texture as well
+        public Dictionary<int, List<Mesh>> MeshRegistry = new Dictionary<int, List<Mesh>>();
 
-        public void Add()
+        public Dictionary<Guid, Matrix4x4> TransformRegistry = new Dictionary<Guid, Matrix4x4>();
+
+        public void Add(Mesh mesh, Matrix4x4? MeshTransform = null)
         {
-            
+            if (!Renderer.MeshCompiled(mesh))
+                Renderer.CompileMesh(mesh);
+
+            var shader = ShaderManager.GetShaderForMaterial(mesh.Material);
+
+            if (MeshRegistry.ContainsKey(shader))
+            {
+                MeshRegistry[shader].Add(mesh);
+            }
+            else
+            {
+                MeshRegistry.Add(shader, new List<Mesh>
+                {
+                    mesh
+                });
+            }
+
+            if(MeshTransform.HasValue && !TransformRegistry.ContainsKey(mesh.Id))
+            {
+                TransformRegistry[mesh.Id] = MeshTransform.Value;
+            }
         }
 
-        public void Remove()
+        public void Add(IRenderableComponent component)
         {
-            
+            TransformRegistry.Add(component.Id, component.Transform);
+
+            foreach(var mesh in component.Meshes)
+            {
+                Add(mesh);
+            }
         }
 
-        public void Compile()
+        public void UpdateTransform(IRenderableComponent component)
         {
-            
+            if (TransformRegistry.ContainsKey(component.Id))
+                TransformRegistry[component.Id] = component.Transform;
+        }
+
+        public void Remove(Mesh mesh)
+        {
+            var shader = ShaderManager.GetShaderForMaterial(mesh.Material);
+
+            if (MeshRegistry.ContainsKey(shader))
+            {
+                var meshes = MeshRegistry[shader];
+                var existingMesh = meshes.FirstOrDefault(m => m.Id == mesh.Id);
+                meshes.Remove(existingMesh);
+            }
         }
 
         public void Render()
         {
-            
+            Renderer.DrawRenderQueue(this, TransformRegistry);
         }
 
     }

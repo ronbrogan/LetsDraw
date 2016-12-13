@@ -1,23 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
-using LetsDraw.Core;
 using LetsDraw.Core.Rendering;
 using LetsDraw.Managers;
-
+using OpenTK;
+using OpenTK.Input;
 using Quat = System.Numerics.Quaternion;
-using Quaternion = OpenTK.Quaternion;
 using Vec3 = System.Numerics.Vector3;
 using Vector2 = OpenTK.Vector2;
 using Vector3 = OpenTK.Vector3;
 
-namespace LetsDraw.Rendering
+namespace LetsDraw.World.Cameras
 {
     public class FpCamera : ICamera
     {

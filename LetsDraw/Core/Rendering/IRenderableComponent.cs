@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace LetsDraw.Core.Rendering
 {
-    public interface IRenderableComponent : IRenderable
+    public interface IRenderableComponent
     {
-        Matrix4x4 Transform { get; set; }
+        Guid Id { get; }
+
+        Matrix4x4 Transform { get; }
 
         List<Mesh> Meshes { get; set; }
 

@@ -20,7 +20,7 @@ namespace LetsDraw.Rendering.Models
             return mesh;
         }
 
-        public static Mesh GenerateTetrahedron(float diameter)
+        public static Mesh GenerateOctahedron(float diameter)
         {
             var mesh = new Mesh();
             var halfD = diameter / 2f;

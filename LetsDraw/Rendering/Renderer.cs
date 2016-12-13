@@ -24,13 +24,17 @@ namespace LetsDraw.Rendering
         private static uint MatriciesUniformHandle = 0;
         private static uint PointLightContainerHandle = 0;
 
+        public static bool MeshCompiled(Mesh mesh)
+        {
+            return IndexBufferObjects.ContainsKey(mesh.Id);
+        }
+
         public static void CompileMesh(Mesh mesh)
         {
             uint vao, vbo, ibo;
 
             var vboExists = VertexBufferObjects.ContainsKey(mesh.Parent);
                 
-
             GL.GenVertexArrays(1, out vao);
             GL.BindVertexArray(vao);
 
@@ -55,12 +59,12 @@ namespace LetsDraw.Rendering
 
             // Enables binding to location 1 in vertex shader
             GL.EnableVertexAttribArray(1);
-            // At location 1 there'll be two floats, and FYI, that's 12 bytes (3 * 4) in to the format
+            // At location 1 there'll be two floats, that's 12 bytes in to the format
             GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, VertexFormat.Size, 12);
 
             // Enables binding to location 2 in vertex shader
             GL.EnableVertexAttribArray(2);
-            // At location 2 there'll be three floats, 20 bytes (3 * 4) + (2 * 4) in to the format
+            // At location 2 there'll be three floats, 20 bytes in to the format
             GL.VertexAttribPointer(2, 3, VertexAttribPointerType.Float, false, VertexFormat.Size, 20);
 
             // Enables binding to location 3 in vertex shader
@@ -88,12 +92,10 @@ namespace LetsDraw.Rendering
                 return;
 
             var shader = ShaderOverride ?? ShaderManager.GetShaderForMaterial(material);
-            var unifs = ShaderManager.UniformCatalog[shader];
 
             ShaderManager.SetShader(shader);
             GL.BindVertexArray(VertexArrayObjects[mesh.Id]);
 
-            // Convert to numerics to take advantage of SIMD operations
             Matrix4x4 invertedNormal;
             Matrix4x4.Invert(RelativeTransformation, out invertedNormal);
             var NormalMatrix = Matrix4x4.Transpose(invertedNormal).ToGl();
@@ -107,26 +109,29 @@ namespace LetsDraw.Rendering
                 SpecularColor = new OpenTK.Vector4(material.SpecularColor, 1)
             };
 
-            SetMaterialProperties(material, ref data, unifs);
+            SetMaterialProperties(material, ref data);
 
+            var needToBufferData = data.GetHashCode() != mesh.LastGenericUniformHash;
             var needToInitBuffer = mesh.uniformBufferHandle == default(uint);
 
             if (needToInitBuffer)
+            {
                 GL.GenBuffers(1, out mesh.uniformBufferHandle);
-
-            GL.BindBuffer(BufferTarget.UniformBuffer, mesh.uniformBufferHandle);
-
-            if (needToInitBuffer)
+                GL.BindBuffer(BufferTarget.UniformBuffer, mesh.uniformBufferHandle);
                 GL.BufferData(BufferTarget.UniformBuffer, GenericUniform.Size, ref data, BufferUsageHint.DynamicDraw);
-            else
+            }
+            else if (needToBufferData)
+            {
+                mesh.LastGenericUniformHash = data.GetHashCode();
+                GL.BindBuffer(BufferTarget.UniformBuffer, mesh.uniformBufferHandle);
                 GL.BufferSubData(BufferTarget.UniformBuffer, IntPtr.Zero, GenericUniform.Size, ref data);
-            
+            }
 
             GL.BindBufferBase(BufferRangeTarget.UniformBuffer, 1, mesh.uniformBufferHandle);
             GL.DrawElements(PrimitiveType.Triangles, mesh.Indicies.Count, DrawElementsType.UnsignedInt, 0);
         }
 
-        private static void SetMaterialProperties(Material material, ref GenericUniform data, ShaderUniformCatalog unifs)
+        private static void SetMaterialProperties(Material material, ref GenericUniform data)
         {
             data.UseNormalMap = 0;
             data.UseDiffuseMap = 0;
@@ -195,6 +200,24 @@ namespace LetsDraw.Rendering
 
         }
 
+        public static void DrawRenderQueue(RenderQueue queue, Dictionary<Guid, Matrix4x4> transformLookup)
+        {
+            foreach(var group in queue.MeshRegistry)
+            {
+                foreach (var mesh in group.Value)
+                {
+                    var RelativeTransformation = Matrix4x4.Identity;
+
+                    if (transformLookup.ContainsKey(mesh.Id))
+                        RelativeTransformation = transformLookup[mesh.Id];
+                    else if (transformLookup.ContainsKey(mesh.Parent))
+                        RelativeTransformation = transformLookup[mesh.Parent];
+
+                    RenderMesh(mesh, RelativeTransformation);
+                }
+            }
+        }
+
         public static void SetMatricies(Vector3 position, Matrix4 view, Matrix4 proj)
         {
             MatriciesUniform MatriciesUniform = new MatriciesUniform
@@ -244,8 +267,9 @@ namespace LetsDraw.Rendering
             GL.BindBuffer(BufferTarget.UniformBuffer, 0);
         }
 
-        public static void DrawLightPoints(List<PointLight> pointLights)
+        public static void DrawLightPoints(List<PointLight> pointLights, uint uniformHandle)
         {
+            GL.BindBufferBase(BufferRangeTarget.UniformBuffer, 1, uniformHandle);
             GL.PointSize(50);
             GL.Begin(PrimitiveType.Points);
            

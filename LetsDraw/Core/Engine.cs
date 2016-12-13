@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LetsDraw.Managers;
 using LetsDraw.Rendering;
+using LetsDraw.World;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;

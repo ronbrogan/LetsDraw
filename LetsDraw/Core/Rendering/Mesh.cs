@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LetsDraw.Data.Shaders.Generic;
 using LetsDraw.Loaders;
 
 namespace LetsDraw.Core.Rendering
@@ -30,6 +31,7 @@ namespace LetsDraw.Core.Rendering
 
         public Material Material { get; set; }
 
+        public int LastGenericUniformHash;
         public uint uniformBufferHandle = 0;
 
         
