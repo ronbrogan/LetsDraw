@@ -49,18 +49,15 @@ namespace LetsDraw.Managers
             if (!Elements.ContainsKey(name))
                 return;
 
-            //var elem = Elements[name];
-            //model.Dispose();
-
             Elements.Remove(name);
         }
 
         public IHudElement GetElement(string elem)
         {
-            if (Elements.ContainsKey(elem))
-                return Elements[elem];
+            if (!Elements.ContainsKey(elem))
+                return null;
 
-            return null;
+            return Elements[elem];
         }
     }
 }

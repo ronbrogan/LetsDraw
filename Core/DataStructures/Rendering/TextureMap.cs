@@ -29,6 +29,7 @@ namespace LetsDraw.Core.Rendering
 
         public TextureMap(string texPath)
         {
+            //TextureManager.StageTexture(texPath);
             TextureBinding = TextureLoader.LoadTexture(texPath);
             TexturePath = texPath;
         }

@@ -11,7 +11,7 @@ namespace LetsDraw.Core.Rendering
     /// <summary>
     /// Each point light must consume 16n bytes of memory for array indexing to be correct,
     /// padding is added as necessary to ensure that is adhered to. Also, bools are marshaled 
-    /// strangely, so using floats internally.
+    /// strangely, so using floats internally as an example.
     /// </summary>
 
     [StructLayout(LayoutKind.Explicit)]
@@ -40,7 +40,7 @@ namespace LetsDraw.Core.Rendering
             castsShadows = cast ? 1f : 0f;
         }
 
-        public bool CastShadows()
+        public bool CastsShadows()
         {
             return castsShadows == 1f;
         }

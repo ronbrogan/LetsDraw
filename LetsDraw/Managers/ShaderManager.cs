@@ -40,7 +40,6 @@ namespace LetsDraw.Managers
 
             ShaderManager.UniformCatalog.Add(generic, genericCat);
 
-
             CreateShader("HudShader", "Data/Shaders/HUD/hudVertex.glsl", "Data/Shaders/HUD/hudFragment.glsl");
         }
 
@@ -55,7 +54,7 @@ namespace LetsDraw.Managers
 
         private static string ReadShader(string file)
         {
-            if(File.Exists(file))
+            if (File.Exists(file))
                 return File.ReadAllText(file);
 
             return string.Empty;
@@ -63,8 +62,8 @@ namespace LetsDraw.Managers
 
         private static int CompileShader(ShaderType type, string sourceCode, string shaderName) 
         {
-            int statusCode = 0;
-            int shader = GL.CreateShader(type);
+            var statusCode = 0;
+            var shader = GL.CreateShader(type);
 
             GL.ShaderSource(shader, sourceCode);
 
@@ -74,15 +73,14 @@ namespace LetsDraw.Managers
 
             GL.GetShader(shader, ShaderParameter.CompileStatus, out statusCode);
 
-            if(statusCode == 0)
-            {
-                Console.WriteLine("-- Shader Error --");
-                Console.WriteLine("-- Could not create shader: {0}", shaderName);
-                Console.WriteLine(shaderStatus);
-                return 0;
-            }
+            if (statusCode != 0)
+                return shader;
 
-            return shader;
+            Console.WriteLine("-- Shader Error --");
+            Console.WriteLine("-- Could not create shader: {0}", shaderName);
+            Console.WriteLine(shaderStatus);
+
+            return 0;
         }
 
         public static int CreateShader(string shaderName, string vertexFilename, string fragmentFilename, string geometryFilename = null)
@@ -90,9 +88,9 @@ namespace LetsDraw.Managers
             var vertexSource = ReadShader(vertexFilename);
             var fragmentSource = ReadShader(fragmentFilename);
 
-            int vertexShader = 0;
-            int fragmentShader = 0;
-            int geometryShader = 0;
+            var vertexShader = 0;
+            var fragmentShader = 0;
+            var geometryShader = 0;
 
             if (vertexSource != string.Empty)
                 vertexShader = CompileShader(ShaderType.VertexShader, vertexSource, "vertex::" + shaderName);
@@ -100,7 +98,7 @@ namespace LetsDraw.Managers
             if (fragmentSource != string.Empty)
                 fragmentShader = CompileShader(ShaderType.FragmentShader, fragmentSource, "fragment::" + shaderName);
 
-            if(!string.IsNullOrWhiteSpace(geometryFilename))
+            if (!string.IsNullOrWhiteSpace(geometryFilename))
             {
                 var geoSource = ReadShader(geometryFilename);
 
@@ -108,11 +106,10 @@ namespace LetsDraw.Managers
                     geometryShader = CompileShader(ShaderType.GeometryShader, geoSource, "geometry::" + shaderName);
             }
 
-            int linkResult = 0;
 
             var program = GL.CreateProgram();
 
-            if(vertexShader != 0)
+            if (vertexShader != 0)
                 GL.AttachShader(program, vertexShader);
 
             if (fragmentShader != 0)
@@ -123,8 +120,9 @@ namespace LetsDraw.Managers
 
             GL.LinkProgram(program);
 
+            var linkResult = 0;
             GL.GetProgram(program, GetProgramParameterName.LinkStatus, out linkResult);
-            if(linkResult == 0)
+            if (linkResult == 0)
             {
                 string linkLog;
 
@@ -142,14 +140,12 @@ namespace LetsDraw.Managers
 
         public static int GetShader(string shaderName)
         {
-            if (!Shaders.ContainsKey(shaderName))
-            {
-                Console.WriteLine("-- Shader Error --");
-                Console.WriteLine("-- Could not find shader: {0}", shaderName);
-                return 0;
-            }
+            if (Shaders.ContainsKey(shaderName))
+                return Shaders[shaderName];
 
-            return Shaders[shaderName];
+            Console.WriteLine("-- Shader Error --");
+            Console.WriteLine("-- Could not find shader: {0}", shaderName);
+            return 0;
         }
 
         public static void DeleteShader(string shaderName)
@@ -162,13 +158,12 @@ namespace LetsDraw.Managers
 
         public static bool SetShader(int ShaderProgram)
         {
-            if(CurrentShader != ShaderProgram)
-            {
-                GL.UseProgram(ShaderProgram);
-                CurrentShader = ShaderProgram;
-                return true;
-            }
-            return false;
+            if (CurrentShader == ShaderProgram)
+                return false;
+
+            GL.UseProgram(ShaderProgram);
+            CurrentShader = ShaderProgram;
+            return true;
         }
 
         public static void Dispose()

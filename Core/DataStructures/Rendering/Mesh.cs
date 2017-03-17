@@ -33,5 +33,7 @@ namespace LetsDraw.Core.Rendering
 
         public int LastGenericUniformHash;
         public uint uniformBufferHandle = 0;
+
+        
     }
 }

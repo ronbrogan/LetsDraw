@@ -78,7 +78,5 @@ namespace LetsDraw.Loaders
             bmp.UnlockBits(data);
             return texAddr;
         }
-
-        
     }
 }

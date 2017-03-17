@@ -18,12 +18,16 @@ namespace LetsDraw.World
 {
     public class Scene
     {
+        public bool Loaded = false;
+
         public ICamera Camera { get; set; }
         public Vector3 SpawnPoint = new Vector3(80, 290, 30);
 
+        public bool Textureless { get; set; }
+
         public Skybox Skybox { get; set; }
         public Terrain Terrain { get; set; }
-        public List<StaticScenery> Scenery = new List<StaticScenery>();
+        public List<StaticScenery> Scenery { get; set; }
         public List<Mesh> Meshes = new List<Mesh>
         {
             { PrimitiveGenerator.GenerateOctahedron(100f) }
@@ -58,16 +62,22 @@ namespace LetsDraw.World
 
         public Scene()
         {
-            RenderQueue = new RenderQueue();
+            
         }
 
         public void Load()
         {
+            Loaded = false;
+
+            RenderQueue = new RenderQueue();
+
+            Scenery = new List<StaticScenery>();
+
             Skybox = new Skybox("Rendering/Skyboxes/Skybox01/texture.png");
 
             Camera = new FpCamera(SpawnPoint);
 
-            Terrain = new Terrain();
+            Terrain = new Terrain("Data/Objects/powerhouse.obj");
 
             RenderQueue.Add(Terrain);
 
@@ -83,15 +93,24 @@ namespace LetsDraw.World
 
             foreach (var item in Scenery)
                 RenderQueue.Add(item);
+
+            Loaded = true;
         }
 
         public void Unload()
         {
+            Loaded = false;
+
             Skybox.Destroy();
+            RenderQueue.Destroy();
+
         }
 
         public void Update(double time)
         {
+            if (!Loaded)
+                return;
+
             Skybox.Update(time);
             Camera.UpdateCamera(time);
 
@@ -119,6 +138,9 @@ namespace LetsDraw.World
 
         public void Draw()
         {
+            if (!Loaded)
+                return;
+
             Skybox.Draw();
             
             RenderQueue.Render();

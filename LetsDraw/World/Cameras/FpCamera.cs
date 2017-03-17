@@ -51,13 +51,12 @@ namespace LetsDraw.World.Cameras
 
             isMousePressed = InputManager.MouseDown;
 
-
             MouseMove((int)InputManager.MousePosition.X, (int)InputManager.MousePosition.Y);
 
             UpdateView();
         }
 
-        public void UpdateView()
+        private void UpdateView()
         {
             // Clamp Pitch to +- 90deg
             Pitch = Math.Max(Math.Min(piOverTwo, Pitch), piOverTwo * -1);
@@ -89,9 +88,8 @@ namespace LetsDraw.World.Cameras
             float dz = 0;
             float dy = 0;
 
+            // TODO make this configurable on the fly
             const float sensitivity = 6;
-
-
 
             switch (key)
             {
@@ -154,19 +152,17 @@ namespace LetsDraw.World.Cameras
             Position += offset * scaleFactor;
         }
 
-        public void MouseMove(int x, int y)
+        private void MouseMove(int x, int y)
         {
             if (isMousePressed == false)
                 return;
 
-            //always compute delta
-            //mousePosition is the last mouse position
             var mouse_delta = new Vector2(x, y) - MousePosition;
 
+            // TODO make these configurable on the fly
             const float mouseX_Sensitivity = 0.005f;
             const float mouseY_Sensitivity = 0.005f;
-            //note that yaw and pitch must be converted to radians.
-            //this is done in UpdateView() by glm::rotate
+
             Yaw += mouseX_Sensitivity * mouse_delta.X;
             Pitch += mouseY_Sensitivity * mouse_delta.Y;
 
@@ -176,6 +172,8 @@ namespace LetsDraw.World.Cameras
         public void UpdateProjectionMatrix(int width, int height)
         {
             float ar = (width / (float)height);
+
+            // TODO make these configurable on the fly
             var near1 = 0.1f;
             var far1 = 8000.0f;
 

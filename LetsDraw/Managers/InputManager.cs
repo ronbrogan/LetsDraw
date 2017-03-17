@@ -10,8 +10,6 @@ namespace LetsDraw.Managers
 {
     public static class InputManager
     {
-        public static double DeltaTime = 0.0;
-
         public static List<Key> DownKeys = new List<Key>();
 
         public static bool MouseDown = false;

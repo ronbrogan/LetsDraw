@@ -281,5 +281,14 @@ namespace LetsDraw.Rendering
 
             GL.End();
         }
+
+        public static void DeleteMesh(int vao, int ibo, int? vbo)
+        {
+            GL.DeleteVertexArray(vao);
+            GL.DeleteBuffer(ibo);
+
+            if (vbo.HasValue)
+                GL.DeleteBuffer(vbo.Value);
+        }
     }
 }

@@ -42,31 +42,42 @@ namespace LetsDraw
             return newString.ToString();
         }
 
+        // Converts OpenTK to System.Numerics for SIMD operations
         public static Matrix4x4 ToNumerics(this Matrix4 mat)
         {
             return new Matrix4x4(mat.M11, mat.M12, mat.M13, mat.M14, mat.M21, mat.M22, mat.M23, mat.M24, mat.M31, mat.M32, mat.M33, mat.M34, mat.M41, mat.M42, mat.M43, mat.M44);
         }
 
+        // Converts System.Numerics to OpenTK
         public static Matrix4 ToGl(this Matrix4x4 mat)
         {
             return new Matrix4(mat.M11, mat.M12, mat.M13, mat.M14, mat.M21, mat.M22, mat.M23, mat.M24, mat.M31, mat.M32, mat.M33, mat.M34, mat.M41, mat.M42, mat.M43, mat.M44);
         }
 
+        public static float[] ToArray(this OpenTK.Vector4 vec)
+        {
+            return new [] { vec.W, vec.X, vec.Y, vec.Z };
+        }
+
+        // Converts OpenTK to System.Numerics for SIMD operations
         public static Vector3 ToNumerics(this OpenTK.Vector3 vec)
         {
             return new Vector3(vec.X, vec.Y, vec.Z);
         }
 
+        // Converts System.Numerics to OpenTK
         public static OpenTK.Vector3 ToGl(this Vector3 vec)
         {
             return new OpenTK.Vector3(vec.X, vec.Y, vec.Z);
         }
 
+        // Converts OpenTK to System.Numerics for SIMD operations
         public static Vector2 ToNumerics(this OpenTK.Vector2 vec)
         {
             return new Vector2(vec.X, vec.Y);
         }
 
+        // Converts System.Numerics to OpenTK
         public static OpenTK.Vector2 ToGl(this System.Numerics.Vector2 vec)
         {
             return new OpenTK.Vector2(vec.X, vec.Y);
@@ -100,9 +111,5 @@ namespace LetsDraw
             result.W = ((num * num3) * num5) + ((num2 * num4) * num6);
             return result;
         }
-
-        
     }
-
-    
 }

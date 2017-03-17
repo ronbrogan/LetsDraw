@@ -21,10 +21,10 @@ namespace LetsDraw.Core
 
         public List<Mesh> Meshes { get; set; }
 
-        public Terrain(string objPath)
+        public Terrain()
         {
             Transform = Matrix4x4.Identity;
-            var obj = new ObjLoader(objPath);
+            var obj = new ObjLoader("Data/Objects/powerhouse.obj");
             Id = obj.Id;
             Meshes = obj.Meshes.Values.ToList();
         }

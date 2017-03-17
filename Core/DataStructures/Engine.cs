@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using LetsDraw.Forms;
 using LetsDraw.Managers;
 using LetsDraw.Rendering;
 using LetsDraw.World;
@@ -19,10 +18,10 @@ namespace LetsDraw.Core
 {
     public class Engine
     {
-        private ShaderManager shaderManager;
-        private SceneManager sceneManager;
+        public ShaderManager shaderManager;
+        public SceneManager scene;
 
-        private GameWindow game;
+        public GameWindow game;
 
         public static void DebugCallbackF(DebugSource source, DebugType type, int id, DebugSeverity severity, int length, IntPtr message, IntPtr userParam)
         {
@@ -35,7 +34,7 @@ namespace LetsDraw.Core
 
         public Engine()
         {
-            var callback = (DebugProc)Delegate.CreateDelegate(typeof(DebugProc), GetType().GetMethod(nameof(DebugCallbackF)));
+            var callback = (DebugProc)Delegate.CreateDelegate(typeof(DebugProc), GetType().GetMethod("DebugCallbackF"));
 
             var msaaSamples = 8;
 
@@ -45,7 +44,7 @@ namespace LetsDraw.Core
             };
 
             shaderManager = new ShaderManager();
-            sceneManager = new SceneManager(game.Size);
+            scene = new SceneManager(game.Size);
 
             game.Load += (sender, e) =>
             {
@@ -65,7 +64,7 @@ namespace LetsDraw.Core
             game.Resize += (sender, e) =>
             {
                 GL.Viewport(0, 0, game.Width, game.Height);
-                sceneManager.NotifyResize(game.Width, game.Height, 0, 0);
+                scene.NotifyResize(game.Width, game.Height, 0, 0);
             };
 
             game.UpdateFrame += Update;
@@ -82,9 +81,10 @@ namespace LetsDraw.Core
 
         public void Start()
         {
-            sceneManager.Load(new Scene());
+            scene.Load(new Scene());
 
             game.Run();
+
 
             game.Dispose();
         }
@@ -98,21 +98,17 @@ namespace LetsDraw.Core
 
         private void Render(object sender, FrameEventArgs e)
         {
-            sceneManager.NotifyBeginFrame(e.Time);
-
-
-            ReadoutService.Update(sceneManager.scene);
-
+            scene.NotifyBeginFrame(e.Time);
             // render graphics
-            sceneManager.NotifyDisplayFrame();
+            scene.NotifyDisplayFrame();
 
-            sceneManager.NotifyEndFrame(game);
+            scene.NotifyEndFrame(game);
         }
 
         private void CloseGame()
         {
             game.Exit();
-            sceneManager.Dispose();
+            scene.Dispose();
         }
     }
 }

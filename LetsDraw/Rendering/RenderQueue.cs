@@ -59,7 +59,7 @@ namespace LetsDraw.Rendering
                 TransformRegistry[component.Id] = component.Transform;
         }
 
-        public void Remove(Mesh mesh)
+        public void Remove(Mesh mesh, bool SkipParentCheck = false)
         {
             var shader = ShaderManager.GetShaderForMaterial(mesh.Material);
 
@@ -74,6 +74,18 @@ namespace LetsDraw.Rendering
         public void Render()
         {
             Renderer.DrawRenderQueue(this, TransformRegistry);
+        }
+
+        public void Destroy()
+        {
+            var meshes = MeshRegistry.Values.SelectMany(m => m);
+
+            foreach(var mesh in meshes)
+            {
+                Remove(mesh);
+
+
+            }
         }
 
     }

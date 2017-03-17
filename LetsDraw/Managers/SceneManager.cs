@@ -16,15 +16,9 @@ namespace LetsDraw.Managers
 {
     public class SceneManager : IListener
     {
-        //private ModelManager modelManager;
         private HudManager hudManager;
 
-        //private FpCamera firstPersonCamera;
-        //private Skybox skybox;
-
-        private Scene scene { get; set; }
-
-        
+        public Scene scene { get; private set; }
 
         public SceneManager(Size screenSize)
         {
@@ -33,10 +27,7 @@ namespace LetsDraw.Managers
 
         public void Load(Scene newScene)
         {
-            if(scene != null)
-            {
-                scene.Unload();
-            }
+            scene?.Unload();
 
             scene = newScene;
             scene.Load();
@@ -46,7 +37,6 @@ namespace LetsDraw.Managers
         {
             scene.Update(deltaTime);
 
-            //modelManager.Update(deltaTime);
             hudManager.Update(deltaTime);
         }
 
@@ -55,7 +45,6 @@ namespace LetsDraw.Managers
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             scene.Draw();
             hudManager.Draw();
-
         }
 
         public void NotifyEndFrame(GameWindow game)
@@ -65,8 +54,7 @@ namespace LetsDraw.Managers
 
         public void NotifyResize(int width, int height, int prevWidth, int prevHeight)
         {
-            if(scene != null)
-                scene.Camera.UpdateProjectionMatrix(width, height);
+            scene?.Camera.UpdateProjectionMatrix(width, height);
         }
 
 
@@ -74,7 +62,6 @@ namespace LetsDraw.Managers
         {
             ShaderManager.Dispose();
             scene.Dispose();
-            //modelManager.Dispose();
         }
     }
 }

@@ -20,10 +20,8 @@ namespace LetsDraw.Loaders
 
             Material currentMaterial = new Material(null);
 
-            foreach(var line in lines)
+            foreach (var parts in lines.Select(line => line.Split(' ')))
             {
-                var parts = line.Split(' ');
-
                 switch (parts[0])
                 {
                     case "newmtl":
@@ -104,12 +102,11 @@ namespace LetsDraw.Loaders
                         break;
 
                 }
-
             }
             Materials.Add(currentMaterial);
         }
 
-        public TextureMap ParseMap(string basePath, string mapOptions)
+        private TextureMap ParseMap(string basePath, string mapOptions)
         {
             //var parts = mapOptions.Split(' ');
             var path = basePath;
