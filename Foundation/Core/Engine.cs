@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using Core.Forms;
 using Core.Managers;
 using Core.World;
 using OpenTK;
@@ -14,6 +14,7 @@ namespace Core.Core
     {
         private ShaderManager shaderManager;
         private SceneManager sceneManager;
+        private List<ISceneChangeSubscriber> sceneChangeSubscribers = new List<ISceneChangeSubscriber>();
 
         private GameWindow game;
 
@@ -72,6 +73,10 @@ namespace Core.Core
             game.MouseUp += InputManager.NotifyMouseUp;
         }
 
+        public void SubscribeToSceneChanges(ISceneChangeSubscriber sub)
+        {
+            sceneChangeSubscribers.Add(sub);
+        }
 
         public void Start()
         {
@@ -93,8 +98,10 @@ namespace Core.Core
         {
             sceneManager.NotifyBeginFrame(e.Time);
 
-
-            ReadoutService.Update(sceneManager.scene);
+            foreach(var sub in sceneChangeSubscribers)
+            {
+                sub.Update(sceneManager.scene);
+            }
 
             // render graphics
             sceneManager.NotifyDisplayFrame();

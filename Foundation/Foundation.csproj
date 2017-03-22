@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Engine.cs" />
+    <Compile Include="Core\ISceneChangeSubscriber.cs" />
     <Compile Include="Core\Rendering\IRenderableComponent.cs" />
     <Compile Include="Core\Rendering\Material.cs" />
     <Compile Include="Core\Rendering\PointLight.cs" />
@@ -98,13 +99,6 @@
     <Compile Include="Core\IListener.cs" />
     <Compile Include="Core\IndexedDictionary.cs" />
     <Compile Include="Data\Enums\MeshShaderType.cs" />
-    <Compile Include="Forms\Readout.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Readout.Designer.cs">
-      <DependentUpon>Readout.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ReadoutService.cs" />
     <Compile Include="Loaders\MtlLoader.cs" />
     <Compile Include="Managers\TextureManager.cs" />
     <Compile Include="Rendering\HUD\FramesDisplay.cs" />
@@ -328,11 +322,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Forms\Readout.resx">
-      <DependentUpon>Readout.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

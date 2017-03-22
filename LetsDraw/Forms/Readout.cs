@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Core.World;
 
-namespace Core.Forms
+namespace LetsDraw.Forms
 {
     public partial class Readout : Form
     {

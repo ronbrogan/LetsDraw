@@ -1,22 +1,24 @@
 ﻿using System;
+using System.Net.Mime;
 using System.Threading;
 using System.Windows.Forms;
 using Core.World;
+using Core.Core;
 
-namespace Core.Forms
+namespace LetsDraw.Forms
 {
-    public static class ReadoutService
+    public class ReadoutSubscriber : ISceneChangeSubscriber
     {
-        private static Readout readout { get; set; }
+        private Readout readout { get; set; }
 
-        private static Thread readoutThread { get; set; }
+        private Thread readoutThread { get; set; }
 
-        private static void ApplicationRunProc(object state)
+        private void ApplicationRunProc(object state)
         {
             Application.Run(state as Form);
         }
 
-        static ReadoutService()
+        public ReadoutSubscriber()
         {
             readout = new Readout();
             readout.CommandIssued += HandleReadoutCommand;
@@ -27,12 +29,12 @@ namespace Core.Forms
             readoutThread.Start(readout);
         }
 
-        private static void HandleReadoutCommand(object sender, EventArgs e)
+        private void HandleReadoutCommand(object sender, EventArgs e)
         {
             
         }
 
-        public static void Update(Scene scene)
+        public void Update(Scene scene)
         {
             if (!readout.IsHandleCreated || readout.IsDisposed || readout.Disposing)
                 return;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Core;
+using LetsDraw.Forms;
 using OpenTK.Graphics.OpenGL;
 
 namespace LetsDraw
@@ -13,7 +14,11 @@ namespace LetsDraw
         [STAThread]
         static void Main(string[] args)
         {
+            var readout = new ReadoutSubscriber();
+
             var engine = new Engine();
+
+            engine.SubscribeToSceneChanges(readout);
 
             Console.WriteLine(GL.GetString(StringName.Version));
             Console.WriteLine(GL.GetString(StringName.Renderer));
