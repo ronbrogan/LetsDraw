@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 
-namespace Core.Core.Rendering
+namespace Foundation.Core.Rendering
 {
     public interface IRenderableComponent
     {

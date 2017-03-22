@@ -2,7 +2,7 @@
 using System.Numerics;
 using Vector3 = OpenTK.Vector3;
 
-namespace Core.World
+namespace Foundation.World
 {
     public class WorldTransform
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using Core.Core;
-using Core.Core.Rendering;
+using Foundation.Core;
+using Foundation.Core.Rendering;
 
-namespace Core.Loaders
+namespace Foundation.Loaders
 {
     public class ObjLoader
     {

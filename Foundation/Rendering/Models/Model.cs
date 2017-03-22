@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Core.Core.Rendering;
+using Foundation.Core.Rendering;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace Core.Rendering.Models
+namespace Foundation.Rendering.Models
 {
     public class Model : IRenderable
     {

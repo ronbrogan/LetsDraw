@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Core.Core
+namespace Foundation.Core
 {
     public class IndexedDictionary<TKey, TValue>
     {

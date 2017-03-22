@@ -6,7 +6,7 @@ using Quaternion = OpenTK.Quaternion;
 using Vector2 = System.Numerics.Vector2;
 using Vector3 = System.Numerics.Vector3;
 
-namespace Core
+namespace Foundation
 {
     public static class Extensions
     {

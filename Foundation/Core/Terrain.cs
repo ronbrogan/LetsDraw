@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using Core.Core.Rendering;
-using Core.Loaders;
+using Foundation.Core.Rendering;
+using Foundation.Loaders;
 
-namespace Core.Core
+namespace Foundation.Core
 {
     public class Terrain : IRenderableComponent
     {

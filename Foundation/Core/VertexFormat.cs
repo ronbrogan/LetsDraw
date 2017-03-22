@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using OpenTK;
 
-namespace Core.Core
+namespace Foundation.Core
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct VertexFormat

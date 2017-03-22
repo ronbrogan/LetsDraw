@@ -2,7 +2,7 @@
 using System.Drawing;
 using OpenTK;
 
-namespace Core.Rendering.HUD
+namespace Foundation.Rendering.HUD
 {
     public class FramesDisplay : TextDisplay
     {

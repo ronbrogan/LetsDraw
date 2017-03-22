@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using Core.Core.Rendering;
-using Core.Rendering.HUD;
+using Foundation.Core.Rendering;
+using Foundation.Rendering.HUD;
 
-namespace Core.Managers
+namespace Foundation.Managers
 {
     public class HudManager
     {

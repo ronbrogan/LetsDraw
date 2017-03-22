@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace Core.Core.Rendering
+namespace Foundation.Core.Rendering
 {
     public interface ICamera
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using Core.Core;
-using Core.Core.Rendering;
-using Core.Loaders;
+using Foundation.Core;
+using Foundation.Core.Rendering;
+using Foundation.Loaders;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace Core.Rendering.Models
+namespace Foundation.Rendering.Models
 {
     public class LoadedModel : Model
     {

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Core.Core.Rendering;
-using Core.Data.Enums;
+using Foundation.Core.Rendering;
+using Foundation.Data.Enums;
 using OpenTK;
 
-namespace Core.Loaders
+namespace Foundation.Loaders
 {
     public class MtlLoader
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
-using Core.Core.Rendering;
-using Core.Managers;
+using Foundation.Core.Rendering;
+using Foundation.Managers;
 using OpenTK;
 using OpenTK.Input;
 using Quat = System.Numerics.Quaternion;
@@ -9,7 +9,7 @@ using Vec3 = System.Numerics.Vector3;
 using Vector2 = OpenTK.Vector2;
 using Vector3 = OpenTK.Vector3;
 
-namespace Core.World.Cameras
+namespace Foundation.World.Cameras
 {
     public class FpCamera : ICamera
     {

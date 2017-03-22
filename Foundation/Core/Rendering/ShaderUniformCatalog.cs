@@ -1,4 +1,4 @@
-﻿namespace Core.Core.Rendering
+﻿namespace Foundation.Core.Rendering
 {
     public class ShaderUniformCatalog
     {

@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using OpenTK;
 
-namespace Core.Core.Rendering
+namespace Foundation.Core.Rendering
 {
     /// <summary>
     /// Each point light must consume 16n bytes of memory for array indexing to be correct,

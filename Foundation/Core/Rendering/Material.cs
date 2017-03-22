@@ -1,7 +1,7 @@
-﻿using Core.Data.Enums;
+﻿using Foundation.Data.Enums;
 using OpenTK;
 
-namespace Core.Core.Rendering
+namespace Foundation.Core.Rendering
 {
     public class Material
     {

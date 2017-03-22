@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Core.Core.Rendering;
+using Foundation.Core.Rendering;
 using OpenTK.Graphics.OpenGL;
 
-namespace Core.Managers
+namespace Foundation.Managers
 {
     public class ShaderManager
     {

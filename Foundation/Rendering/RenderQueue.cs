@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using Core.Core.Rendering;
-using Core.Managers;
+using Foundation.Core.Rendering;
+using Foundation.Managers;
 
-namespace Core.Rendering
+namespace Foundation.Rendering
 {
     public class RenderQueue
     {

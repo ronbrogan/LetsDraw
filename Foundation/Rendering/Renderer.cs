@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using Core.Core;
-using Core.Core.Rendering;
-using Core.Data.Shaders;
-using Core.Data.Shaders.Generic;
-using Core.Managers;
+using Foundation.Core;
+using Foundation.Core.Rendering;
+using Foundation.Data.Shaders;
+using Foundation.Data.Shaders.Generic;
+using Foundation.Managers;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Vector3 = OpenTK.Vector3;
 
-namespace Core.Rendering
+namespace Foundation.Rendering
 {
     public static class Renderer
     {

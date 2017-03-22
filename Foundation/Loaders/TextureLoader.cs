@@ -5,7 +5,7 @@ using System.IO;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
-namespace Core.Loaders
+namespace Foundation.Loaders
 {
     public static class TextureLoader
     {

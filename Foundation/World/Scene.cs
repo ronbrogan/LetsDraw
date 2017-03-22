@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Core.Core;
-using Core.Core.Rendering;
-using Core.Rendering;
-using Core.Rendering.Models;
-using Core.World.Cameras;
+using Foundation.Core;
+using Foundation.Core.Rendering;
+using Foundation.Rendering;
+using Foundation.Rendering.Models;
+using Foundation.World.Cameras;
 using OpenTK;
 using Vector3 = OpenTK.Vector3;
 
-namespace Core.World
+namespace Foundation.World
 {
     public class Scene
     {

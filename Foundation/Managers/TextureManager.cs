@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 
-namespace Core.Managers
+namespace Foundation.Managers
 {
     public static class TextureManager
     {

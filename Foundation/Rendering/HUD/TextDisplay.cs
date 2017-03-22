@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using Core.Core;
-using Core.Core.Rendering;
-using Core.Loaders;
-using Core.Managers;
+using Foundation.Core;
+using Foundation.Core.Rendering;
+using Foundation.Loaders;
+using Foundation.Managers;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
-namespace Core.Rendering.HUD
+namespace Foundation.Rendering.HUD
 {
     public class TextDisplay : IHudElement
     {
@@ -132,8 +132,8 @@ namespace Core.Rendering.HUD
             GL.GenVertexArrays(1, out vao);
             GL.BindVertexArray(vao);
 
-            var width = (size.Width / ScreenSize.Width);
-            var height = (size.Height / ScreenSize.Height);
+            var width = size.Width / ScreenSize.Width;
+            var height = size.Height / ScreenSize.Height;
 
             List<uint> indices = new List<uint>
             {

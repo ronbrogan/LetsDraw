@@ -1,8 +1,8 @@
-﻿using Core.Data.Enums;
-using Core.Loaders;
+﻿using Foundation.Data.Enums;
+using Foundation.Loaders;
 using OpenTK;
 
-namespace Core.Core.Rendering
+namespace Foundation.Core.Rendering
 {
     public class TextureMap
     {

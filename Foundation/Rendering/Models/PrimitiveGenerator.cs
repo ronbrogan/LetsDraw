@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Core.Core;
-using Core.Core.Rendering;
-using Core.Data.Enums;
+using Foundation.Core;
+using Foundation.Core.Rendering;
+using Foundation.Data.Enums;
 using OpenTK;
 
-namespace Core.Rendering.Models
+namespace Foundation.Rendering.Models
 {
     public static class PrimitiveGenerator
     {

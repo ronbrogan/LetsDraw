@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using OpenTK;
 
-namespace Core.Data.Shaders.Generic
+namespace Foundation.Data.Shaders.Generic
 {
     [StructLayout(LayoutKind.Explicit)]
     public struct GenericUniform : IEquatable<GenericUniform>

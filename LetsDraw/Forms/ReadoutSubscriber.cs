@@ -2,8 +2,8 @@
 using System.Net.Mime;
 using System.Threading;
 using System.Windows.Forms;
-using Core.World;
-using Core.Core;
+using Foundation.Core;
+using Foundation.World;
 
 namespace LetsDraw.Forms
 {

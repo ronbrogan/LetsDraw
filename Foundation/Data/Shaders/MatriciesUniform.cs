@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using OpenTK;
 
-namespace Core.Data.Shaders
+namespace Foundation.Data.Shaders
 {
     [StructLayout(LayoutKind.Explicit)]
     public struct MatriciesUniform

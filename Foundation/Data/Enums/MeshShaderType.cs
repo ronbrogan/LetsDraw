@@ -1,4 +1,4 @@
-﻿namespace Core.Data.Enums
+﻿namespace Foundation.Data.Enums
 {
     public enum MeshShaderType
     {

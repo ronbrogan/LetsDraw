@@ -1,14 +1,16 @@
-﻿using System.Drawing;
-using Core.Core;
-using Core.World;
-using OpenTK;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using Foundation.Core;
+using Foundation.World;
 using OpenTK.Graphics.OpenGL;
 
-namespace Core.Managers
+namespace Foundation.Managers
 {
     public class SceneManager : IListener
     {
         private HudManager hudManager;
+        private List<ISceneChangeSubscriber> sceneChangeSubscribers = new List<ISceneChangeSubscriber>();
 
         public Scene scene { get; private set; }
 
@@ -25,11 +27,21 @@ namespace Core.Managers
             scene.Load();
         }
 
+        public void SubscribeToSceneChanges(ISceneChangeSubscriber sub)
+        {
+            sceneChangeSubscribers.Add(sub);
+        }
+
         public void NotifyBeginFrame(double deltaTime)
         {
             scene.Update(deltaTime);
 
             hudManager.Update(deltaTime);
+
+            foreach (var sub in sceneChangeSubscribers)
+            {
+                sub.Update(scene);
+            }
         }
 
         public void NotifyDisplayFrame()
@@ -39,9 +51,9 @@ namespace Core.Managers
             hudManager.Draw();
         }
 
-        public void NotifyEndFrame(GameWindow game)
+        public void NotifyEndFrame(EventHandler ev)
         {
-            game.SwapBuffers();
+            ev?.Invoke(this, null);
         }
 
         public void NotifyResize(int width, int height, int prevWidth, int prevHeight)

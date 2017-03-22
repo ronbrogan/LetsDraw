@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
-using Core.Core;
-using Core.Core.Rendering;
-using Core.Loaders;
-using Core.Managers;
-using Core.Rendering.Models;
+using Foundation.Core;
+using Foundation.Core.Rendering;
+using Foundation.Loaders;
+using Foundation.Managers;
+using Foundation.Rendering.Models;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace Core.World
+namespace Foundation.World
 {
     public class Skybox : Model
     {
