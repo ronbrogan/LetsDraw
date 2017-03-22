@@ -1,24 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LetsDraw.Core;
-using LetsDraw.Managers;
-using LetsDraw.Rendering;
-using OpenTK;
-using OpenTK.Graphics;
+using Core.Core;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
 
 namespace LetsDraw
 {
-    static class Program
+    class Program
     {
-        
-
         [STAThread]
         static void Main(string[] args)
         {
@@ -31,8 +22,5 @@ namespace LetsDraw
 
             engine.Start();
         }
-
-        
-
     }
 }

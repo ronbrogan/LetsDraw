@@ -4,15 +4,33 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0A18179D-F3C6-496D-8E96-74CBB4A1BBA4}</ProjectGuid>
+    <ProjectGuid>{65792DA9-9A77-4937-B74B-A771EE212538}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Core</RootNamespace>
     <AssemblyName>Core</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -20,14 +38,21 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -39,12 +64,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.1.1\lib\net46\System.Numerics.Vectors.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,25 +81,258 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataStructures\Engine.cs" />
-    <Compile Include="DataStructures\IListener.cs" />
-    <Compile Include="DataStructures\IndexedDictionary.cs" />
-    <Compile Include="DataStructures\Rendering\ICamera.cs" />
-    <Compile Include="DataStructures\Rendering\IHudElement.cs" />
-    <Compile Include="DataStructures\Rendering\IRenderable.cs" />
-    <Compile Include="DataStructures\Rendering\IRenderableComponent.cs" />
-    <Compile Include="DataStructures\Rendering\Material.cs" />
-    <Compile Include="DataStructures\Rendering\Mesh.cs" />
-    <Compile Include="DataStructures\Rendering\PointLight.cs" />
-    <Compile Include="DataStructures\Rendering\ShaderUniformCatalog.cs" />
-    <Compile Include="DataStructures\Rendering\TextureMap.cs" />
-    <Compile Include="DataStructures\Terrain.cs" />
-    <Compile Include="DataStructures\VertexFormat.cs" />
+    <Compile Include="Core\Engine.cs" />
+    <Compile Include="Core\Rendering\IRenderableComponent.cs" />
+    <Compile Include="Core\Rendering\Material.cs" />
+    <Compile Include="Core\Rendering\PointLight.cs" />
+    <Compile Include="Core\Rendering\TextureMap.cs" />
+    <Compile Include="Core\Terrain.cs" />
+    <Compile Include="Data\Enums\IlluminationModel.cs" />
+    <Compile Include="Data\Enums\ImfChanOption.cs" />
+    <Compile Include="Data\Enums\ReflectionMapType.cs" />
+    <Compile Include="Data\Shaders\Generic\GenericUniforms.cs" />
+    <Compile Include="Data\Shaders\MatriciesUniform.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Core\Rendering\ICamera.cs" />
+    <Compile Include="Core\Rendering\IHudElement.cs" />
+    <Compile Include="Core\IListener.cs" />
+    <Compile Include="Core\IndexedDictionary.cs" />
+    <Compile Include="Data\Enums\MeshShaderType.cs" />
+    <Compile Include="Forms\Readout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Readout.Designer.cs">
+      <DependentUpon>Readout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReadoutService.cs" />
+    <Compile Include="Loaders\MtlLoader.cs" />
+    <Compile Include="Managers\TextureManager.cs" />
+    <Compile Include="Rendering\HUD\FramesDisplay.cs" />
+    <Compile Include="Rendering\HUD\TextDisplay.cs" />
+    <Compile Include="Loaders\ObjLoader.cs" />
+    <Compile Include="Core\Rendering\Mesh.cs" />
+    <Compile Include="Managers\HudManager.cs" />
+    <Compile Include="Managers\InputManager.cs" />
+    <Compile Include="Managers\SceneManager.cs" />
+    <Compile Include="Managers\ShaderManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rendering\Models\PrimitiveGenerator.cs" />
+    <Compile Include="Rendering\Renderer.cs" />
+    <Compile Include="Rendering\RenderQueue.cs" />
+    <Compile Include="World\StaticScenery.cs" />
+    <Compile Include="World\WorldTransform.cs" />
+    <Compile Include="World\Cameras\FpCamera.cs" />
+    <Compile Include="Core\Rendering\IRenderable.cs" />
+    <Compile Include="Rendering\Models\LoadedModel.cs" />
+    <Compile Include="Rendering\Models\Model.cs" />
+    <Compile Include="Core\Rendering\ShaderUniformCatalog.cs" />
+    <Compile Include="World\Scene.cs" />
+    <Compile Include="World\Skybox.cs" />
+    <Compile Include="Loaders\TextureLoader.cs" />
+    <Compile Include="Core\VertexFormat.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\Objects\block.png" />
+    <Content Include="Data\Objects\BULKHEAD.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\BUNKER.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\cliffs.tif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\CONCRETE.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Crate.bmp" />
+    <Content Include="Data\Objects\DCONC.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\DIAMOND.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\DWNSTAIR.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\GLASS.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Grass0130_1_seamless_XL.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\GRATING.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\GROUND.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\groundmap.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\HARDWOOD.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\LEAKING.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\LEAKING2.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Map__3_Noise.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Map__64_Physical Sun &amp; Sky Environment.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Map__65_Dent.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Map__68_Normal Bump.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Map__70_Normal Bump.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Map__73_Normal Bump.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Map__75_Normal Bump.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Map__77_Gradient.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Map__79_Normal Bump.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\Map__82_Normal Bump.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\METAL.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\ORANGE.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\PANELS.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\PIPE.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\ROCKS.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\ROOF.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\roof_specular.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\SEAWALL.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\seawall_specular.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\texture.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\TexturesCom_Grass0139_1_seamless_S.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\TILES.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\tiles_bump.tif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\UPSTAIRS.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\WINDOWS.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Objects\WOOD.TIF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Rendering\Skyboxes\Skybox01\texture.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="App.config" />
+    <None Include="Data\Objects\block.mtl" />
+    <None Include="Data\Objects\block.obj" />
+    <None Include="Data\Objects\map.mtl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Objects\map.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Objects\map.old.obj" />
+    <None Include="Data\Objects\mappedcube.mtl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Objects\mappedcube.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Objects\octahedron.mtl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Objects\octahedron.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Objects\powerhouse.mtl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Objects\powerhouse.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Objects\powerthing.mtl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Objects\powerthing.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Objects\test.mtl" />
+    <None Include="Data\Objects\test.obj" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
+    <Content Include="Data\Shaders\Generic\fragmentShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Shaders\Generic\vertexShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Shaders\HUD\hudFragment.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Shaders\HUD\hudVertex.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Shaders\Skybox\fragmentShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Shaders\Skybox\vertexShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\Readout.resx">
+      <DependentUpon>Readout.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
