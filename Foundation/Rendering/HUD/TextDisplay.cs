@@ -46,6 +46,7 @@ namespace Foundation.Rendering.HUD
         public Vector2 Position;
 
         public SizeF LastSize { get; set; }
+        public Size LastScreenSize { get; set; }
 
         public TextDisplay(Size screenSize, float originX, float originY, string text = "", int fontSize = 36, Brush color = null)
         {
@@ -67,6 +68,11 @@ namespace Foundation.Rendering.HUD
             ScreenSize = screenSize;
             if (color != null)
                 Color = color;
+        }
+
+        public void Resize(int width, int height)
+        {
+            ScreenSize = new Size(width, height);
         }
 
         public void Draw()
@@ -112,14 +118,14 @@ namespace Foundation.Rendering.HUD
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
             g.PixelOffsetMode = PixelOffsetMode.HighSpeed;
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             g.DrawString(text, new Font(FontFamily.GenericMonospace, FontSize), Color, 0, 0);
             g.Flush();
             var data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             Texture = TextureLoader.LoadTexture(data, bmp.Width, bmp.Height, PixelFormat.Format32bppArgb);
             RegenTexture = false;
 
-            if(LastSize != size)
+            if(LastSize != size || LastScreenSize != ScreenSize)
                 UpdateGeometry(size);
         }
 
@@ -132,8 +138,11 @@ namespace Foundation.Rendering.HUD
             GL.GenVertexArrays(1, out vao);
             GL.BindVertexArray(vao);
 
-            var width = size.Width / ScreenSize.Width;
-            var height = size.Height / ScreenSize.Height;
+            var width = size.Width * FontSize / (size.Height * ScreenSize.Width);
+            var height = FontSize / (float)ScreenSize.Height;
+
+            //var width = size.Width / ScreenSize.Width;
+            //var height = size.Height / ScreenSize.Height;
 
             List<uint> indices = new List<uint>
             {
@@ -189,6 +198,7 @@ namespace Foundation.Rendering.HUD
 
             Vao = vao;
             LastSize = size;
+            LastScreenSize = ScreenSize;
         }
     }
 }

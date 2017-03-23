@@ -59,6 +59,7 @@ namespace Foundation.Managers
         public void NotifyResize(int width, int height, int prevWidth, int prevHeight)
         {
             scene?.Camera.UpdateProjectionMatrix(width, height);
+            hudManager.Resize(width, height);
         }
 
 

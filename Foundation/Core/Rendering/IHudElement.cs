@@ -7,6 +7,8 @@
         void Update();
         void Update(double deltaTime);
 
+        void Resize(int width, int height);
+
         void SetShader(int ProgramHandle);
     }
 }

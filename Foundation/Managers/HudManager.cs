@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using Foundation.Core;
 using Foundation.Core.Rendering;
 using Foundation.Rendering.HUD;
 
@@ -14,7 +16,7 @@ namespace Foundation.Managers
             Elements = new Dictionary<string, IHudElement>();
 
             // Manually add test hud element here.
-            var fpsReadout = new FramesDisplay(screenSize, -1, 1, "Test String");
+            var fpsReadout = new FramesDisplay(screenSize, -1, 1, "Test String", 72);
             fpsReadout.SetShader(ShaderManager.GetShader("HudShader"));
             Elements.Add("FpsReadout", fpsReadout);
         }
@@ -24,6 +26,14 @@ namespace Foundation.Managers
             foreach (var elem in Elements.Values)
             {
                 elem.Draw();
+            }
+        }
+
+        public void Resize(int width, int height)
+        {
+            foreach(var elem in Elements.Values)
+            {
+                elem.Resize(width, height);
             }
         }
 
