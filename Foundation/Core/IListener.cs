@@ -8,6 +8,6 @@ namespace Foundation.Core
         void NotifyDisplayFrame();
         void NotifyEndFrame(EventHandler ev);
 
-        void NotifyResize(int width, int height, int prevWidth, int prevHeight);
+        void NotifyResize(int width, int height);
     }
 }

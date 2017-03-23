@@ -51,16 +51,16 @@ namespace Foundation.Core
 
         public void Resize(object sender, EventArgs e)
         {
-            // TODO refactor this to not expect a GameWindow
-            if(sender.GetType().GetProperty("Size") == null)
+            // TODO refactor this to not use reflection
+            if(sender.GetType().GetProperty("ClientSize") == null)
             {
                 throw new Exception("Size property expected on event sender.");
             }
 
-            var size = (Size)sender.GetType().GetProperty("Size").GetValue(sender);
+            var size = (Size)sender.GetType().GetProperty("ClientSize").GetValue(sender);
 
-            GL.Viewport(0, 0, size.Width, size.Height);
-            sceneManager.NotifyResize(size.Width, size.Height, 0, 0);
+            GL.Viewport(size);
+            sceneManager.NotifyResize(size.Width, size.Height);
         }
 
         public void Render(object sender, FrameEventArgs e)

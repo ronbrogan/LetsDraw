@@ -42,13 +42,13 @@ namespace LetsDraw
             engine.Start();
         }
 
-        private static void AttachGameWindow(Engine engine, GameWindow game)
+        private static void AttachGameWindow(Engine engine, GameWindow gameWindow)
         {
             var callback = (DebugProc)Delegate.CreateDelegate(typeof(DebugProc), engine.GetType().GetMethod(nameof(Engine.DebugCallbackF)));
 
-            game.Load += (sender, e) =>
+            gameWindow.Load += (sender, e) =>
             {
-                game.VSync = VSyncMode.Off;
+                gameWindow.VSync = VSyncMode.Off;
 
                 GL.DebugMessageCallback(callback, (IntPtr.Zero));
 
@@ -64,16 +64,16 @@ namespace LetsDraw
             engine.StartCallback += Engine_StartCallback;
             engine.SwapBuffers += Engine_SwapBuffers;
 
-            game.Resize += engine.Resize;
-            game.UpdateFrame += engine.Update;
-            game.RenderFrame += engine.Render;
+            gameWindow.Resize += engine.Resize;
+            gameWindow.UpdateFrame += engine.Update;
+            gameWindow.RenderFrame += engine.Render;
 
 
-            game.KeyDown += InputManager.NotifyKeyDown;
-            game.KeyUp += InputManager.NotifyKeyUp;
-            game.MouseMove += InputManager.NotifyMouse;
-            game.MouseDown += InputManager.NotifyMouseDown;
-            game.MouseUp += InputManager.NotifyMouseUp;
+            gameWindow.KeyDown += InputManager.NotifyKeyDown;
+            gameWindow.KeyUp += InputManager.NotifyKeyUp;
+            gameWindow.MouseMove += InputManager.NotifyMouse;
+            gameWindow.MouseDown += InputManager.NotifyMouseDown;
+            gameWindow.MouseUp += InputManager.NotifyMouseUp;
         }
 
         private static void Engine_StartCallback(object sender, EventArgs e)

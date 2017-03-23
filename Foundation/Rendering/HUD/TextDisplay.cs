@@ -141,9 +141,6 @@ namespace Foundation.Rendering.HUD
             var width = size.Width * FontSize / (size.Height * ScreenSize.Width);
             var height = FontSize / (float)ScreenSize.Height;
 
-            //var width = size.Width / ScreenSize.Width;
-            //var height = size.Height / ScreenSize.Height;
-
             List<uint> indices = new List<uint>
             {
                 0, 1, 2, 0, 2, 3 //front
