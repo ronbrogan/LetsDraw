@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Foundation.Core;
+using Foundation.Rendering;
 using Foundation.World;
 using OpenTK.Graphics.OpenGL;
 
@@ -9,10 +10,11 @@ namespace Foundation.Managers
 {
     public class SceneManager : IListener
     {
-        private HudManager hudManager;
+        private Scene scene { get; set; }
+        private HudManager hudManager { get; set; }
         private List<ISceneChangeSubscriber> sceneChangeSubscribers = new List<ISceneChangeSubscriber>();
 
-        public Scene scene { get; private set; }
+        public bool HasScene = false;
 
         public SceneManager(Size screenSize)
         {
@@ -22,19 +24,20 @@ namespace Foundation.Managers
         public void Load(Scene newScene)
         {
             scene?.Unload();
-
+            HasScene = false;
             scene = newScene;
             scene.Load();
+            HasScene = scene.Loaded;
         }
 
-        public void SubscribeToSceneChanges(ISceneChangeSubscriber sub)
+        internal void SubscribeToSceneChanges(ISceneChangeSubscriber sub)
         {
             sceneChangeSubscribers.Add(sub);
         }
 
         public void NotifyBeginFrame(double deltaTime)
         {
-            scene.Update(deltaTime);
+            UpdateScene(deltaTime);
 
             hudManager.Update(deltaTime);
 
@@ -47,7 +50,9 @@ namespace Foundation.Managers
         public void NotifyDisplayFrame()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            scene.Draw();
+
+            DrawScene();
+
             hudManager.Draw();
         }
 
@@ -62,6 +67,30 @@ namespace Foundation.Managers
             hudManager.Resize(width, height);
         }
 
+        public void UpdateScene(double deltaTime)
+        {
+            scene.Skybox?.Update(deltaTime);
+
+            if(scene.Camera != null)
+            {
+                scene.Camera.UpdateCamera(deltaTime);
+
+                var proj = scene.Camera.GetProjectionMatrix();
+                var view = scene.Camera.GetViewMatrix();
+
+                //Renderer.AddPointLights(scene.PointLights);
+                Renderer.SetMatricies(scene.Camera.Position, view, proj);
+            }
+
+            scene.Update(deltaTime);
+        }
+
+        public void DrawScene()
+        {
+            scene.Skybox?.Draw();
+            scene.RenderQueue.Render();
+            scene.Draw();
+        }
 
         public void Dispose()
         {

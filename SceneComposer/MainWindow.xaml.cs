@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Foundation.Core;
+using LetsDraw;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -50,6 +51,8 @@ namespace SceneComposer
 
             glControl.Dock = DockStyle.Fill;
             glControl.Paint += glControl_Paint;
+
+            engine.LoadScene(SceneBuilder.BuildDefaultScene());
 
             engine.Start();
 

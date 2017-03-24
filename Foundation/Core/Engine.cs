@@ -32,27 +32,47 @@ namespace Foundation.Core
             sceneManager = new SceneManager(windowSize);
         }
 
+        public void Start()
+        {
+            if(!sceneManager.HasScene)
+                sceneManager.Load(new Scene());
+
+            StartCallback?.Invoke(this, null);
+        }
+
+        public void LoadScene(Scene scene)
+        {
+            sceneManager.Load(scene);
+        }
+
         public void SubscribeToSceneChanges(ISceneChangeSubscriber sub)
         {
             sceneManager.SubscribeToSceneChanges(sub);
         }
 
-        public void Start()
-        {
-            sceneManager.Load(new Scene());
+        
 
-            StartCallback?.Invoke(this, null);
-        }
+
+
 
         public void Update(object sender, FrameEventArgs e)
         {
-            
+
+        }
+
+        public void Render(object sender, FrameEventArgs e)
+        {
+            sceneManager.NotifyBeginFrame(e.Time);
+
+            sceneManager.NotifyDisplayFrame();
+
+            sceneManager.NotifyEndFrame(SwapBuffers);
         }
 
         public void Resize(object sender, EventArgs e)
         {
             // TODO refactor this to not use reflection
-            if(sender.GetType().GetProperty("ClientSize") == null)
+            if (sender.GetType().GetProperty("ClientSize") == null)
             {
                 throw new Exception("Size property expected on event sender.");
             }
@@ -61,16 +81,6 @@ namespace Foundation.Core
 
             GL.Viewport(size);
             sceneManager.NotifyResize(size.Width, size.Height);
-        }
-
-        public void Render(object sender, FrameEventArgs e)
-        {
-            sceneManager.NotifyBeginFrame(e.Time);
-
-            // render graphics
-            sceneManager.NotifyDisplayFrame();
-
-            sceneManager.NotifyEndFrame(SwapBuffers);
         }
     }
 }

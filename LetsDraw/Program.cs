@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Foundation.Core;
 using Foundation.Managers;
+using Foundation.World;
 using LetsDraw.Forms;
 using OpenTK;
 using OpenTK.Graphics;
@@ -33,6 +34,8 @@ namespace LetsDraw
             AttachGameWindow(engine, game);
 
             engine.SubscribeToSceneChanges(readout);
+
+            engine.LoadScene(SceneBuilder.BuildDefaultScene());
 
             Console.WriteLine(GL.GetString(StringName.Version));
             Console.WriteLine(GL.GetString(StringName.Renderer));
