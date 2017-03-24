@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Foundation.Core;
 using Foundation.Core.Rendering;
@@ -60,7 +61,7 @@ namespace Foundation.World
             Camera = new FpCamera(SpawnPoint);
         }
 
-        public void Load()
+        public void Load(Size size)
         {
             Loaded = false;
 
@@ -75,6 +76,8 @@ namespace Foundation.World
             foreach (var item in Scenery)
                 RenderQueue.Add(item);
 
+            Camera.UpdateProjectionMatrix(size.Width, size.Height);
+
             Loaded = true;
         }
 
@@ -82,7 +85,7 @@ namespace Foundation.World
         {
             Loaded = false;
 
-            Skybox.Destroy();
+            Skybox?.Destroy();
             RenderQueue.Destroy();
 
         }

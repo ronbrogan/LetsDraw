@@ -13,12 +13,14 @@ namespace Foundation.Managers
         private Scene scene { get; set; }
         private HudManager hudManager { get; set; }
         private List<ISceneChangeSubscriber> sceneChangeSubscribers = new List<ISceneChangeSubscriber>();
+        private Size size { get; set; }
 
         public bool HasScene = false;
 
         public SceneManager(Size screenSize)
         {
             hudManager = new HudManager(screenSize);
+            size = screenSize;
         }
 
         public void Load(Scene newScene)
@@ -26,7 +28,7 @@ namespace Foundation.Managers
             scene?.Unload();
             HasScene = false;
             scene = newScene;
-            scene.Load();
+            scene.Load(size);
             HasScene = scene.Loaded;
         }
 
@@ -65,6 +67,7 @@ namespace Foundation.Managers
         {
             scene?.Camera.UpdateProjectionMatrix(width, height);
             hudManager.Resize(width, height);
+            size = new Size(width, height);
         }
 
         public void UpdateScene(double deltaTime)

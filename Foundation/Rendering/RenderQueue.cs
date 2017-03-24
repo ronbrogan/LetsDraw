@@ -75,13 +75,13 @@ namespace Foundation.Rendering
 
         public void Destroy()
         {
-            var meshes = MeshRegistry.Values.SelectMany(m => m);
+            var meshes = MeshRegistry.Values.SelectMany(m => m).ToArray();
 
-            foreach(var mesh in meshes)
+            var meshCount = meshes.Length;
+
+            for(var i = 0; i < meshes.Length; i++)
             {
-                Remove(mesh);
-
-
+                Remove(meshes[i]);
             }
         }
 

@@ -67,7 +67,8 @@ namespace Foundation.World
                 ProjectionMatrix = GL.GetUniformLocation(base.ShaderProgram, "projection_matrix")
             };
 
-            ShaderManager.UniformCatalog.Add(base.ShaderProgram, cat);
+            if(!ShaderManager.UniformCatalog.ContainsKey(base.ShaderProgram))
+                ShaderManager.UniformCatalog.Add(base.ShaderProgram, cat);
         }
 
         public override void Update(double deltaTime = 0)

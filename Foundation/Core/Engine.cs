@@ -13,7 +13,6 @@ namespace Foundation.Core
         private ShaderManager shaderManager;
         private SceneManager sceneManager;
         
-
         public event EventHandler StartCallback;
         public event EventHandler SwapBuffers;
 
@@ -49,11 +48,6 @@ namespace Foundation.Core
         {
             sceneManager.SubscribeToSceneChanges(sub);
         }
-
-        
-
-
-
 
         public void Update(object sender, FrameEventArgs e)
         {

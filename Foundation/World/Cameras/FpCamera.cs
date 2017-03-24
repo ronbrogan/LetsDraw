@@ -19,7 +19,6 @@ namespace Foundation.World.Cameras
         public Matrix4 ViewMatrix { get; set; }
         public Matrix4 ProjectionMatrix { get; set; }
 
-
         private float piOverTwo = (float)Math.PI / 2;
         private float speed = 10f;
         private float fov = (float)Math.PI / 2;

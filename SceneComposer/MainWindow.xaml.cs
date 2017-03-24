@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Foundation.Core;
+using Foundation.World;
 using LetsDraw;
 using OpenTK;
 using OpenTK.Graphics;
@@ -52,11 +53,14 @@ namespace SceneComposer
             glControl.Dock = DockStyle.Fill;
             glControl.Paint += glControl_Paint;
 
-            engine.LoadScene(SceneBuilder.BuildDefaultScene());
 
             engine.Start();
 
+            //engine.LoadScene(new Scene());
+
+
             this.RenderWindow.Child = glControl;
+                
         }
 
         private void SetupEngine()
@@ -90,27 +94,35 @@ namespace SceneComposer
 
         private void glControl_Paint(object sender, PaintEventArgs e)
         {
-            var control = (GLControl)sender;
+            // Offload rendering to Non-UI thread
+            RenderWindow.Dispatcher.InvokeAsync(() =>
+            {
+                var now = DateTime.Now;
+                var elapsed = (now - lastMeasure).TotalSeconds;
+                if (elapsed == 0d)
+                    elapsed = 0.000001;
 
-            var now = DateTime.Now;
-            var elapsed = (now - lastMeasure).TotalSeconds;
-            if (elapsed == 0d)
-                elapsed = 0.000001;
-
-            engine.Render(control, new FrameEventArgs(elapsed));
-            lastMeasure = now;
-            glControl.Invalidate();
-
+                engine.Render(sender, new FrameEventArgs(elapsed));
+                ((GLControl)sender).Invalidate();
+                lastMeasure = now;
+            });
         }
 
-        private void FileButton_Click(object sender, RoutedEventArgs e)
+        private void NewScene_Click(object sender, RoutedEventArgs e)
         {
+            engine.LoadScene(new Scene());
+        }
 
+        private void LoadScene_Click(object sender, RoutedEventArgs e)
+        {
+            engine.LoadScene(SceneFactory.BuildDefaultScene());
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
+        
     }
 }

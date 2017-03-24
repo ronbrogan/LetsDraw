@@ -10,7 +10,7 @@ using OpenTK;
 
 namespace LetsDraw
 {
-    public static class SceneBuilder
+    public static class SceneFactory
     {
         public static Scene BuildDefaultScene()
         {

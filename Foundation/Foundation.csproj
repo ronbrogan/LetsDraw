@@ -113,7 +113,7 @@
     <Compile Include="Rendering\Models\PrimitiveGenerator.cs" />
     <Compile Include="Rendering\Renderer.cs" />
     <Compile Include="Rendering\RenderQueue.cs" />
-    <Compile Include="World\SceneBuilder.cs" />
+    <Compile Include="World\SceneFactory.cs" />
     <Compile Include="World\StaticScenery.cs" />
     <Compile Include="World\WorldTransform.cs" />
     <Compile Include="World\Cameras\FpCamera.cs" />

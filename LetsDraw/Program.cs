@@ -35,7 +35,7 @@ namespace LetsDraw
 
             engine.SubscribeToSceneChanges(readout);
 
-            engine.LoadScene(SceneBuilder.BuildDefaultScene());
+            engine.LoadScene(SceneFactory.BuildDefaultScene());
 
             Console.WriteLine(GL.GetString(StringName.Version));
             Console.WriteLine(GL.GetString(StringName.Renderer));

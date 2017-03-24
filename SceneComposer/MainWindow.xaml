@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SceneComposer"
         mc:Ignorable="d"
-        Title="Scene Composer" Height="743.577" Width="1121.673">
+        Title="Scene Composer" Height="743.577" Width="1121.673" Background="#FF2D2D30">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="607*"/>
@@ -14,8 +14,29 @@
         </Grid.ColumnDefinitions>
         <WindowsFormsHost x:Name="RenderWindow" Margin="10,33,5,10"/>
         <Menu x:Name="MenuStrip" Height="28" VerticalAlignment="Top" Grid.ColumnSpan="2">
-            <MenuItem StaysOpenOnClick="True" Header="File" Height="28" Click="FileButton_Click" Width="34" HorizontalAlignment="Center">
+            <MenuItem StaysOpenOnClick="True" Header="File" HorizontalAlignment="Center">
+                <MenuItem Header="New Scene" Click="NewScene_Click"/>
+                <MenuItem Header="Load Scene" Click="LoadScene_Click"/>
+                <MenuItem Header="Save Scene"/>
+                <Separator  />
                 <MenuItem Header="Exit" Click="ExitButton_Click"/>
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Set Spawn">
+                    <MenuItem Header="Current Position" />
+                    <MenuItem Header="Manually" />
+                </MenuItem>
+                <MenuItem Header="Skybox" />
+            </MenuItem>
+            <MenuItem Header="Insert">
+                <MenuItem Header="Scenery from File" IsEnabled="False" />
+                <MenuItem Header="Scenery from Scene" IsEnabled="False" />
+                <MenuItem Header="Terrain from File" IsEnabled="False" />
+                <MenuItem Header="Terrain from Scene" IsEnabled="False" />
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="Docs" />
+                <MenuItem Header="About" />
             </MenuItem>
         </Menu>
     </Grid>

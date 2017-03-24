@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Foundation.Core.Rendering;
 using OpenTK.Graphics.OpenGL;
@@ -77,6 +78,12 @@ namespace Foundation.Managers
 
         public static int CreateShader(string shaderName, string vertexFilename, string fragmentFilename, string geometryFilename = null)
         {
+            if (Shaders.ContainsKey(shaderName))
+            {
+                Debug.WriteLine("Duplicate shader creation triggered. Avoiding duplicate programs.");
+                return Shaders[shaderName];
+            }
+
             var vertexSource = ReadShader(vertexFilename);
             var fragmentSource = ReadShader(fragmentFilename);
 
