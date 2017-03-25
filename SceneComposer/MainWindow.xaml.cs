@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,6 +22,7 @@ using LetsDraw;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using SceneComposer.Properties;
 using InputManager = Foundation.Managers.InputManager;
 
 namespace SceneComposer
@@ -34,8 +36,15 @@ namespace SceneComposer
         private Engine engine;
         private DateTime lastMeasure;
 
+        private ApplicationState appState;
+
+        private Scene defaultScene;
+
         public MainWindow()
         {
+            appState = new ApplicationState();
+            this.Resources.Add("ApplicationStateData", appState);
+
             lastMeasure = DateTime.Now;
             InitializeComponent();
 
@@ -53,14 +62,11 @@ namespace SceneComposer
             glControl.Dock = DockStyle.Fill;
             glControl.Paint += glControl_Paint;
 
-
             engine.Start();
 
-            //engine.LoadScene(new Scene());
-
+            defaultScene = SceneFactory.BuildDefaultScene();
 
             this.RenderWindow.Child = glControl;
-                
         }
 
         private void SetupEngine()
@@ -94,7 +100,7 @@ namespace SceneComposer
 
         private void glControl_Paint(object sender, PaintEventArgs e)
         {
-            // Offload rendering to Non-UI thread
+            // Rendering in dispatch queue to allow UI updates
             RenderWindow.Dispatcher.InvokeAsync(() =>
             {
                 var now = DateTime.Now;
@@ -105,17 +111,38 @@ namespace SceneComposer
                 engine.Render(sender, new FrameEventArgs(elapsed));
                 ((GLControl)sender).Invalidate();
                 lastMeasure = now;
-            });
+            }, DispatcherPriority.Render);
         }
+
+        #region File Menu
 
         private void NewScene_Click(object sender, RoutedEventArgs e)
         {
             engine.LoadScene(new Scene());
         }
 
-        private void LoadScene_Click(object sender, RoutedEventArgs e)
+        private async void LoadScene_Click(object sender, RoutedEventArgs e)
         {
-            engine.LoadScene(SceneFactory.BuildDefaultScene());
+            // Replace this with File dialog, and load scene from selection
+
+            appState.IsLoading = true;
+            appState.StatusBarText = "Loading Default Scene";
+
+            await ForceUiUpdate();
+
+            await RenderWindow.Dispatcher.InvokeAsync(() =>
+            {
+                engine.LoadScene(defaultScene);
+            });
+
+            appState.IsLoading = false;
+            appState.StatusBarText = "Ready";
+        }
+
+        public void SaveScene_Click(object sender, RoutedEventArgs e)
+        {
+            // Serialize and save current scene to file
+            
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -123,6 +150,16 @@ namespace SceneComposer
             this.Close();
         }
 
-        
+        #endregion
+
+        private async Task ForceUiUpdate()
+        {
+            var frame = new DispatcherFrame();
+            await Dispatcher.CurrentDispatcher.InvokeAsync(() =>
+            {
+                frame.Continue = false;
+            }, DispatcherPriority.Render);
+            Dispatcher.PushFrame(frame);
+        }
     }
 }

@@ -6,18 +6,24 @@
         xmlns:local="clr-namespace:SceneComposer"
         mc:Ignorable="d"
         Title="Scene Composer" Height="743.577" Width="1121.673" Background="#FF2D2D30">
-    <Grid>
+
+    <!-- Resouce is created in code behind -->
+    <Grid Margin="0,0,0,-1" DataContext="{Binding Source={StaticResource ApplicationStateData}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="221*"/>
+            <RowDefinition Height="7*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="607*"/>
-            <ColumnDefinition Width="507*"/>
-            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="305*"/>
+            <ColumnDefinition Width="252*"/>
         </Grid.ColumnDefinitions>
-        <WindowsFormsHost x:Name="RenderWindow" Margin="10,33,5,10"/>
-        <Menu x:Name="MenuStrip" Height="28" VerticalAlignment="Top" Grid.ColumnSpan="2">
+        <WindowsFormsHost x:Name="RenderWindow" Margin="10,3,5,10" Grid.Row="1" Focusable="True"/>
+        <Menu x:Name="MenuStrip" Height="28" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <MenuItem StaysOpenOnClick="True" Header="File" HorizontalAlignment="Center">
                 <MenuItem Header="New Scene" Click="NewScene_Click"/>
                 <MenuItem Header="Load Scene" Click="LoadScene_Click"/>
-                <MenuItem Header="Save Scene"/>
+                <MenuItem Header="Save Scene" Click="SaveScene_Click"/>
                 <Separator  />
                 <MenuItem Header="Exit" Click="ExitButton_Click"/>
             </MenuItem>
@@ -39,5 +45,30 @@
                 <MenuItem Header="About" />
             </MenuItem>
         </Menu>
+        <StatusBar Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="2" Background="#FF007ACC" >
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0">
+                <TextBlock x:Name="StatusText"  TextWrapping="Wrap" Foreground="White" Height="20" Margin="0,-2,0,0" Text="{Binding Path=StatusBarText}"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="3" HorizontalAlignment="Right">
+                <ProgressBar x:Name="MainProgressBar" Foreground="#FFD37C26"  Width="150" Height="15" BorderBrush="{x:Null}" Background="#FF007ACC" Value="-1" IsIndeterminate="{Binding Path=IsLoading}"/>
+            </StatusBarItem>
+        </StatusBar>
+
     </Grid>
+
 </Window>
