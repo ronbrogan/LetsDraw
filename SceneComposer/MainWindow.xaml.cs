@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -17,13 +18,16 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Foundation.Core;
+using Foundation.Core.Rendering;
 using Foundation.World;
 using LetsDraw;
+using Newtonsoft.Json;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using SceneComposer.Properties;
 using InputManager = Foundation.Managers.InputManager;
+using MessageBox = System.Windows.MessageBox;
 
 namespace SceneComposer
 {
@@ -141,8 +145,11 @@ namespace SceneComposer
 
         public void SaveScene_Click(object sender, RoutedEventArgs e)
         {
-            // Serialize and save current scene to file
-            
+            var scene = engine.GetScene();
+
+            var sceneData = JsonConvert.SerializeObject(scene);
+
+            File.WriteAllText(System.IO.Path.Combine(Environment.CurrentDirectory, "sceneoutput.json"), sceneData);
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)

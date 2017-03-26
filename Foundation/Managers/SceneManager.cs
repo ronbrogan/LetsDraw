@@ -32,6 +32,11 @@ namespace Foundation.Managers
             HasScene = scene.Loaded;
         }
 
+        public Scene GetScene()
+        {
+            return scene;
+        }
+
         internal void SubscribeToSceneChanges(ISceneChangeSubscriber sub)
         {
             sceneChangeSubscribers.Add(sub);

@@ -44,6 +44,11 @@ namespace Foundation.Core
             sceneManager.Load(scene);
         }
 
+        public Scene GetScene()
+        {
+            return sceneManager.GetScene();
+        }
+
         public void SubscribeToSceneChanges(ISceneChangeSubscriber sub)
         {
             sceneManager.SubscribeToSceneChanges(sub);

@@ -67,6 +67,8 @@ namespace Foundation.World
 
             RenderQueue = new RenderQueue();
 
+            Skybox?.Load();
+
             if(Terrain != null)
                 RenderQueue.Add(Terrain);
 

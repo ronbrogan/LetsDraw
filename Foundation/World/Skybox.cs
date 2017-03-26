@@ -14,9 +14,16 @@ namespace Foundation.World
     {
         private int Texture;
 
-        private Mesh mesh { get; set; }
+        private Mesh Mesh { get; set; }
 
-        public Skybox(string TexturePath)
+        public string TexturePath { get; set; }
+
+        public Skybox(string texturePath)
+        {
+            TexturePath = texturePath;
+        }
+
+        public void Load()
         {
             uint vao;
             uint vbo;
@@ -29,17 +36,17 @@ namespace Foundation.World
             GL.BindVertexArray(vao);
 
             var obj = new ObjLoader("Data/Objects/mappedcube.obj");
-            mesh = obj.Meshes.First(m => m.Value.Verticies.Count > 0).Value;
+            Mesh = obj.Meshes.First(m => m.Value.Verticies.Count > 0).Value;
 
             var vertexFormatSize = BlittableValueType.StrideOf(new VertexFormat());
 
             GL.GenBuffers(1, out vbo);
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(mesh.Verticies.Count * vertexFormatSize), mesh.Verticies.ToArray(), BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(Mesh.Verticies.Count * vertexFormatSize), Mesh.Verticies.ToArray(), BufferUsageHint.StaticDraw);
 
             GL.GenBuffers(1, out ibo);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ibo);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(mesh.Indicies.Count * sizeof(uint)), mesh.Indicies.ToArray(), BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(Mesh.Indicies.Count * sizeof(uint)), Mesh.Indicies.ToArray(), BufferUsageHint.StaticDraw);
 
             // Enables binding to location 0 in vertex shader
             GL.EnableVertexAttribArray(0);
@@ -67,7 +74,7 @@ namespace Foundation.World
                 ProjectionMatrix = GL.GetUniformLocation(base.ShaderProgram, "projection_matrix")
             };
 
-            if(!ShaderManager.UniformCatalog.ContainsKey(base.ShaderProgram))
+            if (!ShaderManager.UniformCatalog.ContainsKey(base.ShaderProgram))
                 ShaderManager.UniformCatalog.Add(base.ShaderProgram, cat);
         }
 
@@ -85,7 +92,7 @@ namespace Foundation.World
             GL.BindTexture(TextureTarget.Texture2D, Texture);
             GL.Uniform1(GL.GetUniformLocation(base.ShaderProgram, "texture1"), 0);
 
-            GL.DrawElements(PrimitiveType.Triangles, mesh.Indicies.Count, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(PrimitiveType.Triangles, Mesh.Indicies.Count, DrawElementsType.UnsignedInt, 0);
         }
     }
 }
