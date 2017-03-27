@@ -21,13 +21,19 @@ namespace Foundation.Core.Rendering
 
         public ImfChanOption ChannelOption { get; set; }
 
+        // Empty constructor for serializer compat
+        public TextureMap()
+        {
+            
+        }
+
         public TextureMap(string texPath)
         {
             TextureBinding = TextureLoader.LoadTexture(texPath);
             TexturePath = texPath;
         }
 
-        public int RegenerateTexture(string path = null)
+        public int GenerateTexture(string path = null)
         {
             if (!string.IsNullOrWhiteSpace(path))
             {

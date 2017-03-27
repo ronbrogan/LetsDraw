@@ -6,6 +6,7 @@ using Foundation.Core.Rendering;
 using Foundation.Rendering;
 using Foundation.Rendering.Models;
 using Foundation.World.Cameras;
+using Newtonsoft.Json;
 using OpenTK;
 using Vector3 = OpenTK.Vector3;
 
@@ -27,6 +28,8 @@ namespace Foundation.World
         //{
         //    { PrimitiveGenerator.GenerateOctahedron(100f) }
         //};
+
+        [JsonIgnore]
         public RenderQueue RenderQueue { get; set; }
 
         //public List<PointLight> PointLights = new List<PointLight>
@@ -77,6 +80,17 @@ namespace Foundation.World
 
             foreach (var item in Scenery)
                 RenderQueue.Add(item);
+
+            foreach(var mat in RenderQueue.MeshRegistry.Values.SelectMany(m => m).Select(m => m.Material))
+            {
+                mat.DiffuseMap?.GenerateTexture();
+                mat.AmbientMap?.GenerateTexture();
+                mat.BumpMap?.GenerateTexture();
+                mat.SpecularMap?.GenerateTexture();
+                mat.SpecularHighlightMap?.GenerateTexture();
+                mat.AlphaMap?.GenerateTexture();
+
+            }
 
             Camera.UpdateProjectionMatrix(size.Width, size.Height);
 

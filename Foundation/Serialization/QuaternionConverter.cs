@@ -19,7 +19,7 @@ namespace Foundation.Serialization
         {
             var temp = JObject.Load(reader);
             return new OpenTK.Quaternion(
-                ((float?)temp["X"]).GetValueOrDefault(), ((float?)temp["Y"]).GetValueOrDefault(), ((float?)temp["Z"]).GetValueOrDefault(), ((float?)temp["W"]).GetValueOrDefault()
+                ((float)temp["X"]), ((float)temp["Y"]), ((float)temp["Z"]), ((float)temp["W"])
             );
         }
 

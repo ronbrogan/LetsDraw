@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Foundation.Serialization;
+using Newtonsoft.Json;
 
 namespace Foundation.Core.Rendering
 {
+    [JsonConverter(typeof(MeshConverter))]
     public class Mesh
     {
         public Mesh()

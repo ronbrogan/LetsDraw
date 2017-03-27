@@ -31,7 +31,7 @@ namespace Foundation.Rendering
         {
             uint vao, vbo, ibo;
 
-            var vboExists = VertexBufferObjects.ContainsKey(mesh.Parent);
+            var vboExists = VertexBufferObjects.ContainsKey(mesh.Id);
                 
             GL.GenVertexArrays(1, out vao);
             GL.BindVertexArray(vao);
@@ -39,7 +39,7 @@ namespace Foundation.Rendering
             if(!vboExists)
                 GL.GenBuffers(1, out vbo);
             else
-                vbo = VertexBufferObjects[mesh.Parent];
+                vbo = VertexBufferObjects[mesh.Id];
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
 
@@ -77,7 +77,7 @@ namespace Foundation.Rendering
 
             VertexArrayObjects.Add(mesh.Id, vao);
             if(!vboExists)
-                VertexBufferObjects.Add(mesh.Parent, vbo);
+                VertexBufferObjects.Add(mesh.Id, vbo);
             IndexBufferObjects.Add(mesh.Id, ibo);
 
         }

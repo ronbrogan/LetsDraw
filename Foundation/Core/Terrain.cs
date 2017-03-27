@@ -15,6 +15,11 @@ namespace Foundation.Core
 
         public List<Mesh> Meshes { get; set; }
 
+        public Terrain()
+        {
+            Id = Guid.NewGuid();
+        }
+
         public Terrain(string objPath)
         {
             Transform = Matrix4x4.Identity;

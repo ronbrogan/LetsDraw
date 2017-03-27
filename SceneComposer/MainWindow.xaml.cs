@@ -20,7 +20,8 @@ using System.Windows.Threading;
 using Foundation.Core;
 using Foundation.Core.Rendering;
 using Foundation.World;
-using LetsDraw;
+using Foundation;
+using Foundation.Serialization;
 using Newtonsoft.Json;
 using OpenTK;
 using OpenTK.Graphics;
@@ -44,6 +45,8 @@ namespace SceneComposer
 
         private Scene defaultScene;
 
+        private int msaaSamples = 8;
+
         public MainWindow()
         {
             appState = new ApplicationState();
@@ -52,7 +55,7 @@ namespace SceneComposer
             lastMeasure = DateTime.Now;
             InitializeComponent();
 
-            var msaaSamples = 8;
+            
 
             glControl = new GLControl(new GraphicsMode(32, 24, 0, msaaSamples));
             glControl.CreateControl();
@@ -69,6 +72,25 @@ namespace SceneComposer
             engine.Start();
 
             defaultScene = SceneFactory.BuildDefaultScene();
+
+            this.RenderWindow.Child = glControl;
+        }
+
+        private void InitGlControl()
+        {
+            glControl = new GLControl(new GraphicsMode(32, 24, 0, msaaSamples));
+            glControl.CreateControl();
+            glControl.MakeCurrent();
+
+            engine = new Engine(glControl.Size);
+
+            SetupEngine();
+            BindEngineToControl();
+
+            glControl.Dock = DockStyle.Fill;
+            glControl.Paint += glControl_Paint;
+
+            engine.Start();
 
             this.RenderWindow.Child = glControl;
         }
@@ -125,10 +147,9 @@ namespace SceneComposer
             engine.LoadScene(new Scene());
         }
 
-        private async void LoadScene_Click(object sender, RoutedEventArgs e)
+        // Method for loading a default scene for debuggin purposes
+        private async void LoadDefaultScene_Click(object sender, RoutedEventArgs e)
         {
-            // Replace this with File dialog, and load scene from selection
-
             appState.IsLoading = true;
             appState.StatusBarText = "Loading Default Scene";
 
@@ -137,6 +158,50 @@ namespace SceneComposer
             await RenderWindow.Dispatcher.InvokeAsync(() =>
             {
                 engine.LoadScene(defaultScene);
+            });
+
+            appState.IsLoading = false;
+            appState.StatusBarText = "Ready";
+        }
+
+        private async void LoadScene_Click(object sender, RoutedEventArgs e)
+        {
+            // Move to BackgroundWorker
+
+            var dialog = new OpenFileDialog
+            {
+                InitialDirectory = Environment.CurrentDirectory,
+                Multiselect = false
+            };
+
+            var result = dialog.ShowDialog();
+
+            if (result != System.Windows.Forms.DialogResult.OK)
+                return;
+
+            appState.IsLoading = true;
+            appState.StatusBarText = "Parsing file";
+            await ForceUiUpdate();
+
+            Scene scene;
+
+            using (var sceneFile = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (StreamReader sr = new StreamReader(sceneFile))
+            using(JsonReader reader = new JsonTextReader(sr))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+
+                serializer.ContractResolver = new LetsDrawContractResolver();
+
+                scene = serializer.Deserialize<Scene>(reader);
+            }
+
+            appState.StatusBarText = "Initializing Scene";
+            await ForceUiUpdate();
+
+            await RenderWindow.Dispatcher.InvokeAsync(() =>
+            {
+                engine.LoadScene(scene);
             });
 
             appState.IsLoading = false;
@@ -161,11 +226,13 @@ namespace SceneComposer
 
         private async Task ForceUiUpdate()
         {
+            // TODO Not working reliably, dont use
+
             var frame = new DispatcherFrame();
             await Dispatcher.CurrentDispatcher.InvokeAsync(() =>
             {
                 frame.Continue = false;
-            }, DispatcherPriority.Render);
+            }, DispatcherPriority.Background);
             Dispatcher.PushFrame(frame);
         }
     }

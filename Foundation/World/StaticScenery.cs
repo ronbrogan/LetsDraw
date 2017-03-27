@@ -15,6 +15,11 @@ namespace Foundation.World
 
         public List<Mesh> Meshes { get; set; }
 
+        public StaticScenery()
+        {
+            Id = Guid.NewGuid();
+        }
+
         public static StaticScenery FromObj(string objPath)
         {
             var scenery = new StaticScenery();

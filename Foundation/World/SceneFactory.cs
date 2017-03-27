@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Foundation.Core;
-using Foundation.World;
+﻿using Foundation.Core;
 using Foundation.World.Cameras;
 using OpenTK;
 
-namespace LetsDraw
+namespace Foundation.World
 {
     public static class SceneFactory
     {

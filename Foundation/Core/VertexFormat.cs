@@ -1,8 +1,11 @@
 ﻿using System.Runtime.InteropServices;
+using Foundation.Serialization;
+using Newtonsoft.Json;
 using OpenTK;
 
 namespace Foundation.Core
 {
+    [JsonConverter(typeof(VertexFormatConverter))]
     [StructLayout(LayoutKind.Sequential)]
     public struct VertexFormat
     {

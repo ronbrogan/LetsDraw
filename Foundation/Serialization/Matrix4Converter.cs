@@ -19,10 +19,10 @@ namespace Foundation.Serialization
         {
             var temp = JObject.Load(reader);
             return new OpenTK.Matrix4(
-                ((float?)temp["M11"]).GetValueOrDefault(), ((float?)temp["M12"]).GetValueOrDefault(), ((float?)temp["M13"]).GetValueOrDefault(), ((float?)temp["M14"]).GetValueOrDefault(),
-                ((float?)temp["M21"]).GetValueOrDefault(), ((float?)temp["M22"]).GetValueOrDefault(), ((float?)temp["M23"]).GetValueOrDefault(), ((float?)temp["M24"]).GetValueOrDefault(),
-                ((float?)temp["M31"]).GetValueOrDefault(), ((float?)temp["M32"]).GetValueOrDefault(), ((float?)temp["M33"]).GetValueOrDefault(), ((float?)temp["M34"]).GetValueOrDefault(),
-                ((float?)temp["M41"]).GetValueOrDefault(), ((float?)temp["M42"]).GetValueOrDefault(), ((float?)temp["M43"]).GetValueOrDefault(), ((float?)temp["M44"]).GetValueOrDefault()
+                ((float)temp["M11"]), ((float)temp["M12"]), ((float)temp["M13"]), ((float)temp["M14"]),
+                ((float)temp["M21"]), ((float)temp["M22"]), ((float)temp["M23"]), ((float)temp["M24"]),
+                ((float)temp["M31"]), ((float)temp["M32"]), ((float)temp["M33"]), ((float)temp["M34"]),
+                ((float)temp["M41"]), ((float)temp["M42"]), ((float)temp["M43"]), ((float)temp["M44"])
             );
         }
 

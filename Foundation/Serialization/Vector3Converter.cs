@@ -18,7 +18,7 @@ namespace Foundation.Serialization
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var temp = JObject.Load(reader);
-            return new OpenTK.Vector3(((float?)temp["X"]).GetValueOrDefault(), ((float?)temp["Y"]).GetValueOrDefault(), ((float?)temp["Z"]).GetValueOrDefault());
+            return new OpenTK.Vector3(((float)temp["X"]), ((float)temp["Y"]), ((float)temp["Z"]));
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

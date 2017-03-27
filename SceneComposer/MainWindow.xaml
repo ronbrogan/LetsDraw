@@ -23,6 +23,7 @@
             <MenuItem StaysOpenOnClick="True" Header="File" HorizontalAlignment="Center">
                 <MenuItem Header="New Scene" Click="NewScene_Click"/>
                 <MenuItem Header="Load Scene" Click="LoadScene_Click"/>
+                <MenuItem Header="Load Default Scene" Click="LoadDefaultScene_Click"/>
                 <MenuItem Header="Save Scene" Click="SaveScene_Click"/>
                 <Separator  />
                 <MenuItem Header="Exit" Click="ExitButton_Click"/>

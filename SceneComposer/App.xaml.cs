@@ -21,15 +21,17 @@ namespace SceneComposer
             {
                 var settings = new JsonSerializerSettings();
 
-                settings.Converters.Add(new Vector2Converter());
-                settings.Converters.Add(new Vector3Converter());
-                settings.Converters.Add(new Matrix3Converter());
-                settings.Converters.Add(new Matrix4Converter());
-                settings.Converters.Add(new QuaternionConverter());
+                //settings.Converters.Add(new Vector2Converter());
+                //settings.Converters.Add(new Vector3Converter());
+                //settings.Converters.Add(new Matrix3Converter());
+                //settings.Converters.Add(new Matrix4Converter());
+                //settings.Converters.Add(new QuaternionConverter());
+                //settings.Converters.Add(new VertexFormatConverter());
+                //settings.Converters.Add(new MeshConverter());
 
                 settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 
-                settings.ContractResolver = new WritablePropsOnlyResolver();
+                settings.ContractResolver = new LetsDrawContractResolver();
 
                 return settings;
             };

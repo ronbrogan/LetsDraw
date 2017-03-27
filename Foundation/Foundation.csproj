@@ -114,11 +114,13 @@
     <Compile Include="Rendering\Renderer.cs" />
     <Compile Include="Rendering\RenderQueue.cs" />
     <Compile Include="Serialization\Matrix3Converter.cs" />
+    <Compile Include="Serialization\LetsDrawContractResolver.cs" />
     <Compile Include="Serialization\QuaternionConverter.cs" />
+    <Compile Include="Serialization\MeshConverter.cs" />
     <Compile Include="Serialization\Vector2Converter.cs" />
     <Compile Include="Serialization\Matrix4Converter.cs" />
     <Compile Include="Serialization\Vector3Converter.cs" />
-    <Compile Include="Serialization\WritablePropsOnlyResolver.cs" />
+    <Compile Include="Serialization\VertexFormatConverter.cs" />
     <Compile Include="World\SceneFactory.cs" />
     <Compile Include="World\StaticScenery.cs" />
     <Compile Include="World\WorldTransform.cs" />

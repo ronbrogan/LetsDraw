@@ -16,12 +16,12 @@ namespace Foundation.Loaders
         public List<Vector3> Normals = new List<Vector3>();
 
         public Dictionary<string, Mesh> Meshes = new Dictionary<string, Mesh>();
+        public Dictionary<string, IndexedDictionary<string, VertexFormat>> MeshDicts = new Dictionary<string, IndexedDictionary<string, VertexFormat>>();
 
         public ObjLoader(string filePath)
         {
             var lines = File.ReadAllLines(filePath).Select(l => l.Trim()).Where(l => !l.StartsWith("#"));
 
-            var vertexDict = new IndexedDictionary<string, VertexFormat>(900000);
             var currentMeshKey = "";
 
             foreach (var parts in lines.Select(rawline => rawline.ReduceWhitespace()).Select(line => line.Split(' ')))
@@ -30,9 +30,10 @@ namespace Foundation.Loaders
                 {
                     case "mtllib":
                         var mats = new MtlLoader(Path.Combine(Path.GetDirectoryName(filePath), parts[1]));
-                        foreach(var mat in mats.Materials)
+                        foreach (var mat in mats.Materials)
                         {
                             Meshes.Add(mat.MaterialName, new Mesh(mat, Id));
+                            MeshDicts.Add(mat.MaterialName, new IndexedDictionary<string, VertexFormat>(65536));
                         }
                         break;
 
@@ -51,7 +52,7 @@ namespace Foundation.Loaders
                     case "usemtl":
                         if (!string.IsNullOrWhiteSpace(currentMeshKey))
                         {
-                            Meshes[currentMeshKey].Verticies = vertexDict.Values;
+                            Meshes[currentMeshKey].Verticies = MeshDicts[currentMeshKey].Values;
                         }
                         currentMeshKey = parts[1];
                         break;
@@ -62,12 +63,12 @@ namespace Foundation.Loaders
                         var vert0position = RawVerts[int.Parse(indicies0[0]) - 1];
                         var vert0texture = TextureCoords[int.Parse(indicies0[1]) - 1];
                         var vert0normal = Normals[int.Parse(indicies0[2]) - 1];
-                            
+
                         var indicies1 = parts[2].Split('/');
                         var vert1position = RawVerts[int.Parse(indicies1[0]) - 1];
                         var vert1texture = TextureCoords[int.Parse(indicies1[1]) - 1];
                         var vert1normal = Normals[int.Parse(indicies1[2]) - 1];
-                            
+
                         var indicies2 = parts[3].Split('/');
                         var vert2position = RawVerts[int.Parse(indicies2[0]) - 1];
                         var vert2texture = TextureCoords[int.Parse(indicies2[1]) - 1];
@@ -85,16 +86,19 @@ namespace Foundation.Loaders
                         var vert1 = new VertexFormat(vert1position.ToGl(), vert1texture.ToGl(), vert1normal.ToGl(), tangent, bitangent);
                         var vert2 = new VertexFormat(vert2position.ToGl(), vert2texture.ToGl(), vert2normal.ToGl(), tangent, bitangent);
 
-                        var index0 = vertexDict.Add(parts[1], vert0);
-                        Meshes[currentMeshKey].Indicies.Add((uint)index0);
-                        var index1 = vertexDict.Add(parts[2], vert1);
-                        Meshes[currentMeshKey].Indicies.Add((uint)index1);
-                        var index2 = vertexDict.Add(parts[3], vert2);
-                        Meshes[currentMeshKey].Indicies.Add((uint)index2);
+                        var mesh = Meshes[currentMeshKey];
+                        var dict = MeshDicts[currentMeshKey];
+
+                        var index0 = dict.Add(parts[1], vert0);
+                        mesh.Indicies.Add((uint)index0);
+                        var index1 = dict.Add(parts[2], vert1);
+                        mesh.Indicies.Add((uint)index1);
+                        var index2 = dict.Add(parts[3], vert2);
+                        mesh.Indicies.Add((uint)index2);
                         break;
                 }
             }
-            Meshes[currentMeshKey].Verticies = vertexDict.Values;
+            Meshes[currentMeshKey].Verticies = MeshDicts[currentMeshKey].Values;
         }
     }
 }

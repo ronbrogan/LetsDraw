@@ -14,9 +14,14 @@ namespace Foundation.World
     {
         private int Texture;
 
-        private Mesh Mesh { get; set; }
+        public Mesh Mesh { get; set; }
 
         public string TexturePath { get; set; }
+
+        public Skybox()
+        {
+            
+        }
 
         public Skybox(string texturePath)
         {
