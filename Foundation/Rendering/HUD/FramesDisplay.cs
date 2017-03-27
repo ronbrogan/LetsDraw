@@ -25,5 +25,11 @@ namespace Foundation.Rendering.HUD
             RegenTexture = true;
             Text = (1 / deltaTime).ToString("0.0") + " fps";
         }
+
+        public void Update(string textOverride)
+        {
+            Text = textOverride;
+        }
+
     }
 }

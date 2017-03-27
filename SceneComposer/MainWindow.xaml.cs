@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -53,30 +54,14 @@ namespace SceneComposer
             this.Resources.Add("ApplicationStateData", appState);
 
             lastMeasure = DateTime.Now;
+
             InitializeComponent();
-
-            
-
-            glControl = new GLControl(new GraphicsMode(32, 24, 0, msaaSamples));
-            glControl.CreateControl();
-            glControl.MakeCurrent();
-
-            engine = new Engine(glControl.Size);
-
-            SetupEngine();
-            BindEngineToControl();
-
-            glControl.Dock = DockStyle.Fill;
-            glControl.Paint += glControl_Paint;
-
-            engine.Start();
+            InitializeGlControl();
 
             defaultScene = SceneFactory.BuildDefaultScene();
-
-            this.RenderWindow.Child = glControl;
         }
 
-        private void InitGlControl()
+        private void InitializeGlControl()
         {
             glControl = new GLControl(new GraphicsMode(32, 24, 0, msaaSamples));
             glControl.CreateControl();
@@ -135,8 +120,12 @@ namespace SceneComposer
                     elapsed = 0.000001;
 
                 engine.Render(sender, new FrameEventArgs(elapsed));
+
+                // Immediately invalidate state, force repaint ASAP
                 ((GLControl)sender).Invalidate();
+
                 lastMeasure = now;
+
             }, DispatcherPriority.Render);
         }
 
@@ -166,7 +155,13 @@ namespace SceneComposer
 
         private async void LoadScene_Click(object sender, RoutedEventArgs e)
         {
-            // Move to BackgroundWorker
+            var loadScene = new BackgroundWorker()
+            {
+                WorkerReportsProgress = true
+            };
+            loadScene.DoWork += loadScene_DoWork;
+            loadScene.ProgressChanged += loadScene_ProgressChanged;
+            loadScene.RunWorkerCompleted += loadScene_RunWorkerCompleted;
 
             var dialog = new OpenFileDialog
             {
@@ -177,17 +172,40 @@ namespace SceneComposer
             var result = dialog.ShowDialog();
 
             if (result != System.Windows.Forms.DialogResult.OK)
+            {
                 return;
+            }
 
             appState.IsLoading = true;
-            appState.StatusBarText = "Parsing file";
-            await ForceUiUpdate();
+
+            engine.Pause();
+
+            loadScene.RunWorkerAsync(dialog.FileName);
+        }
+
+        private void loadScene_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            appState.IsLoading = false;
+
+            engine.Resume();
+        }
+
+        private void loadScene_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            appState.StatusBarText = (string)e.UserState;
+        }
+
+        private void loadScene_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var worker = (BackgroundWorker)sender;
+
+            worker.ReportProgress(0, "Parsing File");
 
             Scene scene;
 
-            using (var sceneFile = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var sceneFile = new FileStream((string)e.Argument, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (StreamReader sr = new StreamReader(sceneFile))
-            using(JsonReader reader = new JsonTextReader(sr))
+            using (JsonReader reader = new JsonTextReader(sr))
             {
                 JsonSerializer serializer = new JsonSerializer();
 
@@ -196,16 +214,15 @@ namespace SceneComposer
                 scene = serializer.Deserialize<Scene>(reader);
             }
 
-            appState.StatusBarText = "Initializing Scene";
-            await ForceUiUpdate();
+            worker.ReportProgress(60, "Initializing Scene");
 
-            await RenderWindow.Dispatcher.InvokeAsync(() =>
+            RenderWindow.Dispatcher.Invoke(() =>
             {
+                // This is currently still done on main thread, due to GLContext presence.
                 engine.LoadScene(scene);
             });
 
-            appState.IsLoading = false;
-            appState.StatusBarText = "Ready";
+            worker.ReportProgress(100, "Scene Loaded");
         }
 
         public void SaveScene_Click(object sender, RoutedEventArgs e)

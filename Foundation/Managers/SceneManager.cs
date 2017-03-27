@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Foundation.Core;
 using Foundation.Rendering;
+using Foundation.Rendering.HUD;
 using Foundation.World;
 using OpenTK.Graphics.OpenGL;
 
@@ -98,6 +99,14 @@ namespace Foundation.Managers
             scene.Skybox?.Draw();
             scene.RenderQueue.Render();
             scene.Draw();
+        }
+
+        public void AttempHudUpdate(string textToDisplay)
+        {
+            var hudElem = hudManager.GetElement("FpsReadout") as FramesDisplay;
+
+            hudElem.Update(textToDisplay);
+            
         }
 
         public void Dispose()

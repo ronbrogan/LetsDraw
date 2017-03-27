@@ -10,6 +10,9 @@ namespace Foundation.Core
 {
     public class Engine
     {
+        private bool IsPaused = false;
+        private bool Running = false;
+
         private ShaderManager shaderManager;
         private SceneManager sceneManager;
         
@@ -33,10 +36,15 @@ namespace Foundation.Core
 
         public void Start()
         {
+            if (Running)
+                return;
+
             if(!sceneManager.HasScene)
                 sceneManager.Load(new Scene());
 
             StartCallback?.Invoke(this, null);
+
+            Running = true;
         }
 
         public void LoadScene(Scene scene)
@@ -51,16 +59,40 @@ namespace Foundation.Core
 
         public void SubscribeToSceneChanges(ISceneChangeSubscriber sub)
         {
+            if (IsPaused)
+                throw new Exception("Cannot subscribe to scene changes while Engine is paused.");
+
             sceneManager.SubscribeToSceneChanges(sub);
         }
 
         public void Update(object sender, FrameEventArgs e)
         {
+            if (IsPaused)
+                return;
 
+        }
+
+        public void Pause()
+        {
+            IsPaused = true;
+
+            sceneManager.AttempHudUpdate("Paused");
+
+            sceneManager.NotifyDisplayFrame();
+
+            sceneManager.NotifyEndFrame(SwapBuffers);
+        }
+
+        public void Resume()
+        {
+            IsPaused = false;
         }
 
         public void Render(object sender, FrameEventArgs e)
         {
+            if (IsPaused)
+                return;
+
             sceneManager.NotifyBeginFrame(e.Time);
 
             sceneManager.NotifyDisplayFrame();
@@ -70,6 +102,9 @@ namespace Foundation.Core
 
         public void Resize(object sender, EventArgs e)
         {
+            if (IsPaused)
+                return;
+
             // TODO refactor this to not use reflection
             if (sender.GetType().GetProperty("ClientSize") == null)
             {
