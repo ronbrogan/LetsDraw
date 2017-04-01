@@ -9,7 +9,7 @@ namespace Foundation.World
 {
     public class StaticScenery : IRenderableComponent
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
         public Matrix4x4 Transform => WorldTransform.GetTransform();
         public WorldTransform WorldTransform = new WorldTransform();
 

@@ -136,7 +136,7 @@ namespace SceneComposer
             engine.LoadScene(new Scene());
         }
 
-        // Method for loading a default scene for debuggin purposes
+        // Method for loading a default scene for debugging purposes
         private async void LoadDefaultScene_Click(object sender, RoutedEventArgs e)
         {
             appState.IsLoading = true;

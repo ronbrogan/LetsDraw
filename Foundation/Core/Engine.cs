@@ -10,7 +10,7 @@ namespace Foundation.Core
 {
     public class Engine
     {
-        private bool IsPaused = false;
+        public bool IsPaused { get; private set; }
         private bool Running = false;
 
         private ShaderManager shaderManager;
@@ -45,6 +45,7 @@ namespace Foundation.Core
             StartCallback?.Invoke(this, null);
 
             Running = true;
+            IsPaused = false;
         }
 
         public void LoadScene(Scene scene)
