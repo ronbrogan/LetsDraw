@@ -36,6 +36,11 @@ namespace Foundation.Managers
             CreateShader("HudShader", "Data/Shaders/HUD/hudVertex.glsl", "Data/Shaders/HUD/hudFragment.glsl");
         }
 
+        public static IEnumerable<int> AllShaders()
+        {
+            return Shaders.Values;
+        }
+
         public static int GetShaderForMaterial(Material mat)
         {
             switch (mat.IlluminationModel)

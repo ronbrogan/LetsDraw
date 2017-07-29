@@ -170,8 +170,8 @@ namespace Foundation.Rendering.Models
 
             mesh.Material = new Material("none")
             {
-                DiffuseColor = new Vector3(0f, 1f, 0f),
-                AmbientColor = new Vector3(0f, 1f, 0f),
+                DiffuseColor = new Vector3(0.5f, 0.5f, 0.5f),
+                AmbientColor = new Vector3(0.5f, 0.5f, 0.5f),
                 IlluminationModel = IlluminationModel.Color,
                 Transparency = 0,
                 SpecularExponent = 10

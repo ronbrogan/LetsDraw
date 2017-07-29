@@ -1,0 +1,259 @@
+﻿<SyntaxDefinition name="GLSL" extensions=".glsl" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="DEFAULT" foreground="#FFF1F2F3" />
+  <Color name="ATTRIBUTE" foreground="#FF4E9CD6" />
+  <Color name="KEYWORD" foreground="#FF559CD6" />
+  <Color name="NUMBER" foreground="#FFA6CEA8" />
+  <Color name="STRING" foreground="#FFD69D85" />
+  <Color name="OPERATOR" foreground="#FF9B9B9B" />
+  <Color name="TYPE" foreground="#FF4DB998" />
+  <Color name="COMMENT" foreground="#FF57A64A" />
+
+  <RuleSet ignoreCase="false">
+    <Keywords color="OPERATOR" fontWeight="normal" fontStyle="normal">
+      <Word>;</Word>
+      <Word>?</Word>
+      <Word>,</Word>
+      <Word>.</Word>
+      <Word>(</Word>
+      <Word>)</Word>
+      <Word>[</Word>
+      <Word>]</Word>
+      <Word>{</Word>
+      <Word>}</Word>
+      <Word>+</Word>
+      <Word>-</Word>
+      <Word>/</Word>
+      <Word>%</Word>
+      <Word>*</Word>
+      <Word>&lt;</Word>
+      <Word>&gt;</Word>
+      <Word>^</Word>
+      <Word>!</Word>
+      <Word>|</Word>
+      <Word>&amp;</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="bold" fontStyle="normal">
+      <Word>this</Word>
+      <Word>base</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="bold" fontStyle="normal">
+      <Word>as</Word>
+      <Word>is</Word>
+      <Word>new</Word>
+      <Word>sizeof</Word>
+      <Word>typeof</Word>
+      <Word>true</Word>
+      <Word>false</Word>
+      <Word>stackalloc</Word>
+      <Word>sin</Word>
+      <Word>cos</Word>
+      <Word>tan</Word>
+      <Word>asin</Word>
+      <Word>acos</Word>
+      <Word>atan</Word>
+      <Word>pow</Word>
+      <Word>exp</Word>
+      <Word>exp2</Word>
+      <Word>log</Word>
+      <Word>log2</Word>
+      <Word>sqrt</Word>
+      <Word>inversesqrt</Word>
+      <Word>length</Word>
+      <Word>distance</Word>
+      <Word>dot</Word>
+      <Word>cross</Word>
+      <Word>normalize</Word>
+      <Word>reflect</Word>
+      <Word>refract</Word>
+      <Word>faceforward</Word>
+      <Word>transpose</Word>
+      <Word>determinate</Word>
+      <Word>inverse</Word>
+      <Word>min</Word>
+      <Word>max</Word>
+      <Word>abs</Word>
+      <Word>clamp</Word>
+      <Word>floor</Word>
+      <Word>ceil</Word>
+      <Word>step</Word>
+      <Word>smoothstep</Word>
+      <Word>texture</Word>
+      <Word>textureOffset</Word>
+      <Word>textureSize</Word>
+      <Word>texelFetch</Word>
+      <Word>texelLod</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="bold" fontStyle="normal">
+      <Word>else</Word>
+      <Word>if</Word>
+      <Word>switch</Word>
+      <Word>case</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="bold" fontStyle="normal">
+      <Word>do</Word>
+      <Word>for</Word>
+      <Word>in</Word>
+      <Word>while</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="normal" fontStyle="normal">
+      <Word>break</Word>
+      <Word>continue</Word>
+      <Word>default</Word>
+      <Word>goto</Word>
+      <Word>return</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="bold" fontStyle="normal">
+      <Word>try</Word>
+      <Word>throw</Word>
+      <Word>catch</Word>
+      <Word>finally</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="bold" fontStyle="normal">
+      <Word>checked</Word>
+      <Word>unchecked</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="normal" fontStyle="normal">
+      <Word>fixed</Word>
+      <Word>unsafe</Word>
+    </Keywords>
+    <Keywords color="DEFAULT" fontWeight="normal" fontStyle="normal">
+      <Word>#if</Word>
+      <Word>#ifdef</Word>
+      <Word>#else</Word>
+      <Word>#elif</Word>
+      <Word>#endif</Word>
+      <Word>#define</Word>
+      <Word>#undef</Word>
+      <Word>#error</Word>
+      <Word>#pragma</Word>
+      <Word>#extension</Word>
+      <Word>#version</Word>
+    </Keywords>
+    <Keywords color="TYPE" fontWeight="bold" fontStyle="normal">
+      <Word>vec2</Word>
+      <Word>vec3</Word>
+      <Word>vec4</Word>
+      <Word>mat3</Word>
+      <Word>mat4</Word>
+      <Word>mat2</Word>
+      <Word>mat2x2</Word>
+      <Word>mat2x3</Word>
+      <Word>mat2x4</Word>
+      <Word>mat3x2</Word>
+      <Word>mat3x3</Word>
+      <Word>mat3x4</Word>
+      <Word>mat4x2</Word>
+      <Word>mat4x3</Word>
+      <Word>mat4x4</Word>
+      <Word>bool</Word>
+      <Word>byte</Word>
+      <Word>char</Word>
+      <Word>decimal</Word>
+      <Word>double</Word>
+      <Word>enum</Word>
+      <Word>float</Word>
+      <Word>int</Word>
+      <Word>long</Word>
+      <Word>sbyte</Word>
+      <Word>short</Word>
+      <Word>struct</Word>
+      <Word>uint</Word>
+      <Word>ushort</Word>
+      <Word>ulong</Word>
+    </Keywords>
+    <Keywords color="TYPE" fontWeight="normal" fontStyle="normal">
+      <Word>sampler2D</Word>
+      <Word>sampler2DArray</Word>
+      <Word>sampler1D</Word>
+      <Word>sampler3D</Word>
+      <Word>sampler2DRect</Word>
+      <Word>samplerCube</Word>
+      <Word>isampler</Word>
+      <Word>usampler</Word>
+      <Word>class</Word>
+      <Word>interface</Word>
+      <Word>delegate</Word>
+      <Word>object</Word>
+      <Word>string</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="normal" fontStyle="normal">
+      <Word>void</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="bold" fontStyle="normal">
+      <Word>explicit</Word>
+      <Word>implicit</Word>
+      <Word>operator</Word>
+    </Keywords>
+    <Keywords color="ATTRIBUTE" fontWeight="bold" fontStyle="normal">
+      <Word>params</Word>
+      <Word>ref</Word>
+      <Word>in</Word>
+      <Word>out</Word>
+      <Word>inout</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="normal" fontStyle="normal">
+      <Word>abstract</Word>
+      <Word>const</Word>
+      <Word>event</Word>
+      <Word>extern</Word>
+      <Word>override</Word>
+      <Word>readonly</Word>
+      <Word>sealed</Word>
+      <Word>static</Word>
+      <Word>virtual</Word>
+      <Word>uniform</Word>
+      <Word>attribute</Word>
+      <Word>varying</Word>
+      <Word>layout</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="bold" fontStyle="normal">
+      <Word>public</Word>
+      <Word>protected</Word>
+      <Word>private</Word>
+      <Word>internal</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="bold" fontStyle="normal">
+      <Word>namespace</Word>
+      <Word>using</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="normal" fontStyle="normal">
+      <Word>lock</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="normal" fontStyle="normal">
+      <Word>get</Word>
+      <Word>set</Word>
+      <Word>add</Word>
+      <Word>remove</Word>
+    </Keywords>
+    <Keywords color="KEYWORD" fontWeight="bold" fontStyle="normal">
+      <Word>null</Word>
+      <Word>value</Word>
+    </Keywords>
+    <Span color="COMMENT" fontWeight="normal" fontStyle="normal">
+      <Begin>\#</Begin>
+    </Span>
+    <Span color="COMMENT" fontWeight="normal" fontStyle="normal" ruleSet="TestSet">
+      <Begin>//(?!(/))</Begin>
+    </Span>
+    <Span color="STRING" fontWeight="normal" fontStyle="normal">
+      <Begin>"</Begin>
+      <End>"</End>
+    </Span>
+    <Span color="STRING" fontWeight="normal" fontStyle="normal">
+      <Begin>'</Begin>
+      <End>'</End>
+    </Span>
+    <Rule color="NUMBER" fontWeight="normal" fontStyle="normal">\b0[xX][0-9a-fA-F]+|(\b\d+(\.[0-9]+)?|\.[0-9]+)([eE][+-]?[0-9]+)?</Rule>
+  </RuleSet>
+  <RuleSet name="TestSet" ignoreCase="true">
+    <Keywords color="ATTRIBUTE" fontWeight="bold" fontStyle="italic">
+      <Word>TODO</Word>
+      <Word>FIXME</Word>
+    </Keywords>
+    <Keywords color="ATTRIBUTE" fontWeight="bold" fontStyle="italic">
+      <Word>HACK</Word>
+      <Word>UNDONE</Word>
+    </Keywords>
+    <Rule foreground="#FFFFFFFF" fontWeight="normal" fontStyle="normal">\b0[xX][0-9a-fA-F]+|(\b\d+(\.[0-9]+)?|\.[0-9]+)([eE][+-]?[0-9]+)?</Rule>
+  </RuleSet>
+</SyntaxDefinition>

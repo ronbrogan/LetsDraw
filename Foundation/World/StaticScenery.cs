@@ -19,6 +19,7 @@ namespace Foundation.World
         {
             Id = Guid.NewGuid();
             Transform = new WorldTransform(Id);
+            Meshes = new List<Mesh>();
         }
 
         public static StaticScenery FromObj(string objPath)

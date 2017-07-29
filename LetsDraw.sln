@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foundation", "Foundation\Foundation.csproj", "{65792DA9-9A77-4937-B74B-A771EE212538}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SceneComposer", "SceneComposer\SceneComposer.csproj", "{CC57A701-7A30-4DC2-B416-AD9B3E6389C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetsDraw", "LetsDraw\LetsDraw.csproj", "{0B400086-DEFF-4AFB-91AA-3E677B7036F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaderSleuth", "ShaderSleuth\ShaderSleuth.csproj", "{65AF8352-4E41-42E5-818C-18457222EABE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{0B400086-DEFF-4AFB-91AA-3E677B7036F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B400086-DEFF-4AFB-91AA-3E677B7036F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B400086-DEFF-4AFB-91AA-3E677B7036F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65AF8352-4E41-42E5-818C-18457222EABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65AF8352-4E41-42E5-818C-18457222EABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65AF8352-4E41-42E5-818C-18457222EABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65AF8352-4E41-42E5-818C-18457222EABE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

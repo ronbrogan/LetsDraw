@@ -90,7 +90,7 @@ namespace Foundation.Rendering
             if (material.Transparency == 1f)
                 return;
 
-            var shader = ShaderOverride ?? ShaderManager.GetShaderForMaterial(material);
+            var shader = ShaderOverride ?? mesh.ShaderOverride ?? ShaderManager.GetShaderForMaterial(material);
 
             ShaderManager.SetShader(shader);
             GL.BindVertexArray(VertexArrayObjects[mesh.Id]);
@@ -199,7 +199,7 @@ namespace Foundation.Rendering
 
         }
 
-        public static void DrawRenderQueue(RenderQueue queue, Dictionary<Guid, WorldTransform> transformLookup)
+        public static void DrawRenderQueue(RenderQueue queue)
         {
             foreach(var group in queue.MeshRegistry)
             {
@@ -207,10 +207,10 @@ namespace Foundation.Rendering
                 {
                     var RelativeTransformation = Matrix4x4.Identity;
 
-                    if (transformLookup.ContainsKey(mesh.Id))
-                        RelativeTransformation = transformLookup[mesh.Id].GetTransform();
-                    else if (transformLookup.ContainsKey(mesh.Parent))
-                        RelativeTransformation = transformLookup[mesh.Parent].GetTransform();
+                    if (queue.TransformRegistry.ContainsKey(mesh.Id))
+                        RelativeTransformation = queue.TransformRegistry[mesh.Id].GetTransform();
+                    else if (queue.TransformRegistry.ContainsKey(mesh.Parent))
+                        RelativeTransformation = queue.TransformRegistry[mesh.Parent].GetTransform();
 
                     RenderMesh(mesh, RelativeTransformation);
                 }

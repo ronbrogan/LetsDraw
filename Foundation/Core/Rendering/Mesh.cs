@@ -31,6 +31,7 @@ namespace Foundation.Core.Rendering
         public List<VertexFormat> Verticies = new List<VertexFormat>();
 
         public Material Material { get; set; }
+        public int? ShaderOverride { get; set; }
 
         public int LastGenericUniformHash;
         public uint uniformBufferHandle = 0;

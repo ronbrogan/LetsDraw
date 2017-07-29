@@ -14,7 +14,9 @@ namespace Foundation.Rendering
         // Eventually by texture as well
         public Dictionary<int, List<Mesh>> MeshRegistry = new Dictionary<int, List<Mesh>>();
 
-        public Dictionary<Guid, WorldTransform> TransformRegistry = new Dictionary<Guid, WorldTransform>();
+        protected internal Dictionary<Guid, WorldTransform> TransformRegistry = new Dictionary<Guid, WorldTransform>();
+
+        //protected internal Dictionary<Guid, int> ShaderOverride = new Dictionary<Guid, int>();
 
         public void Add(Mesh mesh, WorldTransform MeshTransform = null)
         {
@@ -57,6 +59,11 @@ namespace Foundation.Rendering
                 TransformRegistry[component.Id] = component.Transform;
         }
 
+        //public void OverrideShader(Guid MeshId, int ShaderProgram)
+        //{
+        //    ShaderOverride.Add(MeshId, ShaderProgram);
+        //}
+
         public void Remove(Mesh mesh, bool SkipParentCheck = false)
         {
             var shader = ShaderManager.GetShaderForMaterial(mesh.Material);
@@ -71,7 +78,7 @@ namespace Foundation.Rendering
 
         public void Render()
         {
-            Renderer.DrawRenderQueue(this, TransformRegistry);
+            Renderer.DrawRenderQueue(this);
         }
 
         public void Destroy()
