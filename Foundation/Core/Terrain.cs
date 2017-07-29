@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using Foundation.Core.Rendering;
 using Foundation.Loaders;
+using Foundation.World;
 
 namespace Foundation.Core
 {
@@ -11,7 +12,7 @@ namespace Foundation.Core
     {
         public Guid Id { get; private set; }
 
-        public Matrix4x4 Transform { get; set; }
+        public WorldTransform Transform { get; set; }
 
         public List<Mesh> Meshes { get; set; }
 
@@ -22,7 +23,7 @@ namespace Foundation.Core
 
         public Terrain(string objPath)
         {
-            Transform = Matrix4x4.Identity;
+            Transform = new WorldTransform(Id);
             var obj = new ObjLoader(objPath);
             Id = obj.Id;
             Meshes = obj.Meshes.Values.ToList();

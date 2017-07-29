@@ -23,7 +23,8 @@ namespace Foundation.World
 
         public Skybox Skybox { get; set; }
         public Terrain Terrain { get; set; }
-        public List<StaticScenery> Scenery = new List<StaticScenery>();
+        public List<StaticScenery> Scenery { get; set; }
+
         //public List<Mesh> Meshes = new List<Mesh>
         //{
         //    { PrimitiveGenerator.GenerateOctahedron(100f) }
@@ -60,6 +61,7 @@ namespace Foundation.World
 
         public Scene()
         {
+            Scenery = new List<StaticScenery>();
             SpawnPoint = new Vector3(0);
             Camera = new FpCamera(SpawnPoint);
         }

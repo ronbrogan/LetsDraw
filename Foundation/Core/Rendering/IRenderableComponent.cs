@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Foundation.World;
 
 namespace Foundation.Core.Rendering
 {
@@ -8,7 +9,7 @@ namespace Foundation.Core.Rendering
     {
         Guid Id { get; }
 
-        Matrix4x4 Transform { get; }
+        WorldTransform Transform { get; }
 
         List<Mesh> Meshes { get; set; }
 

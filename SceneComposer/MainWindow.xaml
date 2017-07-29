@@ -8,17 +8,17 @@
         Title="Scene Composer" Height="743.577" Width="1121.673" Background="#FF2D2D30">
 
     <!-- Resouce is created in code behind -->
-    <Grid Margin="0,0,0,-1" DataContext="{Binding Source={StaticResource ApplicationStateData}}">
+    <Grid Margin="0,0,0,-1" DataContext="{Binding Source={StaticResource ApplicationStateData}}" RenderTransformOrigin="0.548,0.607">
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"/>
-            <RowDefinition Height="221*"/>
-            <RowDefinition Height="7*"/>
+            <RowDefinition Height="29*"/>
+            <RowDefinition Height="403*"/>
+            <RowDefinition Height="262*"/>
+            <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="305*"/>
             <ColumnDefinition Width="252*"/>
         </Grid.ColumnDefinitions>
-        <WindowsFormsHost x:Name="RenderWindow" Margin="10,3,5,10" Grid.Row="1" Focusable="True"/>
         <Menu x:Name="MenuStrip" Height="28" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <MenuItem StaysOpenOnClick="True" Header="File" HorizontalAlignment="Center">
                 <MenuItem Header="New Scene" Click="NewScene_Click"/>
@@ -46,7 +46,8 @@
                 <MenuItem Header="About" />
             </MenuItem>
         </Menu>
-        <StatusBar Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="2" Background="#FF007ACC" >
+        <WindowsFormsHost x:Name="RenderWindow" Margin="6,4,4,4" Grid.Row="1" Grid.Column="0" Focusable="True"/>
+        <StatusBar Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="3" Background="#FF007ACC" >
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
@@ -69,6 +70,27 @@
                 <ProgressBar x:Name="MainProgressBar" Foreground="#FFD37C26"  Width="150" Height="15" BorderBrush="{x:Null}" Background="#FF007ACC" Value="-1" IsIndeterminate="{Binding Path=IsLoading}"/>
             </StatusBarItem>
         </StatusBar>
+        <GridSplitter x:Name="gridSplitter" HorizontalAlignment="Left" Margin="0,3,0,5" Grid.Row="1" Width="4" Grid.Column="1" Background="#FF3E3E42"/>
+        <GridSplitter x:Name="gridSplitter1" HorizontalAlignment="Stretch" Height="4" Margin="6,0,4,0" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Background="#FF3E3E42" />
+        <TabControl x:Name="editTabControl" Grid.Column="1" HorizontalAlignment="Left" Margin="10,4,0,5" Grid.Row="1" Width="484" DataContext="{Binding Source={StaticResource Scene}}" >
+            <TabItem Header="Scenery" Foreground="White" IsSelected="True" Background="Black">
+                <Grid Background="#FF252526">
+                    <ItemsControl Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Path=Scenery}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1" Columns="1" HorizontalAlignment="Left" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Slider Width="100" Minimum="0" Maximum="10" Value="{Binding Path=Transform.Scale}"></Slider>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
 
     </Grid>
 

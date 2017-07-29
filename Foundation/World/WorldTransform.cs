@@ -1,19 +1,35 @@
 ﻿using System;
 using System.Numerics;
+using Foundation.Core;
+using Foundation.Rendering;
 using Vector3 = OpenTK.Vector3;
 
 namespace Foundation.World
 {
     public class WorldTransform
     {
+        public Guid ParentId { get; set; }
         public Vector3 Position = new Vector3();
         public Vector3 Rotation = new Vector3();
-        public float Scale = 1f;
+
+        private float _scale;
+        public float Scale
+        {
+            get;
+
+            set;
+        }
 
         private Vector3 lastPosition = new Vector3();
         private Vector3 lastRotation = new Vector3();
         private float lastScale = 1f;
         private Matrix4x4 lastTransform = Matrix4x4.Identity;
+
+        public WorldTransform(Guid parent)
+        {
+            ParentId = parent;
+            Scale = 1f;
+        }
 
 
         public Matrix4x4 GetTransform(bool rotateAroundWorldOrigin = false)

@@ -51,14 +51,15 @@ namespace SceneComposer
         public MainWindow()
         {
             appState = new ApplicationState();
-            this.Resources.Add("ApplicationStateData", appState);
+            Resources.Add("ApplicationStateData", appState);
+            Resources.Add("Scene", new Scene());
 
             lastMeasure = DateTime.Now;
 
             InitializeComponent();
             InitializeGlControl();
 
-            defaultScene = SceneFactory.BuildDefaultScene();
+            //defaultScene = SceneFactory.BuildDefaultScene();
         }
 
         private void InitializeGlControl()
@@ -139,6 +140,8 @@ namespace SceneComposer
         // Method for loading a default scene for debugging purposes
         private async void LoadDefaultScene_Click(object sender, RoutedEventArgs e)
         {
+            defaultScene = SceneFactory.BuildDefaultScene();
+
             appState.IsLoading = true;
             appState.StatusBarText = "Loading Default Scene";
 
@@ -151,6 +154,7 @@ namespace SceneComposer
 
             appState.IsLoading = false;
             appState.StatusBarText = "Ready";
+            Resources["Scene"] = defaultScene;
         }
 
         private async void LoadScene_Click(object sender, RoutedEventArgs e)
@@ -188,6 +192,8 @@ namespace SceneComposer
             appState.IsLoading = false;
 
             engine.Resume();
+
+            editTabControl.DataContext = engine.GetScene();
         }
 
         private void loadScene_ProgressChanged(object sender, ProgressChangedEventArgs e)

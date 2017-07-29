@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,25 +20,36 @@ namespace SceneComposer
         {
             JsonConvert.DefaultSettings = () =>
             {
-                var settings = new JsonSerializerSettings();
+                var settings = new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    ContractResolver = new LetsDrawContractResolver()
+                };
 
-                //settings.Converters.Add(new Vector2Converter());
-                //settings.Converters.Add(new Vector3Converter());
-                //settings.Converters.Add(new Matrix3Converter());
-                //settings.Converters.Add(new Matrix4Converter());
-                //settings.Converters.Add(new QuaternionConverter());
-                //settings.Converters.Add(new VertexFormatConverter());
-                //settings.Converters.Add(new MeshConverter());
 
-                settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-
-                settings.ContractResolver = new LetsDrawContractResolver();
 
                 return settings;
             };
 
+            PresentationTraceSources.Refresh();
+            PresentationTraceSources.DataBindingSource.Listeners.Add(new ConsoleTraceListener());
+            PresentationTraceSources.DataBindingSource.Listeners.Add(new DebugTraceListener());
+            PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Warning | SourceLevels.Error;
+
 
             base.OnStartup(e);
+        }
+    }
+
+    public class DebugTraceListener : TraceListener
+    {
+        public override void Write(string message)
+        {
+        }
+
+        public override void WriteLine(string message)
+        {
+            Debugger.Break();
         }
     }
 }

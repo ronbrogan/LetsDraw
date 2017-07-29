@@ -10,14 +10,15 @@ namespace Foundation.World
     public class StaticScenery : IRenderableComponent
     {
         public Guid Id { get; set; }
-        public Matrix4x4 Transform => WorldTransform.GetTransform();
-        public WorldTransform WorldTransform = new WorldTransform();
+
+        public WorldTransform Transform { get; set; }
 
         public List<Mesh> Meshes { get; set; }
 
         public StaticScenery()
         {
             Id = Guid.NewGuid();
+            Transform = new WorldTransform(Id);
         }
 
         public static StaticScenery FromObj(string objPath)

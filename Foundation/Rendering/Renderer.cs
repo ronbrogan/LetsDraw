@@ -10,6 +10,7 @@ using Foundation.Managers;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Vector3 = OpenTK.Vector3;
+using Foundation.World;
 
 namespace Foundation.Rendering
 {
@@ -198,7 +199,7 @@ namespace Foundation.Rendering
 
         }
 
-        public static void DrawRenderQueue(RenderQueue queue, Dictionary<Guid, Matrix4x4> transformLookup)
+        public static void DrawRenderQueue(RenderQueue queue, Dictionary<Guid, WorldTransform> transformLookup)
         {
             foreach(var group in queue.MeshRegistry)
             {
@@ -207,9 +208,9 @@ namespace Foundation.Rendering
                     var RelativeTransformation = Matrix4x4.Identity;
 
                     if (transformLookup.ContainsKey(mesh.Id))
-                        RelativeTransformation = transformLookup[mesh.Id];
+                        RelativeTransformation = transformLookup[mesh.Id].GetTransform();
                     else if (transformLookup.ContainsKey(mesh.Parent))
-                        RelativeTransformation = transformLookup[mesh.Parent];
+                        RelativeTransformation = transformLookup[mesh.Parent].GetTransform();
 
                     RenderMesh(mesh, RelativeTransformation);
                 }

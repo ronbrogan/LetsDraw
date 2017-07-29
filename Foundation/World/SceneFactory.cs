@@ -21,8 +21,8 @@ namespace Foundation.World
             };
 
             var powerthing = StaticScenery.FromObj(@"Data\Objects\powerthing.obj");
-            powerthing.WorldTransform.Position = new Vector3(380, 20, -300);
-            powerthing.WorldTransform.Scale = 0.7f;
+            powerthing.Transform.Position = new Vector3(380, 20, -300);
+            powerthing.Transform.Scale = 0.7f;
 
             scene.Scenery.Add(powerthing);
 

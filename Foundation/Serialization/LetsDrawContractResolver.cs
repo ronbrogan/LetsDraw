@@ -11,7 +11,7 @@ namespace Foundation.Serialization
 {
     public class LetsDrawContractResolver : DefaultContractResolver
     {
-        public new static readonly LetsDrawContractResolver Instance = new LetsDrawContractResolver();
+        public static readonly LetsDrawContractResolver Instance = new LetsDrawContractResolver();
 
         protected override JsonContract CreateContract(Type objectType)
         {

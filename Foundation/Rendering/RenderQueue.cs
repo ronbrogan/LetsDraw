@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using Foundation.Core.Rendering;
 using Foundation.Managers;
+using Foundation.World;
 
 namespace Foundation.Rendering
 {
@@ -13,9 +14,9 @@ namespace Foundation.Rendering
         // Eventually by texture as well
         public Dictionary<int, List<Mesh>> MeshRegistry = new Dictionary<int, List<Mesh>>();
 
-        public Dictionary<Guid, Matrix4x4> TransformRegistry = new Dictionary<Guid, Matrix4x4>();
+        public Dictionary<Guid, WorldTransform> TransformRegistry = new Dictionary<Guid, WorldTransform>();
 
-        public void Add(Mesh mesh, Matrix4x4? MeshTransform = null)
+        public void Add(Mesh mesh, WorldTransform MeshTransform = null)
         {
             if (!Renderer.MeshCompiled(mesh))
                 Renderer.CompileMesh(mesh);
@@ -34,9 +35,9 @@ namespace Foundation.Rendering
                 });
             }
 
-            if(MeshTransform.HasValue && !TransformRegistry.ContainsKey(mesh.Id))
+            if(MeshTransform != null && !TransformRegistry.ContainsKey(mesh.Id))
             {
-                TransformRegistry[mesh.Id] = MeshTransform.Value;
+                TransformRegistry[mesh.Id] = MeshTransform;
             }
         }
 
