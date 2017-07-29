@@ -30,6 +30,7 @@ using OpenTK.Graphics.OpenGL;
 using SceneComposer.Properties;
 using InputManager = Foundation.Managers.InputManager;
 using MessageBox = System.Windows.MessageBox;
+using System.Text.RegularExpressions;
 
 namespace SceneComposer
 {
@@ -167,24 +168,28 @@ namespace SceneComposer
             loadScene.ProgressChanged += loadScene_ProgressChanged;
             loadScene.RunWorkerCompleted += loadScene_RunWorkerCompleted;
 
-            var dialog = new OpenFileDialog
-            {
-                InitialDirectory = Environment.CurrentDirectory,
-                Multiselect = false
-            };
+            var fileToLoad = System.IO.Path.Combine(Environment.CurrentDirectory, "sceneoutput.json");
 
-            var result = dialog.ShowDialog();
+            //var dialog = new OpenFileDialog
+            //{
+            //    InitialDirectory = Environment.CurrentDirectory,
+            //    Multiselect = false
+            //};
 
-            if (result != System.Windows.Forms.DialogResult.OK)
-            {
-                return;
-            }
+            //var result = dialog.ShowDialog();
+
+            //if (result != System.Windows.Forms.DialogResult.OK)
+            //{
+            //    return;
+            //}
+
+            //fileToLoad = dialog.FileName;
 
             appState.IsLoading = true;
 
             engine.Pause();
 
-            loadScene.RunWorkerAsync(dialog.FileName);
+            loadScene.RunWorkerAsync(fileToLoad);
         }
 
         private void loadScene_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
