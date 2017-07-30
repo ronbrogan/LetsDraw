@@ -16,8 +16,6 @@ namespace Foundation.Rendering
 
         protected internal Dictionary<Guid, WorldTransform> TransformRegistry = new Dictionary<Guid, WorldTransform>();
 
-        //protected internal Dictionary<Guid, int> ShaderOverride = new Dictionary<Guid, int>();
-
         public void Add(Mesh mesh, WorldTransform MeshTransform = null)
         {
             if (!Renderer.MeshCompiled(mesh))
@@ -58,11 +56,6 @@ namespace Foundation.Rendering
             if (TransformRegistry.ContainsKey(component.Id))
                 TransformRegistry[component.Id] = component.Transform;
         }
-
-        //public void OverrideShader(Guid MeshId, int ShaderProgram)
-        //{
-        //    ShaderOverride.Add(MeshId, ShaderProgram);
-        //}
 
         public void Remove(Mesh mesh, bool SkipParentCheck = false)
         {

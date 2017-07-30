@@ -9,14 +9,14 @@
         Title="Shader Sleuth" Height="569.667" Width="889.667">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="29*"/>
-            <RowDefinition Height="403*"/>
-            <RowDefinition Height="262*"/>
-            <RowDefinition Height="20*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="292*"/>
+            <RowDefinition Height="210*"/>
+            <RowDefinition Height="15*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="169*"/>
-            <ColumnDefinition Width="103*"/>
+            <ColumnDefinition Width="589*"/>
+            <ColumnDefinition Width="293*"/>
         </Grid.ColumnDefinitions>
 
         <Menu x:Name="menu" Grid.ColumnSpan="2" Height="22" VerticalAlignment="Top">
@@ -27,7 +27,7 @@
             </MenuItem>
         </Menu>
 
-        <WindowsFormsHost x:Name="WinformsHost" Margin="10,34,10,184" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"/>
+        <WindowsFormsHost x:Name="WinformsHost" Margin="10,34,10,10" Grid.Column="1" Grid.Row="1"/>
         <TabControl x:Name="tabControl" Margin="10" Grid.Row="1" Grid.RowSpan="2">
             <TabItem Header="Vertex">
                 <Grid Background="#FFE5E5E5">

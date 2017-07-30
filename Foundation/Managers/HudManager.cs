@@ -4,21 +4,23 @@ using System.Drawing;
 using Foundation.Core;
 using Foundation.Core.Rendering;
 using Foundation.Rendering.HUD;
+using OpenTK.Input;
 
 namespace Foundation.Managers
 {
     public class HudManager
     {
-        private Dictionary<string, IHudElement> Elements;
+        private Dictionary<string, IHudElement> Elements { get; set; }
+        private Size screenSize { get; set; }
 
-        public HudManager(Size screenSize)
+        private FramesDisplay framesDisplay { get; set; }
+
+        public HudManager(Size ScreenSize)
         {
+            screenSize = ScreenSize;
             Elements = new Dictionary<string, IHudElement>();
-
-            // Manually add test hud element here.
-            var fpsReadout = new FramesDisplay(screenSize, -1, 1, "Test String", 72);
-            fpsReadout.SetShader(ShaderManager.GetShader("HudShader"));
-            Elements.Add("FpsReadout", fpsReadout);
+            framesDisplay = new FramesDisplay(screenSize, -1, 1, "Test String", 72);
+            framesDisplay.SetShader(ShaderManager.GetShader("HudShader"));
         }
 
         public void Draw()
@@ -31,6 +33,8 @@ namespace Foundation.Managers
 
         public void Resize(int width, int height)
         {
+            screenSize = new Size(width, height);
+
             foreach(var elem in Elements.Values)
             {
                 elem.Resize(width, height);
@@ -39,9 +43,34 @@ namespace Foundation.Managers
 
         public void Update(double deltaTime)
         {
+            foreach (var key in InputManager.PressedKeys)
+            {
+                switch(key)
+                {
+                    case Key.F3:
+                        // This is a terminal press
+                        InputManager.ProcessKey(key);
+                        ToggleFpsReadout();
+                        break;
+                }
+            }
+
             foreach (var model in Elements.Values)
             {
                 model.Update(deltaTime);
+            }
+        }
+
+        private void ToggleFpsReadout()
+        {
+            if (Elements.ContainsKey("FpsReadout"))
+            {
+                Elements.Remove("FpsReadout");
+            }
+            else
+            {
+                framesDisplay.Resize(screenSize.Width, screenSize.Height);
+                Elements.Add("FpsReadout", framesDisplay);
             }
         }
 
