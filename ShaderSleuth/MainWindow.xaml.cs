@@ -110,7 +110,7 @@ namespace ShaderSleuth
             {
                 var now = DateTime.Now;
                 var elapsed = (now - lastMeasure).TotalSeconds;
-                if (elapsed == 0d)
+                if (elapsed <= 0d)
                     elapsed = 0.000001;
 
                 engine.Render(sender, new FrameEventArgs(elapsed));
@@ -146,6 +146,24 @@ namespace ShaderSleuth
             {
                 ((TextEditor)sender).SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
             }
+        }
+
+        private void CompileButton_Click(object sender, RoutedEventArgs e)
+        {
+            int shaderHandle;
+
+            var shaderGood = ShaderManager.TryCompileShader(vertexEditor.Text, fragmentEditor.Text, out shaderHandle);
+
+            if (!shaderGood)
+            {
+                System.Windows.MessageBox.Show("Shader compilation failed.");
+                return;
+            }
+                
+
+            TestMesh.ShaderOverride = shaderHandle;
+
+
         }
     }
 }

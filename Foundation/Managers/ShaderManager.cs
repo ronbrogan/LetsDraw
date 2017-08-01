@@ -81,6 +81,59 @@ namespace Foundation.Managers
             return 0;
         }
 
+        public static bool TryCompileShader(string vertex, string fragment, out int shaderHandle)
+        {
+            shaderHandle = 0;
+            int vertexShader = 0;
+            int fragmentShader = 0;
+
+            if(!string.IsNullOrWhiteSpace(vertex))
+            {
+                vertexShader = CompileShader(ShaderType.VertexShader, vertex, "TryVertex");
+
+                if (vertexShader == 0)
+                    return false;
+            }
+
+            if (!string.IsNullOrWhiteSpace(fragment))
+            {
+                fragmentShader = CompileShader(ShaderType.FragmentShader, fragment, "TryFragment");
+
+                if (fragmentShader == 0)
+                    return false;
+            }
+
+
+            shaderHandle = GL.CreateProgram();
+
+            if (vertexShader != 0)
+                GL.AttachShader(shaderHandle, vertexShader);
+
+            if (fragmentShader != 0)
+                GL.AttachShader(shaderHandle, fragmentShader);
+
+            //if (geometryShader != 0)
+            //    GL.AttachShader(shaderHandle, geometryShader);
+
+            GL.LinkProgram(shaderHandle);
+
+            var linkResult = 0;
+            GL.GetProgram(shaderHandle, GetProgramParameterName.LinkStatus, out linkResult);
+            if (linkResult == 0)
+            {
+                string linkLog;
+
+                GL.GetProgramInfoLog(shaderHandle, out linkLog);
+
+                Console.WriteLine("CREATE PROGRAM FAILED");
+                Console.WriteLine(linkLog);
+                return false;
+            }
+
+            return true;
+
+        }
+
         public static int CreateShader(string shaderName, string vertexFilename, string fragmentFilename, string geometryFilename = null)
         {
             if (Shaders.ContainsKey(shaderName))

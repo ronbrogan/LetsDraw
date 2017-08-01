@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:ShaderSleuth"
         xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
         mc:Ignorable="d"
-        Title="Shader Sleuth" Height="569.667" Width="889.667">
+        Title="Shader Sleuth" Height="569.667" Width="889.667" Background="#FF333333">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="22*"/>
+            <RowDefinition Height="26*"/>
             <RowDefinition Height="292*"/>
             <RowDefinition Height="210*"/>
             <RowDefinition Height="15*"/>
@@ -19,8 +19,8 @@
             <ColumnDefinition Width="293*"/>
         </Grid.ColumnDefinitions>
 
-        <Menu x:Name="menu" Grid.ColumnSpan="2" Height="22" VerticalAlignment="Top">
-            <MenuItem StaysOpenOnClick="True" Header="File" Height="22" Width="34" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" HorizontalAlignment="Center">
+        <Menu x:Name="menu" Grid.ColumnSpan="2" Height="26" VerticalAlignment="Top" Background="#FF333333">
+            <MenuItem Header="File" Height="22">
                 <MenuItem Header="Random Loaded Shader" Click="RandomShader_Click"></MenuItem>
                 <Separator />
                 <MenuItem Header="Exit" Click="Exit_Click"></MenuItem>
@@ -29,7 +29,7 @@
 
         <WindowsFormsHost x:Name="WinformsHost" Margin="10,34,10,10" Grid.Column="1" Grid.Row="1"/>
         <TabControl x:Name="tabControl" Margin="10" Grid.Row="1" Grid.RowSpan="2">
-            <TabItem Header="Vertex">
+            <TabItem Header="Vertex" Padding="6,2">
                 <Grid Background="#FFE5E5E5">
                     <avalonEdit:TextEditor
                         Name="vertexEditor"
@@ -50,6 +50,29 @@
                 </Grid>
             </TabItem>
         </TabControl>
-
+        <StatusBar Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="3" Background="#FF007ACC" >
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0">
+                <TextBlock x:Name="StatusText"  TextWrapping="Wrap" Foreground="White" Height="20" Margin="0,-2,0,0" Text="{Binding Path=StatusBarText}"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="3" HorizontalAlignment="Right">
+                <ProgressBar x:Name="MainProgressBar" Foreground="#FFD37C26"  Width="150" Height="15" BorderBrush="{x:Null}" Background="#FF007ACC" Value="-1" IsIndeterminate="{Binding Path=IsLoading}"/>
+            </StatusBarItem>
+        </StatusBar>
+        <Button x:Name="button" Content="Compile" HorizontalAlignment="Left" Margin="274,0,0,3" Width="75" Click="CompileButton_Click"/>
     </Grid>
 </Window>
