@@ -22,11 +22,24 @@
             <ColumnDefinition Width="252*"/>
         </Grid.ColumnDefinitions>
         <Menu x:Name="MenuStrip" Height="28" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-            <MenuItem StaysOpenOnClick="True" Header="File" HorizontalAlignment="Center">
+            <MenuItem StaysOpenOnClick="True" Header="File" HorizontalAlignment="Center" DataContext="{Binding Source={StaticResource FileService}}">
                 <MenuItem Header="New Scene" Click="NewScene_Click"/>
                 <MenuItem Header="Load Scene" Click="LoadScene_Click"/>
                 <MenuItem Header="Load Default Scene" Click="LoadDefaultScene_Click"/>
                 <MenuItem Header="Save Scene" Click="SaveScene_Click"/>
+                <Separator  />
+                <ItemsControl ItemsSource="{Binding RecentFiles, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,-18,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel></StackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <MenuItem Header="{Binding}" Click="LoadRecentScene_Click" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
                 <Separator  />
                 <MenuItem Header="Exit" Click="ExitButton_Click"/>
             </MenuItem>

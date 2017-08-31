@@ -31,6 +31,8 @@ using SceneComposer.Properties;
 using InputManager = Foundation.Managers.InputManager;
 using MessageBox = System.Windows.MessageBox;
 using System.Text.RegularExpressions;
+using SceneComposer.MenuServices;
+using System.Configuration;
 
 namespace SceneComposer
 {
@@ -49,18 +51,38 @@ namespace SceneComposer
 
         private int msaaSamples = 8;
 
+        private FileService fileService;
+
         public MainWindow()
         {
+            fileService = new FileService(ConfigurationManager.AppSettings[Constants.Configuration.RecentFilesStoragePath]);
             appState = new ApplicationState();
+
             Resources.Add("ApplicationStateData", appState);
             Resources.Add("Scene", new Scene());
+            Resources.Add("FileService", fileService);
 
             lastMeasure = DateTime.Now;
 
             InitializeComponent();
             InitializeGlControl();
 
-            //defaultScene = SceneFactory.BuildDefaultScene();
+            fileService.OnFileOpen += (_, fe) =>
+            {
+                var loadScene = new BackgroundWorker()
+                {
+                    WorkerReportsProgress = true
+                };
+                loadScene.DoWork += loadScene_DoWork;
+                loadScene.ProgressChanged += loadScene_ProgressChanged;
+                loadScene.RunWorkerCompleted += loadScene_RunWorkerCompleted;
+
+                appState.IsLoading = true;
+
+                engine.Pause();
+
+                loadScene.RunWorkerAsync(fe.Path);
+            };
         }
 
         private void InitializeGlControl()
@@ -158,38 +180,28 @@ namespace SceneComposer
             Resources["Scene"] = defaultScene;
         }
 
-        private async void LoadScene_Click(object sender, RoutedEventArgs e)
+        private void LoadScene_Click(object sender, RoutedEventArgs e)
         {
-            var loadScene = new BackgroundWorker()
+            var dialog = new OpenFileDialog
             {
-                WorkerReportsProgress = true
+                InitialDirectory = Environment.CurrentDirectory,
+                Multiselect = false
             };
-            loadScene.DoWork += loadScene_DoWork;
-            loadScene.ProgressChanged += loadScene_ProgressChanged;
-            loadScene.RunWorkerCompleted += loadScene_RunWorkerCompleted;
 
-            var fileToLoad = System.IO.Path.Combine(Environment.CurrentDirectory, "sceneoutput.json");
+            var result = dialog.ShowDialog();
 
-            //var dialog = new OpenFileDialog
-            //{
-            //    InitialDirectory = Environment.CurrentDirectory,
-            //    Multiselect = false
-            //};
+            if (result != System.Windows.Forms.DialogResult.OK)
+            {
+                return;
+            }
 
-            //var result = dialog.ShowDialog();
+            fileService.OpenFile(dialog.FileName);
+        }
 
-            //if (result != System.Windows.Forms.DialogResult.OK)
-            //{
-            //    return;
-            //}
-
-            //fileToLoad = dialog.FileName;
-
-            appState.IsLoading = true;
-
-            engine.Pause();
-
-            loadScene.RunWorkerAsync(fileToLoad);
+        private void LoadRecentScene_Click(object sender, RoutedEventArgs e)
+        {
+            var path = (string)((System.Windows.Controls.MenuItem)sender).Header;
+            fileService.OpenFile(path);
         }
 
         private void loadScene_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
