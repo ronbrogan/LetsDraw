@@ -105,7 +105,7 @@ namespace Foundation.Managers
         {
             var hudElem = hudManager.GetElement("FpsReadout") as FramesDisplay;
 
-            hudElem.Update(textToDisplay);
+            hudElem?.Update(textToDisplay);
             
         }
 
