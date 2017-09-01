@@ -112,10 +112,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Themes\ExpressionDark.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MenuServices\FileService.cs" />
@@ -138,7 +134,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="OpenTK.dll.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -152,6 +150,10 @@
     <ProjectReference Include="..\Foundation\Foundation.csproj">
       <Project>{65792DA9-9A77-4937-B74B-A771EE212538}</Project>
       <Name>Foundation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WPFCommon\WPFCommon.csproj">
+      <Project>{b80ec98d-70d1-4f1d-a6f2-2fb82e3942f1}</Project>
+      <Name>WPFCommon</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
