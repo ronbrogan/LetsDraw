@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace SceneComposer.MenuServices
 {
     public class FileService : INotifyPropertyChanged
     {
-        public List<string> RecentFiles { get; set; }
+        public ObservableCollection<string> RecentFiles { get; set; }
         private string recentFileStoragePath { get; }
         private FileSystemWatcher recentWatcher { get; }
         private static object _recentFileLock = new object();
@@ -47,13 +48,15 @@ namespace SceneComposer.MenuServices
         private void AddRecentFile(string path)
         {
             if (RecentFiles.Contains(path))
-                return;
+            {
+                RecentFiles.Remove(path);
+            }
 
             RecentFiles.Insert(0, path);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RecentFiles)));
 
-            if (RecentFiles.Count > 6)
-                RecentFiles.RemoveRange(5, RecentFiles.Count - 6);
+            while (RecentFiles.Count > 6)
+                RecentFiles.RemoveAt(5);
 
             FlushRecentFiles();
         }
@@ -64,7 +67,7 @@ namespace SceneComposer.MenuServices
             {
                 recentWatcher.EnableRaisingEvents = false;
 
-                RecentFiles = new List<string>();
+                RecentFiles = new ObservableCollection<string>();
 
                 using (var recentFs = new FileStream(recentFileStoragePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite))
                 using (var recentReader = new StreamReader(recentFs))

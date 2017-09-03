@@ -22,24 +22,20 @@
             <ColumnDefinition Width="252*"/>
         </Grid.ColumnDefinitions>
         <Menu x:Name="MenuStrip" Height="28" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-            <MenuItem StaysOpenOnClick="True" Header="File" HorizontalAlignment="Center" DataContext="{Binding Source={StaticResource FileService}}">
+            <MenuItem StaysOpenOnClick="True" Header="File" Name="FileMenu">
                 <MenuItem Header="New Scene" Click="NewScene_Click"/>
                 <MenuItem Header="Load Scene" Click="LoadScene_Click"/>
                 <MenuItem Header="Load Default Scene" Click="LoadDefaultScene_Click"/>
                 <MenuItem Header="Save Scene" Click="SaveScene_Click"/>
                 <Separator  />
-                <ItemsControl ItemsSource="{Binding RecentFiles, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,-18,0">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel></StackPanel>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <MenuItem Header="{Binding}" Click="LoadRecentScene_Click" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <MenuItem Header="Recent Scenes" ItemsSource="{Binding RecentFiles, Source={StaticResource FileService}}">
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                            <EventSetter Event="Click" Handler="LoadRecentScene_Click" />
+                            <Setter Property="Header" Value="{Binding}" />
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                </MenuItem>
                 <Separator  />
                 <MenuItem Header="Exit" Click="ExitButton_Click"/>
             </MenuItem>
@@ -116,9 +112,9 @@
                                         <Slider Width="100" Minimum="0" Maximum="10" Value="{Binding Path=Transform.Scale}" Margin="0,0,10,0"></Slider>
                                         <xctk:DoubleUpDown Height="20" Value="{Binding Path=Transform.Scale}" FormatString="F2" Increment=".01" VerticalAlignment="Center" Margin="0,-3,0,0" UseLayoutRounding="False"></xctk:DoubleUpDown>
                                     </StackPanel>
-                                    
+
                                 </StackPanel>
-                                
+
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
 
