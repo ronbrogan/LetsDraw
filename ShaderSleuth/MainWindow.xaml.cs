@@ -1,16 +1,11 @@
 ﻿using Foundation.Core;
 using OpenTK;
-using OpenTK.Graphics.OpenGL4;
-using OpenTK.Graphics;
 using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Threading;
-//using InputManager = Foundation.Managers.InputManager;
 using Foundation.World;
 using Foundation.Rendering.Models;
-using Foundation.Core.Rendering;
+using Foundation.Core.Primitives;
 using Foundation.World.Cameras;
 using Foundation.Managers;
 using System.IO;
@@ -29,7 +24,6 @@ namespace ShaderSleuth
         private Engine engine { get; set; }
 
         private Mesh TestMesh { get; set; }
-
 
         public MainWindow()
         {

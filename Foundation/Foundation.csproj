@@ -82,10 +82,11 @@
   <ItemGroup>
     <Compile Include="Core\Engine.cs" />
     <Compile Include="Core\ISceneChangeSubscriber.cs" />
+    <Compile Include="Core\Primitives\Cuboid.cs" />
     <Compile Include="Core\Rendering\IRenderableComponent.cs" />
-    <Compile Include="Core\Rendering\Material.cs" />
+    <Compile Include="Core\Primitives\Material.cs" />
     <Compile Include="Core\Rendering\PointLight.cs" />
-    <Compile Include="Core\Rendering\TextureMap.cs" />
+    <Compile Include="Core\Primitives\TextureMap.cs" />
     <Compile Include="Core\Terrain.cs" />
     <Compile Include="Data\Enums\IlluminationModel.cs" />
     <Compile Include="Data\Enums\ImfChanOption.cs" />
@@ -100,10 +101,11 @@
     <Compile Include="Data\Enums\MeshShaderType.cs" />
     <Compile Include="Loaders\MtlLoader.cs" />
     <Compile Include="Managers\TextureManager.cs" />
+    <Compile Include="MathExtensions.cs" />
     <Compile Include="Rendering\HUD\FramesDisplay.cs" />
     <Compile Include="Rendering\HUD\TextDisplay.cs" />
     <Compile Include="Loaders\ObjLoader.cs" />
-    <Compile Include="Core\Rendering\Mesh.cs" />
+    <Compile Include="Core\Primitives\Mesh.cs" />
     <Compile Include="Managers\HudManager.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\SceneManager.cs" />
@@ -298,25 +300,31 @@
     </None>
     <None Include="Data\Objects\test.mtl" />
     <None Include="Data\Objects\test.obj" />
+    <Content Include="Data\Shaders\FlatWhite\fragmentShader.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Shaders\FlatWhite\vertexShader.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <Content Include="Data\Shaders\Generic\fragmentShader.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Shaders\Generic\vertexShader.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Shaders\HUD\hudFragment.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Shaders\HUD\hudVertex.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Shaders\Skybox\fragmentShader.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Shaders\Skybox\vertexShader.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>

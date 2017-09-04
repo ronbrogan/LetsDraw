@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Foundation.Core.Rendering;
+using Foundation.Core.Primitives;
 using OpenTK.Graphics.OpenGL;
 
 namespace Foundation.Managers
@@ -34,6 +35,8 @@ namespace Foundation.Managers
             ShaderManager.UniformCatalog.Add(generic, genericCat);
 
             CreateShader("HudShader", "Data/Shaders/HUD/hudVertex.glsl", "Data/Shaders/HUD/hudFragment.glsl");
+
+            CreateShader("FlatWhite", "Data/Shaders/FlatWhite/vertexShader.glsl", "Data/Shaders/FlatWhite/fragmentShader.glsl");
         }
 
         public static IEnumerable<int> AllShaders()

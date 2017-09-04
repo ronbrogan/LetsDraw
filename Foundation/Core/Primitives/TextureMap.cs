@@ -2,7 +2,7 @@
 using Foundation.Loaders;
 using OpenTK;
 
-namespace Foundation.Core.Rendering
+namespace Foundation.Core.Primitives
 {
     public class TextureMap
     {

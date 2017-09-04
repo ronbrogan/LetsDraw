@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Foundation.Core.Rendering;
+using Foundation.Core.Primitives;
 using Foundation.Data.Enums;
 using OpenTK;
 

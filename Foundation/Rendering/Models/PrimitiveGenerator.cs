@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Foundation.Core;
-using Foundation.Core.Rendering;
+using Foundation.Core.Primitives;
 using Foundation.Data.Enums;
 using OpenTK;
 

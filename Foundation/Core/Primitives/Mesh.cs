@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Foundation.Serialization;
 using Newtonsoft.Json;
 
-namespace Foundation.Core.Rendering
+namespace Foundation.Core.Primitives
 {
     [JsonConverter(typeof(MeshConverter))]
     public class Mesh
@@ -29,6 +29,7 @@ namespace Foundation.Core.Rendering
 
         public List<uint> Indicies = new List<uint>();
         public List<VertexFormat> Verticies = new List<VertexFormat>();
+        public Cuboid BoundingBox = new Cuboid();
 
         public Material Material { get; set; }
         public int? ShaderOverride { get; set; }

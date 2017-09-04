@@ -43,7 +43,6 @@ namespace SceneComposer
 
             engine = this.RenderWindow.CreateEngine();
 
-
             fileService.OnFileOpen += (_, fe) =>
             {
                 var loadScene = new BackgroundWorker()

@@ -17,7 +17,7 @@ namespace WPFCommon.Misc
         public override void WriteLine(string message)
         {
             if (Debugger.IsAttached)
-                Debugger.Break();
+                Debug.WriteLine(message);
         }
     }
 }

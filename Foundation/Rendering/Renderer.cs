@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using Foundation.Core;
 using Foundation.Core.Rendering;
+using Foundation.Core.Primitives;
 using Foundation.Data.Shaders;
 using Foundation.Data.Shaders.Generic;
 using Foundation.Managers;
@@ -11,41 +12,42 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Vector3 = OpenTK.Vector3;
 using Foundation.World;
+using OpenTK.Input;
 
 namespace Foundation.Rendering
 {
     public static class Renderer
     {
-        private static Dictionary<Guid, uint> VertexArrayObjects = new Dictionary<Guid, uint>();
-        private static Dictionary<Guid, uint> VertexBufferObjects = new Dictionary<Guid, uint>();
-        private static Dictionary<Guid, uint> IndexBufferObjects = new Dictionary<Guid, uint>();
+        private static Dictionary<Guid, uint> MeshVAOs = new Dictionary<Guid, uint>();
+        private static Dictionary<Guid, uint> BoundingBoxVAOs = new Dictionary<Guid, uint>();
+        //private static Dictionary<Guid, uint> VertexBufferObjects = new Dictionary<Guid, uint>();
+        //private static Dictionary<Guid, uint> IndexBufferObjects = new Dictionary<Guid, uint>();
 
         private static uint MatriciesUniformHandle = 0;
         private static uint PointLightContainerHandle = 0;
 
+        public static bool RenderBoundingBoxes = false;
+
         public static bool MeshCompiled(Mesh mesh)
         {
-            return IndexBufferObjects.ContainsKey(mesh.Id);
+            return MeshVAOs.ContainsKey(mesh.Id);
+        }
+
+        public static bool BoundingBoxCompiled(Mesh mesh)
+        {
+            return BoundingBoxVAOs.ContainsKey(mesh.Id);
         }
 
         public static void CompileMesh(Mesh mesh)
         {
             uint vao, vbo, ibo;
-
-            var vboExists = VertexBufferObjects.ContainsKey(mesh.Id);
                 
             GL.GenVertexArrays(1, out vao);
             GL.BindVertexArray(vao);
 
-            if(!vboExists)
-                GL.GenBuffers(1, out vbo);
-            else
-                vbo = VertexBufferObjects[mesh.Id];
-
+            GL.GenBuffers(1, out vbo);
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-
-            if(!vboExists)
-                GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(mesh.Verticies.Count * VertexFormat.Size), mesh.Verticies.ToArray(), BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(mesh.Verticies.Count * VertexFormat.Size), mesh.Verticies.ToArray(), BufferUsageHint.StaticDraw);
 
             GL.GenBuffers(1, out ibo);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ibo);
@@ -76,11 +78,35 @@ namespace Foundation.Rendering
             // At location 4 there'll be three floats, 20 bytes in to the format
             GL.VertexAttribPointer(4, 3, VertexAttribPointerType.Float, false, VertexFormat.Size, 44);
 
-            VertexArrayObjects.Add(mesh.Id, vao);
-            if(!vboExists)
-                VertexBufferObjects.Add(mesh.Id, vbo);
-            IndexBufferObjects.Add(mesh.Id, ibo);
+            MeshVAOs.Add(mesh.Id, vao);
+        }
 
+        public static void CompileBoundingBox(Mesh mesh)
+        {
+            uint vao, vbo, ibo;
+
+            GL.GenVertexArrays(1, out vao);
+            GL.BindVertexArray(vao);
+
+            var vec3Size = BlittableValueType.StrideOf(new Vector3());
+            
+            var verts = mesh.BoundingBox.GetVerticies();
+            var lineIndicies = mesh.BoundingBox.GetIndicies();
+
+            GL.GenBuffers(1, out vbo);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(verts.Count * vec3Size), verts.ToArray(), BufferUsageHint.StaticDraw);
+
+            GL.GenBuffers(1, out ibo);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ibo);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(lineIndicies.Length * sizeof(uint)), lineIndicies.ToArray(), BufferUsageHint.StaticDraw);
+
+            // Enables binding to location 0 in vertex shader
+            GL.EnableVertexAttribArray(0);
+            // At location 0, there'll be 3 floats
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, vec3Size, 0);
+
+            BoundingBoxVAOs.Add(mesh.Id, vao);
         }
 
         public static void RenderMesh(Mesh mesh, Matrix4x4 RelativeTransformation, int? ShaderOverride = null)
@@ -93,7 +119,7 @@ namespace Foundation.Rendering
             var shader = ShaderOverride ?? mesh.ShaderOverride ?? ShaderManager.GetShaderForMaterial(material);
 
             ShaderManager.SetShader(shader);
-            GL.BindVertexArray(VertexArrayObjects[mesh.Id]);
+            GL.BindVertexArray(MeshVAOs[mesh.Id]);
 
             Matrix4x4 invertedNormal;
             Matrix4x4.Invert(RelativeTransformation, out invertedNormal);
@@ -128,6 +154,18 @@ namespace Foundation.Rendering
 
             GL.BindBufferBase(BufferRangeTarget.UniformBuffer, 1, mesh.uniformBufferHandle);
             GL.DrawElements(PrimitiveType.Triangles, mesh.Indicies.Count, DrawElementsType.UnsignedInt, 0);
+
+            if(RenderBoundingBoxes && mesh.BoundingBox != null)
+            {
+                if (!BoundingBoxCompiled(mesh))
+                    CompileBoundingBox(mesh);
+
+                var bbShader = ShaderManager.GetShader("FlatWhite");
+                ShaderManager.SetShader(bbShader);
+                GL.BindVertexArray(BoundingBoxVAOs[mesh.Id]);
+
+                GL.DrawElements(PrimitiveType.Lines, 26, DrawElementsType.UnsignedInt, 0);
+            }
         }
 
         private static void SetMaterialProperties(Material material, ref GenericUniform data)
@@ -201,7 +239,19 @@ namespace Foundation.Rendering
 
         public static void DrawRenderQueue(RenderQueue queue)
         {
-            foreach(var group in queue.MeshRegistry)
+            foreach (var key in InputManager.PressedKeys)
+            {
+                switch (key)
+                {
+                    case Key.F4:
+                        // This is a terminal press
+                        InputManager.ProcessKey(key);
+                        RenderBoundingBoxes = !RenderBoundingBoxes;
+                        break;
+                }
+            }
+
+            foreach (var group in queue.MeshRegistry)
             {
                 foreach (var mesh in group.Value)
                 {

@@ -2,6 +2,7 @@
 using System.Linq;
 using Foundation.Core;
 using Foundation.Core.Rendering;
+using Foundation.Core.Primitives;
 using Foundation.Loaders;
 using Foundation.Managers;
 using Foundation.Rendering.Models;

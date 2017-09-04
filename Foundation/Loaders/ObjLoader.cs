@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using Foundation.Core;
 using Foundation.Core.Rendering;
+using Foundation.Core.Primitives;
 
 namespace Foundation.Loaders
 {
@@ -95,6 +96,14 @@ namespace Foundation.Loaders
                         mesh.Indicies.Add((uint)index1);
                         var index2 = dict.Add(parts[3], vert2);
                         mesh.Indicies.Add((uint)index2);
+
+                        mesh.BoundingBox.LowerX = MathExtensions.Min(mesh.BoundingBox.LowerX, vert0position.X, vert1position.X, vert2position.X);
+                        mesh.BoundingBox.UpperX = MathExtensions.Max(mesh.BoundingBox.UpperX, vert0position.X, vert1position.X, vert2position.X);
+                        mesh.BoundingBox.LowerY = MathExtensions.Min(mesh.BoundingBox.LowerY, vert0position.Y, vert1position.Y, vert2position.Y);
+                        mesh.BoundingBox.UpperY = MathExtensions.Max(mesh.BoundingBox.UpperY, vert0position.Y, vert1position.Y, vert2position.Y);
+                        mesh.BoundingBox.LowerZ = MathExtensions.Min(mesh.BoundingBox.LowerZ, vert0position.Z, vert1position.Z, vert2position.Z);
+                        mesh.BoundingBox.UpperZ = MathExtensions.Max(mesh.BoundingBox.UpperZ, vert0position.Z, vert1position.Z, vert2position.Z);
+
                         break;
                 }
             }
