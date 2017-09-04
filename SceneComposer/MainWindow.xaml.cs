@@ -24,7 +24,6 @@ namespace SceneComposer
     public partial class MainWindow : Window
     {
         private Engine engine;
-        private DateTime lastMeasure;
 
         private ApplicationState appState;
 
@@ -133,18 +132,7 @@ namespace SceneComposer
 
             worker.ReportProgress(0, "Parsing File");
 
-            Scene scene;
-
-            using (var sceneFile = new FileStream((string)e.Argument, FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (StreamReader sr = new StreamReader(sceneFile))
-            using (JsonReader reader = new JsonTextReader(sr))
-            {
-                JsonSerializer serializer = new JsonSerializer();
-
-                serializer.ContractResolver = new LetsDrawContractResolver();
-
-                scene = serializer.Deserialize<Scene>(reader);
-            }
+            var scene = SceneFactory.FromFile((string)e.Argument);
 
             worker.ReportProgress(60, "Initializing Scene");
 
@@ -163,6 +151,7 @@ namespace SceneComposer
 
             var sceneData = JsonConvert.SerializeObject(scene);
 
+            // TODO implement Save to opened and save as to avoid static
             File.WriteAllText(System.IO.Path.Combine(Environment.CurrentDirectory, "sceneoutput.json"), sceneData);
         }
 
@@ -172,18 +161,6 @@ namespace SceneComposer
         }
 
         #endregion
-
-        private async Task ForceUiUpdate()
-        {
-            // TODO Not working reliably, dont use
-
-            var frame = new DispatcherFrame();
-            await Dispatcher.CurrentDispatcher.InvokeAsync(() =>
-            {
-                frame.Continue = false;
-            }, DispatcherPriority.Background);
-            Dispatcher.PushFrame(frame);
-        }
 
 
         private void LoadSceneryFromFile_Click(object sender, RoutedEventArgs e)

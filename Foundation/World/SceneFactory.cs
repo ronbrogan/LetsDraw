@@ -1,6 +1,9 @@
 ﻿using Foundation.Core;
+using Foundation.Serialization;
 using Foundation.World.Cameras;
+using Newtonsoft.Json;
 using OpenTK;
+using System.IO;
 
 namespace Foundation.World
 {
@@ -25,6 +28,24 @@ namespace Foundation.World
             powerthing.Transform.Scale = 0.7f;
 
             scene.Scenery.Add(powerthing);
+
+            return scene;
+        }
+
+        public static Scene FromFile(string filePath)
+        {
+            Scene scene;
+
+            using (var sceneFile = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (StreamReader sr = new StreamReader(sceneFile))
+            using (JsonReader reader = new JsonTextReader(sr))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+
+                serializer.ContractResolver = new LetsDrawContractResolver();
+
+                scene = serializer.Deserialize<Scene>(reader);
+            }
 
             return scene;
         }
