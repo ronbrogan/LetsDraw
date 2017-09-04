@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ShaderSleuth"
         xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:wpfCommon="clr-namespace:WPFCommon.CustomControls;assembly=WPFCommon"
         mc:Ignorable="d"
         Title="Shader Sleuth" Height="569.667" Width="889.667" Background="#FF333333">
     <Grid>
@@ -27,7 +28,7 @@
             </MenuItem>
         </Menu>
 
-        <WindowsFormsHost x:Name="WinformsHost" Margin="10,34,10,10" Grid.Column="1" Grid.Row="1"/>
+        <wpfCommon:LetsDrawViewport x:Name="WinformsHost" Margin="10,34,10,10" Grid.Column="1" Grid.Row="1"/>
         <TabControl x:Name="tabControl" Margin="10" Grid.Row="1" Grid.RowSpan="2">
             <TabItem Header="Vertex" Padding="6,2">
                 <Grid Background="#FFE5E5E5">

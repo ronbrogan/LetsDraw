@@ -55,9 +55,6 @@
     <Reference Include="OpenTK, Version=3.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.3.0.0-pre\lib\net20\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK.GLControl">
-      <HintPath>.\OpenTK.GLControl.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -132,7 +129,7 @@
       <Name>Foundation</Name>
     </ProjectReference>
     <ProjectReference Include="..\WPFCommon\WPFCommon.csproj">
-      <Project>{b80ec98d-70d1-4f1d-a6f2-2fb82e3942f1}</Project>
+      <Project>{7c6fe555-4c64-49db-ac17-cfd1c54e6341}</Project>
       <Name>WPFCommon</Name>
     </ProjectReference>
   </ItemGroup>

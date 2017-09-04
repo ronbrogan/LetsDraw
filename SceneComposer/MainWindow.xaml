@@ -6,6 +6,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:SceneComposer"
         xmlns:world="clr-namespace:Foundation.World;assembly=Foundation"
+        xmlns:wpfCommon="clr-namespace:WPFCommon.CustomControls;assembly=WPFCommon"
         mc:Ignorable="d"
         Title="Scene Composer" Height="743.577" Width="1121.673" Background="#FF2D2D30">
 
@@ -47,7 +48,7 @@
                 <MenuItem Header="Skybox" />
             </MenuItem>
             <MenuItem Header="Insert">
-                <MenuItem Header="Scenery from File" IsEnabled="False" />
+                <MenuItem Header="Scenery from File" Click="LoadSceneryFromFile_Click" />
                 <MenuItem Header="Scenery from Scene" IsEnabled="False" />
                 <MenuItem Header="Terrain from File" IsEnabled="False" />
                 <MenuItem Header="Terrain from Scene" IsEnabled="False" />
@@ -57,7 +58,7 @@
                 <MenuItem Header="About" />
             </MenuItem>
         </Menu>
-        <WindowsFormsHost x:Name="RenderWindow" Margin="6,4,4,4" Grid.Row="1" Grid.Column="0" Focusable="True"/>
+        <wpfCommon:LetsDrawViewport x:Name="RenderWindow" Margin="6,4,4,4" Grid.Row="1" Grid.Column="0" Focusable="True"/>
         <StatusBar Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="3" Background="#FF007ACC" >
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -83,7 +84,7 @@
         </StatusBar>
         <GridSplitter x:Name="gridSplitter" HorizontalAlignment="Left" Margin="0,3,0,5" Grid.Row="1" Width="4" Grid.Column="1" Background="#FF3E3E42"/>
         <GridSplitter x:Name="gridSplitter1" HorizontalAlignment="Stretch" Height="4" Margin="6,0,4,0" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Background="#FF3E3E42" />
-        <TabControl x:Name="editTabControl" Grid.Column="1" HorizontalAlignment="Left" Margin="10,4,0,5" Grid.Row="1" Width="484" DataContext="{Binding Source={StaticResource Scene}}">
+        <TabControl x:Name="editTabControl" Grid.Column="1" HorizontalAlignment="Left" Margin="10,4,0,5" Grid.Row="1" Width="484">
             <TabItem Header="Scenery" Foreground="White" IsSelected="True" Background="Black">
                 <Grid Background="#FF252526">
                     <ItemsControl Grid.Column="0" Grid.Row="0" Height="Auto" VerticalAlignment="Top" Margin="10,10,0,0" ItemsSource="{Binding Path=Scenery}">

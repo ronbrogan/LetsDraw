@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaderSleuth", "ShaderSleut
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{1455B930-18DC-4946-BD59-0589759C8224}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFCommon", "WPFCommon\WPFCommon.csproj", "{B80EC98D-70D1-4F1D-A6F2-2FB82E3942F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFCommon", "WPFCommon\WPFCommon.csproj", "{7C6FE555-4C64-49DB-AC17-CFD1C54E6341}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,16 +37,16 @@ Global
 		{65AF8352-4E41-42E5-818C-18457222EABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65AF8352-4E41-42E5-818C-18457222EABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65AF8352-4E41-42E5-818C-18457222EABE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B80EC98D-70D1-4F1D-A6F2-2FB82E3942F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B80EC98D-70D1-4F1D-A6F2-2FB82E3942F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B80EC98D-70D1-4F1D-A6F2-2FB82E3942F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B80EC98D-70D1-4F1D-A6F2-2FB82E3942F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C6FE555-4C64-49DB-AC17-CFD1C54E6341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C6FE555-4C64-49DB-AC17-CFD1C54E6341}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C6FE555-4C64-49DB-AC17-CFD1C54E6341}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C6FE555-4C64-49DB-AC17-CFD1C54E6341}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{B80EC98D-70D1-4F1D-A6F2-2FB82E3942F1} = {1455B930-18DC-4946-BD59-0589759C8224}
+		{7C6FE555-4C64-49DB-AC17-CFD1C54E6341} = {1455B930-18DC-4946-BD59-0589759C8224}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0AB28044-4EF6-49F5-8BF1-F53281776DE2}

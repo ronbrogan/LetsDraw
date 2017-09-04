@@ -23,15 +23,12 @@ namespace SceneComposer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private GLControl glControl;
         private Engine engine;
         private DateTime lastMeasure;
 
         private ApplicationState appState;
 
         private Scene defaultScene;
-
-        private int msaaSamples = 8;
 
         private FileService fileService;
 
@@ -41,13 +38,12 @@ namespace SceneComposer
             appState = new ApplicationState();
 
             Resources.Add("ApplicationStateData", appState);
-            Resources.Add("Scene", new Scene());
             Resources.Add("FileService", fileService);
 
-            lastMeasure = DateTime.Now;
-
             InitializeComponent();
-            InitializeGlControl();
+
+            engine = this.RenderWindow.CreateEngine();
+
 
             fileService.OnFileOpen += (_, fe) =>
             {
@@ -67,74 +63,6 @@ namespace SceneComposer
             };
         }
 
-        private void InitializeGlControl()
-        {
-            glControl = new GLControl(new GraphicsMode(32, 24, 0, msaaSamples));
-            glControl.CreateControl();
-            glControl.MakeCurrent();
-
-            engine = new Engine(glControl.Size);
-
-            SetupEngine();
-            BindEngineToControl();
-
-            glControl.Dock = DockStyle.Fill;
-            glControl.Paint += glControl_Paint;
-
-            engine.Start();
-
-            this.RenderWindow.Child = glControl;
-        }
-
-        private void SetupEngine()
-        {
-            glControl.VSync = false;
-
-            GL.Enable(EnableCap.DebugOutput);
-            GL.Enable(EnableCap.Blend);
-            GL.Enable(EnableCap.DepthTest);
-            GL.Enable(EnableCap.Multisample);
-            GL.Enable(EnableCap.CullFace);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-        }
-
-        private void BindEngineToControl()
-        {
-            glControl.Resize += engine.Resize;
-            engine.SwapBuffers += Engine_SwapBuffers;
-
-            glControl.KeyDown += InputManager.NotifyKeyDown;
-            glControl.KeyUp += InputManager.NotifyKeyUp;
-            glControl.MouseMove += InputManager.NotifyMouse;
-            glControl.MouseDown += InputManager.NotifyMouseDown;
-            glControl.MouseUp += InputManager.NotifyMouseUp;
-        }
-
-        private void Engine_SwapBuffers(object sender, EventArgs e)
-        {
-            glControl.SwapBuffers();
-        }
-
-        private void glControl_Paint(object sender, PaintEventArgs e)
-        {
-            // Rendering in dispatch queue to allow UI updates
-            RenderWindow.Dispatcher.InvokeAsync(() =>
-            {
-                var now = DateTime.Now;
-                var elapsed = (now - lastMeasure).TotalSeconds;
-                if (elapsed == 0d)
-                    elapsed = 0.000001;
-
-                engine.Render(sender, new FrameEventArgs(elapsed));
-
-                // Immediately invalidate state, force repaint ASAP
-                ((GLControl)sender).Invalidate();
-
-                lastMeasure = now;
-
-            }, DispatcherPriority.Render);
-        }
-
         #region File Menu
 
         private void NewScene_Click(object sender, RoutedEventArgs e)
@@ -150,8 +78,6 @@ namespace SceneComposer
             appState.IsLoading = true;
             appState.StatusBarText = "Loading Default Scene";
 
-            await ForceUiUpdate();
-
             await RenderWindow.Dispatcher.InvokeAsync(() =>
             {
                 engine.LoadScene(defaultScene);
@@ -159,7 +85,8 @@ namespace SceneComposer
 
             appState.IsLoading = false;
             appState.StatusBarText = "Ready";
-            Resources["Scene"] = defaultScene;
+
+            editTabControl.DataContext = defaultScene;
         }
 
         private void LoadScene_Click(object sender, RoutedEventArgs e)
@@ -256,6 +183,12 @@ namespace SceneComposer
                 frame.Continue = false;
             }, DispatcherPriority.Background);
             Dispatcher.PushFrame(frame);
+        }
+
+
+        private void LoadSceneryFromFile_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

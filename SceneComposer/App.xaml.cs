@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Foundation.Serialization;
 using Newtonsoft.Json;
+using WPFCommon.Misc;
 
 namespace SceneComposer
 {
@@ -26,30 +27,17 @@ namespace SceneComposer
                     ContractResolver = new LetsDrawContractResolver()
                 };
 
-
-
                 return settings;
             };
 
+#if DEBUG
             PresentationTraceSources.Refresh();
             PresentationTraceSources.DataBindingSource.Listeners.Add(new ConsoleTraceListener());
             PresentationTraceSources.DataBindingSource.Listeners.Add(new DebugTraceListener());
             PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Warning | SourceLevels.Error;
-
+#endif
 
             base.OnStartup(e);
-        }
-    }
-
-    public class DebugTraceListener : TraceListener
-    {
-        public override void Write(string message)
-        {
-        }
-
-        public override void WriteLine(string message)
-        {
-            Debugger.Break();
         }
     }
 }
