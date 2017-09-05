@@ -5,6 +5,7 @@ using OpenTK;
 using Quaternion = OpenTK.Quaternion;
 using Vector2 = System.Numerics.Vector2;
 using Vector3 = System.Numerics.Vector3;
+using Foundation.Core;
 
 namespace Foundation
 {
@@ -104,6 +105,21 @@ namespace Foundation
             result.Z = ((num * num3) * num6) - ((num2 * num4) * num5);
             result.W = ((num * num3) * num5) + ((num2 * num4) * num6);
             return result;
+        }
+
+        public static float Axis(this Vector3 input, Axis axis)
+        {
+            switch(axis)
+            {
+                case Core.Axis.X:
+                    return input.X;
+                case Core.Axis.Y:
+                    return input.Y;
+                case Core.Axis.Z:
+                    return input.Z;
+                default:
+                    return 0;
+            }
         }
     }
 }

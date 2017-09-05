@@ -6,16 +6,23 @@ using Foundation.Core.Rendering;
 using Foundation.Core.Primitives;
 using Foundation.Loaders;
 using Foundation.World;
+using Foundation.Core.Physics;
 
 namespace Foundation.Core
 {
-    public class Terrain : IRenderableComponent
+    public class Terrain : IRenderableComponent, ICollidableComponent
     {
         public Guid Id { get; private set; }
 
         public WorldTransform Transform { get; set; }
 
         public List<Mesh> Meshes { get; set; }
+
+        public List<Mesh> CollisionMeshes
+        {
+            get { return Meshes; }
+            set { Meshes = value; }
+        }
 
         public Terrain()
         {

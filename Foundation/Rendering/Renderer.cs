@@ -164,6 +164,12 @@ namespace Foundation.Rendering
                 ShaderManager.SetShader(bbShader);
                 GL.BindVertexArray(BoundingBoxVAOs[mesh.Id]);
 
+                var bbColor = new Vector3(1, 1, 1);
+
+                if (mesh.Colliding)
+                    bbColor = new Vector3(1, 0, 0);
+
+                GL.Uniform3(GL.GetUniformLocation(bbShader, "color"), ref bbColor);
                 GL.DrawElements(PrimitiveType.Lines, 26, DrawElementsType.UnsignedInt, 0);
             }
         }

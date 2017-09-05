@@ -36,5 +36,8 @@ namespace Foundation.Core.Primitives
 
         public int LastGenericUniformHash;
         public uint uniformBufferHandle = 0;
+
+
+        public bool Colliding = false;
     }
 }

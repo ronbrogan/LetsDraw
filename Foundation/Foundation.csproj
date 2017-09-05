@@ -80,8 +80,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Axis.cs" />
     <Compile Include="Core\Engine.cs" />
     <Compile Include="Core\ISceneChangeSubscriber.cs" />
+    <Compile Include="Core\Physics\ICollidableComponent.cs" />
     <Compile Include="Core\Primitives\Cuboid.cs" />
     <Compile Include="Core\Rendering\IRenderableComponent.cs" />
     <Compile Include="Core\Primitives\Material.cs" />
@@ -102,6 +104,8 @@
     <Compile Include="Loaders\MtlLoader.cs" />
     <Compile Include="Managers\TextureManager.cs" />
     <Compile Include="MathExtensions.cs" />
+    <Compile Include="Physics\PhysicsEngine.cs" />
+    <Compile Include="Physics\AxisColliderHelper.cs" />
     <Compile Include="Rendering\HUD\FramesDisplay.cs" />
     <Compile Include="Rendering\HUD\TextDisplay.cs" />
     <Compile Include="Loaders\ObjLoader.cs" />
@@ -339,6 +343,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

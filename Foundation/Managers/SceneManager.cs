@@ -6,6 +6,7 @@ using Foundation.Rendering;
 using Foundation.Rendering.HUD;
 using Foundation.World;
 using OpenTK.Graphics.OpenGL;
+using Foundation.Physics;
 
 namespace Foundation.Managers
 {
@@ -16,12 +17,15 @@ namespace Foundation.Managers
         private List<ISceneChangeSubscriber> sceneChangeSubscribers = new List<ISceneChangeSubscriber>();
         private Size size { get; set; }
 
+        private PhysicsEngine physics { get; }
+
         public bool HasScene = false;
 
         public SceneManager(Size screenSize)
         {
             hudManager = new HudManager(screenSize);
             size = screenSize;
+            physics = new PhysicsEngine();
         }
 
         public void Load(Scene newScene)
@@ -31,6 +35,11 @@ namespace Foundation.Managers
             scene = newScene;
             scene.Load(size);
             HasScene = scene.Loaded;
+
+            foreach (var scenery in scene.Scenery)
+                physics.RegisterCollidable(scenery);
+
+            physics.RegisterCollidable(scene.Terrain);
         }
 
         public Scene GetScene()
@@ -79,6 +88,8 @@ namespace Foundation.Managers
         public void UpdateScene(double deltaTime)
         {
             scene.Skybox?.Update(deltaTime);
+
+            physics.DoBroadPhase();
 
             if(scene.Camera != null)
             {

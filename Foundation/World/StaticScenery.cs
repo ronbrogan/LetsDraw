@@ -5,10 +5,11 @@ using System.Numerics;
 using Foundation.Core.Rendering;
 using Foundation.Core.Primitives;
 using Foundation.Loaders;
+using Foundation.Core.Physics;
 
 namespace Foundation.World
 {
-    public class StaticScenery : IRenderableComponent
+    public class StaticScenery : IRenderableComponent, ICollidableComponent
     {
         public Guid Id { get; set; }
 
@@ -16,6 +17,12 @@ namespace Foundation.World
 
         public List<Mesh> Meshes { get; set; }
 
+        public List<Mesh> CollisionMeshes
+        {
+            get { return Meshes;  }
+            set { Meshes = value; }
+        }
+        
         public StaticScenery()
         {
             Id = Guid.NewGuid();

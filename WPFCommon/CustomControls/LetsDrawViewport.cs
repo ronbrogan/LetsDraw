@@ -74,7 +74,7 @@ namespace WPFCommon.CustomControls
             GL.Enable(EnableCap.Multisample);
             GL.Enable(EnableCap.CullFace);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-            GL.LineWidth(10);
+            GL.LineWidth(1);
 
             glControl.Resize += engine.Resize;
             engine.SwapBuffers += Engine_SwapBuffers;
