@@ -1,20 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Threading;
-using Foundation.Core;
 using Foundation.World;
-using Foundation.Serialization;
 using Newtonsoft.Json;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
-using InputManager = Foundation.Managers.InputManager;
 using SceneComposer.MenuServices;
 using System.Configuration;
+using Foundation;
 
 namespace SceneComposer
 {
@@ -65,7 +58,10 @@ namespace SceneComposer
 
         private void NewScene_Click(object sender, RoutedEventArgs e)
         {
-            engine.LoadScene(new Scene());
+            var emtpyScene = new Scene();
+
+            engine.LoadScene(emtpyScene);
+            editTabControl.DataContext = emtpyScene;
         }
 
         // Method for loading a default scene for debugging purposes

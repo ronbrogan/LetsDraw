@@ -1,18 +1,18 @@
-﻿using Foundation.Core;
-using OpenTK;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows;
 using Foundation.World;
 using Foundation.Rendering.Models;
-using Foundation.Core.Primitives;
-using Foundation.World.Cameras;
 using Foundation.Managers;
 using System.IO;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Highlighting;
 using System.Xml;
+using Core.Primitives;
+using Foundation;
+using System.Numerics;
+using Foundation.Rendering.Cameras;
 
 namespace ShaderSleuth
 {
@@ -82,7 +82,7 @@ namespace ShaderSleuth
 
             if (!shaderGood)
             {
-                System.Windows.MessageBox.Show("Shader compilation failed.");
+                MessageBox.Show("Shader compilation failed.");
                 return;
             }
                 

@@ -55,9 +55,8 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK, Version=3.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.3.0.0-pre\lib\net20\OpenTK.dll</HintPath>
@@ -67,9 +66,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.1.1\lib\net46\System.Numerics.Vectors.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -80,64 +78,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Axis.cs" />
-    <Compile Include="Core\Engine.cs" />
-    <Compile Include="Core\ISceneChangeSubscriber.cs" />
-    <Compile Include="Core\Physics\ICollidableComponent.cs" />
-    <Compile Include="Core\Primitives\Cuboid.cs" />
-    <Compile Include="Core\Rendering\IRenderableComponent.cs" />
-    <Compile Include="Core\Primitives\Material.cs" />
-    <Compile Include="Core\Rendering\PointLight.cs" />
-    <Compile Include="Core\Primitives\TextureMap.cs" />
-    <Compile Include="Core\Terrain.cs" />
-    <Compile Include="Data\Enums\IlluminationModel.cs" />
-    <Compile Include="Data\Enums\ImfChanOption.cs" />
-    <Compile Include="Data\Enums\ReflectionMapType.cs" />
     <Compile Include="Data\Shaders\Generic\GenericUniforms.cs" />
     <Compile Include="Data\Shaders\MatriciesUniform.cs" />
+    <Compile Include="Engine.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Core\Rendering\ICamera.cs" />
-    <Compile Include="Core\Rendering\IHudElement.cs" />
-    <Compile Include="Core\IListener.cs" />
-    <Compile Include="Core\IndexedDictionary.cs" />
-    <Compile Include="Data\Enums\MeshShaderType.cs" />
+    <Compile Include="ISceneChangeSubscriber.cs" />
     <Compile Include="Loaders\MtlLoader.cs" />
     <Compile Include="Managers\TextureManager.cs" />
     <Compile Include="MathExtensions.cs" />
     <Compile Include="Physics\PhysicsEngine.cs" />
     <Compile Include="Physics\AxisColliderHelper.cs" />
+    <Compile Include="Rendering\Cameras\FpCamera.cs" />
     <Compile Include="Rendering\HUD\FramesDisplay.cs" />
     <Compile Include="Rendering\HUD\TextDisplay.cs" />
     <Compile Include="Loaders\ObjLoader.cs" />
-    <Compile Include="Core\Primitives\Mesh.cs" />
     <Compile Include="Managers\HudManager.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\SceneManager.cs" />
     <Compile Include="Managers\ShaderManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rendering\Models\PrimitiveGenerator.cs" />
-    <Compile Include="Rendering\Renderer.cs" />
+    <Compile Include="Rendering\OpenGLRenderer.cs" />
     <Compile Include="Rendering\RenderQueue.cs" />
-    <Compile Include="Serialization\Matrix3Converter.cs" />
-    <Compile Include="Serialization\LetsDrawContractResolver.cs" />
-    <Compile Include="Serialization\QuaternionConverter.cs" />
-    <Compile Include="Serialization\MeshConverter.cs" />
-    <Compile Include="Serialization\Vector2Converter.cs" />
-    <Compile Include="Serialization\Matrix4Converter.cs" />
-    <Compile Include="Serialization\Vector3Converter.cs" />
-    <Compile Include="Serialization\VertexFormatConverter.cs" />
     <Compile Include="World\SceneFactory.cs" />
     <Compile Include="World\StaticScenery.cs" />
-    <Compile Include="World\WorldTransform.cs" />
-    <Compile Include="World\Cameras\FpCamera.cs" />
-    <Compile Include="Core\Rendering\IRenderable.cs" />
     <Compile Include="Rendering\Models\LoadedModel.cs" />
     <Compile Include="Rendering\Models\Model.cs" />
-    <Compile Include="Core\Rendering\ShaderUniformCatalog.cs" />
     <Compile Include="World\Scene.cs" />
     <Compile Include="World\Skybox.cs" />
     <Compile Include="Loaders\TextureLoader.cs" />
-    <Compile Include="Core\VertexFormat.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\Objects\block.png" />
@@ -343,7 +312,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{d0b65317-4e32-4e1f-9ce7-f72c93863996}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

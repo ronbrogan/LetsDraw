@@ -1,9 +1,9 @@
-﻿using Foundation.Core;
-using Foundation.Serialization;
-using Foundation.World.Cameras;
+﻿using Core;
+using Core.Serialization;
+using Foundation.Rendering.Cameras;
 using Newtonsoft.Json;
-using OpenTK;
 using System.IO;
+using System.Numerics;
 
 namespace Foundation.World
 {

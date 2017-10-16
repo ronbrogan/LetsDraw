@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using Foundation.Core;
-using Foundation.Core.Rendering;
 using Foundation.Rendering.HUD;
 using OpenTK.Input;
+using Core.Rendering;
 
 namespace Foundation.Managers
 {

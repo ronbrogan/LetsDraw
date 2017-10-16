@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Linq;
-using Foundation.Core;
-using Foundation.Core.Rendering;
-using Foundation.Core.Primitives;
 using Foundation.Loaders;
 using Foundation.Managers;
 using Foundation.Rendering.Models;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using Core.Primitives;
+using Core;
+using Core.Rendering;
 
 namespace Foundation.World
 {
-    public class Skybox : Model
+    public class Skybox : Model, IDisposable
     {
         private int Texture;
 
@@ -44,7 +44,7 @@ namespace Foundation.World
             var obj = new ObjLoader("Data/Objects/mappedcube.obj");
             Mesh = obj.Meshes.First(m => m.Value.Verticies.Count > 0).Value;
 
-            var vertexFormatSize = BlittableValueType.StrideOf(new VertexFormat());
+            var vertexFormatSize = VertexFormat.Size;
 
             GL.GenBuffers(1, out vbo);
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
@@ -100,5 +100,42 @@ namespace Foundation.World
 
             GL.DrawElements(PrimitiveType.Triangles, Mesh.Indicies.Count, DrawElementsType.UnsignedInt, 0);
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                    Mesh.Dispose();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~Skybox() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public new void Dispose()
+        {
+            base.Dispose(true);
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

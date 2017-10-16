@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Foundation.Core;
-using Foundation.Core.Rendering;
 using Foundation.Rendering;
-using Foundation.Rendering.Models;
-using Foundation.World.Cameras;
 using Newtonsoft.Json;
-using OpenTK;
-using Vector3 = OpenTK.Vector3;
+using System;
+using Core.Rendering;
+using Foundation.Rendering.Cameras;
+using Core;
+using System.Numerics;
 
 namespace Foundation.World
 {
-    public class Scene
+    public class Scene : IDisposable
     {
         public bool Loaded = false;
 
@@ -24,11 +23,6 @@ namespace Foundation.World
         public Skybox Skybox { get; set; }
         public Terrain Terrain { get; set; }
         public List<StaticScenery> Scenery { get; set; }
-
-        //public List<Mesh> Meshes = new List<Mesh>
-        //{
-        //    { PrimitiveGenerator.GenerateOctahedron(100f) }
-        //};
 
         [JsonIgnore]
         public RenderQueue RenderQueue { get; set; }
@@ -66,19 +60,16 @@ namespace Foundation.World
             Camera = new FpCamera(SpawnPoint);
         }
 
-        public void Load(Size size)
+        public void Load(Size size, IRenderer renderer)
         {
             Loaded = false;
 
-            RenderQueue = new RenderQueue();
+            RenderQueue = new RenderQueue(renderer);
 
             Skybox?.Load();
 
             if(Terrain != null)
                 RenderQueue.Add(Terrain);
-
-            //foreach (var mesh in Meshes)
-            //    RenderQueue.Add(mesh);
 
             foreach (var item in Scenery)
                 RenderQueue.Add(item);
@@ -101,11 +92,7 @@ namespace Foundation.World
 
         public void Unload()
         {
-            Loaded = false;
-
-            Skybox?.Destroy();
-            RenderQueue.Destroy();
-
+            
         }
 
         public void Update(double time)
@@ -139,9 +126,47 @@ namespace Foundation.World
             //Renderer.DrawLightPoints(PointLights, Terrain.Meshes.First().uniformBufferHandle);
         }
 
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                Loaded = false;
+
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                    Skybox?.Dispose();
+                    RenderQueue.Dispose();
+                    Terrain?.Dispose();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+                Scenery = null;
+                Camera = null;
+
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~Scene() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
         public void Dispose()
         {
-            
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
         }
+        #endregion
     }
 }

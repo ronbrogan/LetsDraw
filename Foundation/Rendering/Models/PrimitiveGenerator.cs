@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Foundation.Core;
-using Foundation.Core.Primitives;
-using Foundation.Data.Enums;
-using OpenTK;
+using Core.Primitives;
+using Core;
+using System.Numerics;
+using Core.Rendering.Enums;
 
 namespace Foundation.Rendering.Models
 {

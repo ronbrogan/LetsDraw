@@ -58,6 +58,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -124,6 +125,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{D0B65317-4E32-4E1F-9CE7-F72C93863996}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Foundation\Foundation.csproj">
       <Project>{65792da9-9a77-4937-b74b-a771ee212538}</Project>
       <Name>Foundation</Name>

@@ -1,4 +1,4 @@
-﻿using Foundation.Core;
+﻿using Foundation;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;

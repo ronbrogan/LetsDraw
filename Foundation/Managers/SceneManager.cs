@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Foundation.Core;
-using Foundation.Rendering;
 using Foundation.Rendering.HUD;
 using Foundation.World;
 using OpenTK.Graphics.OpenGL;
 using Foundation.Physics;
+using Core.Rendering;
+using Core;
 
 namespace Foundation.Managers
 {
@@ -17,23 +17,32 @@ namespace Foundation.Managers
         private List<ISceneChangeSubscriber> sceneChangeSubscribers = new List<ISceneChangeSubscriber>();
         private Size size { get; set; }
 
-        private PhysicsEngine physics { get; }
+        private readonly IRenderer renderer;
+
+        private PhysicsEngine physics { get; set; }
 
         public bool HasScene = false;
 
-        public SceneManager(Size screenSize)
+        public SceneManager(Size screenSize, IRenderer renderer)
         {
             hudManager = new HudManager(screenSize);
             size = screenSize;
-            physics = new PhysicsEngine();
+
+            this.renderer = renderer;
         }
 
         public void Load(Scene newScene)
         {
-            scene?.Unload();
+            physics = new PhysicsEngine();
+
             HasScene = false;
+            scene?.Dispose();
+            scene = null;
+
+            GC.Collect();
+            
             scene = newScene;
-            scene.Load(size);
+            scene.Load(size, renderer);
             HasScene = scene.Loaded;
 
             foreach (var scenery in scene.Scenery)
@@ -87,6 +96,9 @@ namespace Foundation.Managers
 
         public void UpdateScene(double deltaTime)
         {
+            if (scene == null)
+                return;
+
             scene.Skybox?.Update(deltaTime);
 
             physics.DoBroadPhase();
@@ -98,8 +110,8 @@ namespace Foundation.Managers
                 var proj = scene.Camera.GetProjectionMatrix();
                 var view = scene.Camera.GetViewMatrix();
 
-                //Renderer.AddPointLights(scene.PointLights);
-                Renderer.SetMatricies(scene.Camera.Position, view, proj);
+                //renderer.AddPointLights(scene.PointLights);
+                renderer.SetMatricies(scene.Camera.Position, view, proj);
             }
 
             scene.Update(deltaTime);

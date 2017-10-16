@@ -1,12 +1,8 @@
-﻿using Foundation.Core;
-using Foundation.Core.Physics;
-using Foundation.Core.Primitives;
+﻿using Core.Physics;
+using Core.Primitives;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Foundation.Physics
 {

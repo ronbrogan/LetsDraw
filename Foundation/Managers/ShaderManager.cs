@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using Foundation.Core.Rendering;
-using Foundation.Core.Primitives;
 using OpenTK.Graphics.OpenGL;
+using Core.Primitives;
+using Core.Rendering;
 
 namespace Foundation.Managers
 {

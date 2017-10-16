@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Core;
+using Core.Primitives;
+using Core.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using Foundation.Core;
-using Foundation.Core.Rendering;
-using Foundation.Core.Primitives;
 
 namespace Foundation.Loaders
 {
@@ -80,12 +80,12 @@ namespace Foundation.Loaders
                         var deltaUv1 = vert1texture - vert0texture;
                         var deltaUv2 = vert2texture - vert0texture;
                         var r = 1.0f / (deltaUv1.X * deltaUv2.Y - deltaUv1.Y * deltaUv2.X);
-                        var tangent = ((deltaPos1 * deltaUv2.Y - deltaPos2 * deltaUv1.Y) * r).ToGl();
-                        var bitangent = ((deltaPos2 * deltaUv1.X - deltaPos1 * deltaUv2.X) * r).ToGl();
+                        var tangent = ((deltaPos1 * deltaUv2.Y - deltaPos2 * deltaUv1.Y) * r);
+                        var bitangent = ((deltaPos2 * deltaUv1.X - deltaPos1 * deltaUv2.X) * r);
 
-                        var vert0 = new VertexFormat(vert0position.ToGl(), vert0texture.ToGl(), vert0normal.ToGl(), tangent, bitangent);
-                        var vert1 = new VertexFormat(vert1position.ToGl(), vert1texture.ToGl(), vert1normal.ToGl(), tangent, bitangent);
-                        var vert2 = new VertexFormat(vert2position.ToGl(), vert2texture.ToGl(), vert2normal.ToGl(), tangent, bitangent);
+                        var vert0 = new VertexFormat(vert0position, vert0texture, vert0normal, tangent, bitangent);
+                        var vert1 = new VertexFormat(vert1position, vert1texture, vert1normal, tangent, bitangent);
+                        var vert2 = new VertexFormat(vert2position, vert2texture, vert2normal, tangent, bitangent);
 
                         var mesh = Meshes[currentMeshKey];
                         var dict = MeshDicts[currentMeshKey];

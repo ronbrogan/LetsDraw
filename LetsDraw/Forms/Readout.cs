@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using Foundation.World;
+using System.Numerics;
 
 namespace LetsDraw.Forms
 {
@@ -37,7 +38,7 @@ namespace LetsDraw.Forms
             foreach(var mesh in localScene.RenderQueue.MeshRegistry.Values.SelectMany(r => r))
             {
                 mesh.Material.DiffuseMap = null;
-                mesh.Material.DiffuseColor = new OpenTK.Vector3(0.5f);
+                mesh.Material.DiffuseColor = new Vector3(0.5f);
             }
         }
     }

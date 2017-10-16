@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Foundation.Core.Primitives;
-using Foundation.Data.Enums;
-using OpenTK;
+using Core.Primitives;
+using Core.Rendering.Enums;
+using Core.Extensions;
+using System.Numerics;
 
 namespace Foundation.Loaders
 {

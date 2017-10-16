@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
-using Foundation.Core.Rendering;
-using Foundation.Core.Primitives;
 using Foundation.Loaders;
-using Foundation.Core.Physics;
+using Core.Primitives;
+using Core.Rendering;
+using Core.Physics;
 
 namespace Foundation.World
 {

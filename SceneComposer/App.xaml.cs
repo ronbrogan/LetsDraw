@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using System.Windows;
-using Foundation.Serialization;
 using Newtonsoft.Json;
 using WPFCommon.Misc;
+using Core.Serialization;
 
 namespace SceneComposer
 {

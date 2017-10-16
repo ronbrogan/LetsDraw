@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using Foundation.Core;
-using Foundation.Core.Rendering;
 using Foundation.Loaders;
 using Foundation.Managers;
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
+using Core.Rendering;
+using Core;
+using System.Numerics;
 
 namespace Foundation.Rendering.HUD
 {
@@ -154,7 +154,7 @@ namespace Foundation.Rendering.HUD
                   new VertexFormat(new Vector3( Position.X, Position.Y, 0.0f), new Vector2(0, 0), Vector3.One),
             };
 
-            var vertexFormatSize = BlittableValueType.StrideOf<VertexFormat>(new VertexFormat());
+            var vertexFormatSize = VertexFormat.Size;
 
             var generateBuffer = vbo == 0;
             var generatedBuffer = false;

@@ -76,6 +76,7 @@ namespace Foundation.Loaders
 
             var texAddr = LoadTexture(data, bmp.Width, bmp.Height);
             bmp.UnlockBits(data);
+            bmp.Dispose();
             return texAddr;
         }
     }

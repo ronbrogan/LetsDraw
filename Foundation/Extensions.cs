@@ -1,42 +1,15 @@
 ﻿using System;
 using System.Numerics;
-using System.Text;
 using OpenTK;
 using Quaternion = OpenTK.Quaternion;
 using Vector2 = System.Numerics.Vector2;
 using Vector3 = System.Numerics.Vector3;
-using Foundation.Core;
+using Core.Primitives;
 
 namespace Foundation
 {
     public static class Extensions
     {
-        public static string ReduceWhitespace(this string value)
-        {
-            var newString = new StringBuilder();
-            var previousIsWhitespace = false;
-            foreach (var c in value)
-            {
-                if (char.IsWhiteSpace(c))
-                {
-                    if (previousIsWhitespace)
-                    {
-                        continue;
-                    }
-
-                    previousIsWhitespace = true;
-                }
-                else
-                {
-                    previousIsWhitespace = false;
-                }
-
-                newString.Append(c);
-            }
-
-            return newString.ToString();
-        }
-
         // Converts OpenTK to System.Numerics for SIMD operations
         public static Matrix4x4 ToNumerics(this Matrix4 mat)
         {
@@ -111,11 +84,11 @@ namespace Foundation
         {
             switch(axis)
             {
-                case Core.Axis.X:
+                case Core.Primitives.Axis.X:
                     return input.X;
-                case Core.Axis.Y:
+                case Core.Primitives.Axis.Y:
                     return input.Y;
-                case Core.Axis.Z:
+                case Core.Primitives.Axis.Z:
                     return input.Z;
                 default:
                     return 0;

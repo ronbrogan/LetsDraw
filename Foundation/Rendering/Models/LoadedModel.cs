@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using Foundation.Core;
-using Foundation.Core.Rendering;
-using Foundation.Core.Primitives;
 using Foundation.Loaders;
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using Core.Primitives;
+using Core;
+using Core.Rendering;
+using System.Numerics;
 
 namespace Foundation.Rendering.Models
 {
@@ -15,7 +15,7 @@ namespace Foundation.Rendering.Models
         public Vector3 WorldPosition = new Vector3(0, 15, 0);
         public Vector3 Scale = new Vector3(1, 1, 1);
 
-        private Matrix4 RelativeTransformation = Matrix4.Identity;
+        private Matrix4x4 RelativeTransformation = Matrix4x4.Identity;
 
         private Mesh mesh { get; set; }
 
@@ -32,7 +32,7 @@ namespace Foundation.Rendering.Models
             var obj = new ObjLoader("Data/Objects/map.obj");
             mesh = obj.Meshes.First(m => m.Value.Verticies.Count > 0).Value;
 
-            var vertexFormatSize = BlittableValueType.StrideOf(new VertexFormat());
+            var vertexFormatSize = VertexFormat.Size;
 
             GL.GenBuffers(1, out vbo);
             GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
@@ -74,7 +74,7 @@ namespace Foundation.Rendering.Models
 
         public override void Update(double deltaTime = 0)
         {
-            var rotSpeed = .01f;
+            //var rotSpeed = .01f;
             //rotationAngle += rotSpeed * (float)deltaTime;
 
             //var scaleFactor = Math.Abs((float)Math.Sin(rotationAngle));
@@ -83,21 +83,17 @@ namespace Foundation.Rendering.Models
             //Scale.Y = scaleFactor;
             //Scale.Z = scaleFactor;
 
-            var rotationMatrix = Matrix4.Identity;
-            var translateMatrix = Matrix4.Identity;
-            var scaleMatrix = Matrix4.Identity;
-
-            Matrix4.CreateScale(ref Scale, out scaleMatrix);
-            Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), rotationAngle, out rotationMatrix);
-            Matrix4.CreateTranslation(ref WorldPosition, out translateMatrix);
-
-            Matrix4.Mult(ref scaleMatrix, ref rotationMatrix, out rotationMatrix);
-            Matrix4.Mult(ref rotationMatrix, ref translateMatrix, out RelativeTransformation);
+            var scaleMatrix = Matrix4x4.CreateScale(Scale);
+            var rotationMatrix = Matrix4x4.CreateFromAxisAngle(new Vector3(0, 1, 0), rotationAngle);
+            var translateMatrix = Matrix4x4.CreateTranslation(WorldPosition);
+                   
+            var scaledRotation = Matrix4x4.Multiply(scaleMatrix, rotationMatrix);
+            RelativeTransformation = Matrix4x4.Multiply(scaledRotation, translateMatrix);
 
             base.Update(deltaTime);
         }
 
-        public override void Draw(Matrix4 Projection, Matrix4 View)
+        public override void Draw(Matrix4x4 Projection, Matrix4x4 View)
         {
             //GL.UseProgram(base.ShaderProgram);
             //GL.BindVertexArray(base.Vao);
