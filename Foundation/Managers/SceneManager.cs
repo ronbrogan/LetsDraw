@@ -7,6 +7,7 @@ using OpenTK.Graphics.OpenGL;
 using Foundation.Physics;
 using Core.Rendering;
 using Core;
+using Core.Loaders;
 
 namespace Foundation.Managers
 {
@@ -18,17 +19,19 @@ namespace Foundation.Managers
         private Size size { get; set; }
 
         private readonly IRenderer renderer;
+        private readonly ITextureBinder textureBinder;
 
         private PhysicsEngine physics { get; set; }
 
         public bool HasScene = false;
 
-        public SceneManager(Size screenSize, IRenderer renderer)
+        public SceneManager(Size screenSize, IRenderer renderer, ITextureBinder textureBinder)
         {
             hudManager = new HudManager(screenSize);
             size = screenSize;
 
             this.renderer = renderer;
+            this.textureBinder = textureBinder;
         }
 
         public void Load(Scene newScene)
@@ -42,7 +45,7 @@ namespace Foundation.Managers
             GC.Collect();
             
             scene = newScene;
-            scene.Load(size, renderer);
+            scene.Load(size, renderer, textureBinder);
             HasScene = scene.Loaded;
 
             foreach (var scenery in scene.Scenery)

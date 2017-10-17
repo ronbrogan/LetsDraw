@@ -8,6 +8,7 @@ using Core.Rendering;
 using Foundation.Rendering.Cameras;
 using Core;
 using System.Numerics;
+using Core.Loaders;
 
 namespace Foundation.World
 {
@@ -60,7 +61,7 @@ namespace Foundation.World
             Camera = new FpCamera(SpawnPoint);
         }
 
-        public void Load(Size size, IRenderer renderer)
+        public void Load(Size size, IRenderer renderer, ITextureBinder textureBinder)
         {
             Loaded = false;
 
@@ -76,23 +77,18 @@ namespace Foundation.World
 
             foreach(var mat in RenderQueue.MeshRegistry.Values.SelectMany(m => m).Select(m => m.Material))
             {
-                mat.DiffuseMap?.GenerateTexture();
-                mat.AmbientMap?.GenerateTexture();
-                mat.BumpMap?.GenerateTexture();
-                mat.SpecularMap?.GenerateTexture();
-                mat.SpecularHighlightMap?.GenerateTexture();
-                mat.AlphaMap?.GenerateTexture();
+                mat.DiffuseMap?.Bind(textureBinder);
+                mat.AmbientMap?.Bind(textureBinder);
+                mat.BumpMap?.Bind(textureBinder);
+                mat.SpecularMap?.Bind(textureBinder);
+                mat.SpecularHighlightMap?.Bind(textureBinder);
+                mat.AlphaMap?.Bind(textureBinder);
 
             }
 
             Camera.UpdateProjectionMatrix(size.Width, size.Height);
 
             Loaded = true;
-        }
-
-        public void Unload()
-        {
-            
         }
 
         public void Update(double time)

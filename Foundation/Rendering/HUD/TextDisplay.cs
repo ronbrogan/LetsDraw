@@ -10,6 +10,8 @@ using PixelFormat = System.Drawing.Imaging.PixelFormat;
 using Core.Rendering;
 using Core;
 using System.Numerics;
+using Core.Loaders;
+using Core.Dependencies;
 
 namespace Foundation.Rendering.HUD
 {
@@ -108,7 +110,7 @@ namespace Foundation.Rendering.HUD
 
         private void GenerateTexture()
         {
-            
+            var binder = DependencyContainer.Resolve<ITextureBinder>();
             var bmp = new Bitmap(1, 1);
             Graphics g = Graphics.FromImage(bmp);
             var size = g.MeasureString(text, new Font(FontFamily.GenericMonospace, FontSize, FontStyle.Bold));
@@ -122,7 +124,13 @@ namespace Foundation.Rendering.HUD
             g.DrawString(text, new Font(FontFamily.GenericMonospace, FontSize), Color, 0, 0);
             g.Flush();
             var data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-            Texture = TextureLoader.LoadTexture(data, bmp.Width, bmp.Height, PixelFormat.Format32bppArgb);
+            using (var ms = new System.IO.MemoryStream())
+            {
+                bmp.Save(ms, ImageFormat.Bmp);
+                ms.Seek(0, System.IO.SeekOrigin.Begin);
+                Texture = binder.Bind(ms);
+            }
+                
             RegenTexture = false;
 
             if(LastSize != size || LastScreenSize != ScreenSize)

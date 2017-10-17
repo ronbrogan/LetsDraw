@@ -34,9 +34,11 @@ namespace Foundation.World
             uint vao;
             uint vbo;
             uint ibo;
-
+            var binder = Core.Dependencies.DependencyContainer.Resolve<Core.Loaders.ITextureBinder>();
             base.ShaderProgram = ShaderManager.CreateShader("Skybox01Shader", "Data/Shaders/Skybox/vertexShader.glsl", "Data/Shaders/Skybox/fragmentShader.glsl");
-            Texture = TextureLoader.LoadTexture(TexturePath);
+            var texStream = System.IO.File.OpenRead(TexturePath);
+            Texture = binder.Bind(texStream);
+            texStream.Dispose();
 
             GL.GenVertexArrays(1, out vao);
             GL.BindVertexArray(vao);

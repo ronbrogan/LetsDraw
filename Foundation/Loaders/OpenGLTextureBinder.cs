@@ -4,12 +4,23 @@ using System.Drawing.Imaging;
 using System.IO;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
+using Core.Loaders;
 
 namespace Foundation.Loaders
 {
-    public static class TextureLoader
+    public class OpenGLTextureBinder : ITextureBinder
     {
-        public static int LoadTexture(BitmapData data, int width, int height, PixelFormat inputFormat = PixelFormat.Format24bppRgb)
+        public int Bind(Stream textureData)
+        {
+            var bmp = new Bitmap(textureData);
+            var data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            var texAddr = Bind(data, bmp.Width, bmp.Height);
+            bmp.UnlockBits(data);
+            bmp.Dispose();
+            return texAddr;
+        }
+
+        public int Bind(BitmapData data, int width, int height, PixelFormat inputFormat = PixelFormat.Format24bppRgb)
         {
             int textureObject;
 
@@ -54,27 +65,14 @@ namespace Foundation.Loaders
             return textureObject;
         }
 
-        public static int LoadTexture(string filename)
+        public int Bind(string filename)
         {
-
-            var error1 = GL.GetError();
-            if (error1 != ErrorCode.NoError)
-            {
-                Console.WriteLine("-- Error {0} occured at {1}", error1, "some place in the texture loader, beginning");
-            }
-
             var fullPath = Path.GetFullPath(filename);
 
             var bmp = new Bitmap(fullPath);
             var data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
-            error1 = GL.GetError();
-            if (error1 != ErrorCode.NoError)
-            {
-                Console.WriteLine("-- Error {0} occured at {1}", error1, "some place in texture loader");
-            }
-
-            var texAddr = LoadTexture(data, bmp.Width, bmp.Height);
+            var texAddr = Bind(data, bmp.Width, bmp.Height);
             bmp.UnlockBits(data);
             bmp.Dispose();
             return texAddr;

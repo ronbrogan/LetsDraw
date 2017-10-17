@@ -6,17 +6,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using Core.Loaders;
 
 namespace Foundation.Loaders
 {
-    public class ObjLoader
+    public class ObjLoader : IMeshLoader
     {
-        public Guid Id = Guid.NewGuid();
+        public Guid Id { get; } = Guid.NewGuid();
         public List<Vector3> RawVerts = new List<Vector3>();
         public List<Vector2> TextureCoords = new List<Vector2>();
         public List<Vector3> Normals = new List<Vector3>();
 
-        public Dictionary<string, Mesh> Meshes = new Dictionary<string, Mesh>();
+        public Dictionary<string, Mesh> Meshes { get; set; } = new Dictionary<string, Mesh>();
         public Dictionary<string, IndexedDictionary<string, VertexFormat>> MeshDicts = new Dictionary<string, IndexedDictionary<string, VertexFormat>>();
 
         public ObjLoader(string filePath)

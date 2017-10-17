@@ -7,6 +7,9 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Foundation.Rendering;
 using Core.Rendering;
+using Core.Loaders;
+using Foundation.Loaders;
+using Core.Dependencies;
 
 namespace Foundation
 {
@@ -18,6 +21,7 @@ namespace Foundation
         private ShaderManager shaderManager;
         private SceneManager sceneManager;
         private readonly IRenderer renderer;
+        private readonly ITextureBinder textureBinder;
         
         public event EventHandler StartCallback;
         public event EventHandler SwapBuffers;
@@ -34,8 +38,12 @@ namespace Foundation
         public Engine(Size windowSize)
         {
             renderer = new OpenGLRenderer();
+            textureBinder = new OpenGLTextureBinder();
+            DependencyContainer.Register<IRenderer>(renderer);
+            DependencyContainer.Register<ITextureBinder>(textureBinder);
+
             shaderManager = new ShaderManager();
-            sceneManager = new SceneManager(windowSize, renderer);
+            sceneManager = new SceneManager(windowSize, renderer, textureBinder);
         }
 
         public void Start()

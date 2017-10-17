@@ -106,7 +106,7 @@
     <Compile Include="Rendering\Models\Model.cs" />
     <Compile Include="World\Scene.cs" />
     <Compile Include="World\Skybox.cs" />
-    <Compile Include="Loaders\TextureLoader.cs" />
+    <Compile Include="Loaders\OpenGLTextureBinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\Objects\block.png" />

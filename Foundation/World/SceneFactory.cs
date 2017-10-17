@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Serialization;
+using Foundation.Loaders;
 using Foundation.Rendering.Cameras;
 using Newtonsoft.Json;
 using System.IO;
@@ -12,6 +13,7 @@ namespace Foundation.World
         public static Scene BuildDefaultScene()
         {
             var SpawnPoint = new Vector3(80, 290, 30);
+            var terrainLoader = new ObjLoader("Data/Objects/powerhouse.obj");
             var scene = new Scene()
             {
                 SpawnPoint = SpawnPoint,
@@ -20,7 +22,8 @@ namespace Foundation.World
 
                 Camera = new FpCamera(SpawnPoint),
 
-                Terrain = new Terrain("Data/Objects/powerhouse.obj"),
+                
+                Terrain = new Terrain(terrainLoader),
             };
 
             var powerthing = StaticScenery.FromObj(@"Data\Objects\powerthing.obj");

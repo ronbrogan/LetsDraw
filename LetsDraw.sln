@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{1455B9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFCommon", "WPFCommon\WPFCommon.csproj", "{7C6FE555-4C64-49DB-AC17-CFD1C54E6341}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{D0B65317-4E32-4E1F-9CE7-F72C93863996}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{D0B65317-4E32-4E1F-9CE7-F72C93863996}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +53,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7C6FE555-4C64-49DB-AC17-CFD1C54E6341} = {1455B930-18DC-4946-BD59-0589759C8224}
+		{D0B65317-4E32-4E1F-9CE7-F72C93863996} = {1455B930-18DC-4946-BD59-0589759C8224}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0AB28044-4EF6-49F5-8BF1-F53281776DE2}

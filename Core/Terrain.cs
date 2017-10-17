@@ -1,4 +1,5 @@
-﻿using Core.Physics;
+﻿using Core.Loaders;
+using Core.Physics;
 using Core.Primitives;
 using Core.Rendering;
 using System;
@@ -26,13 +27,11 @@ namespace Core
             Id = Guid.NewGuid();
         }
 
-        public Terrain(string objPath)
+        public Terrain(IMeshLoader loader)
         {
+            Id = loader.Id;
+            Meshes = loader.Meshes.Values.ToList();
             Transform = new WorldTransform(Id);
-            // TODO invert this
-            //var obj = new ObjLoader(objPath);
-            //Id = obj.Id;
-            //Meshes = obj.Meshes.Values.ToList();
         }
 
         #region IDisposable Support
