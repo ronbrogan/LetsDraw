@@ -8,6 +8,7 @@ using OpenTK.Graphics.OpenGL;
 using Core.Primitives;
 using Core;
 using Core.Rendering;
+using System.IO;
 
 namespace Foundation.World
 {
@@ -19,6 +20,8 @@ namespace Foundation.World
 
         public string TexturePath { get; set; }
 
+        public Stream TextureStream { get; set; }
+
         public Skybox()
         {
             
@@ -27,6 +30,7 @@ namespace Foundation.World
         public Skybox(string texturePath)
         {
             TexturePath = texturePath;
+            TextureStream = File.OpenRead(TexturePath);
         }
 
         public void Load()
@@ -36,9 +40,7 @@ namespace Foundation.World
             uint ibo;
             var binder = Core.Dependencies.DependencyContainer.Resolve<Core.Loaders.ITextureBinder>();
             base.ShaderProgram = ShaderManager.CreateShader("Skybox01Shader", "Data/Shaders/Skybox/vertexShader.glsl", "Data/Shaders/Skybox/fragmentShader.glsl");
-            var texStream = System.IO.File.OpenRead(TexturePath);
-            Texture = binder.Bind(texStream);
-            texStream.Dispose();
+            Texture = binder.Bind(TextureStream);
 
             GL.GenVertexArrays(1, out vao);
             GL.BindVertexArray(vao);

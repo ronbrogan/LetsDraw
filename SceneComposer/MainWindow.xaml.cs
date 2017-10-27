@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using SceneComposer.MenuServices;
 using System.Configuration;
 using Foundation;
+using Core.Serialization;
+using Foundation.World.Serialization;
 
 namespace SceneComposer
 {
@@ -144,10 +146,13 @@ namespace SceneComposer
         {
             var scene = engine.GetScene();
 
-            var sceneData = JsonConvert.SerializeObject(scene);
+            var serializer = new SceneSerializer();
+            serializer.SerializeScene(scene, Environment.CurrentDirectory);
+
+            //var sceneData = JsonConvert.SerializeObject(scene);
 
             // TODO implement Save to opened and save as to avoid static
-            File.WriteAllText(System.IO.Path.Combine(Environment.CurrentDirectory, "sceneoutput.json"), sceneData);
+            //File.WriteAllText(System.IO.Path.Combine(Environment.CurrentDirectory, "sceneoutput.json"), sceneData);
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)

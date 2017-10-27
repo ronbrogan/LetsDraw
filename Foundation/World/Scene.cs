@@ -16,6 +16,8 @@ namespace Foundation.World
     {
         public bool Loaded = false;
 
+        public string Name { get; set; }
+
         public ICamera Camera { get; set; }
         public Vector3 SpawnPoint { get; set; }
 

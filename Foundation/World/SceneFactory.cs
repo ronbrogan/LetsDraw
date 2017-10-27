@@ -16,6 +16,7 @@ namespace Foundation.World
             var terrainLoader = new ObjLoader("Data/Objects/powerhouse.obj");
             var scene = new Scene()
             {
+                Name = "Default",
                 SpawnPoint = SpawnPoint,
 
                 Skybox = new Skybox("Rendering/Skyboxes/Skybox01/texture.png"),

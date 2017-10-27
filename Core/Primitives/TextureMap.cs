@@ -39,7 +39,9 @@ namespace Core.Primitives
         // Empty constructor for serializer compat
         public TextureMap()
         {
-            
+
+            textureData = new MemoryStream();
+
         }
 
         public TextureMap(string texPath)

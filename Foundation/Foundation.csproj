@@ -101,6 +101,7 @@
     <Compile Include="Rendering\OpenGLRenderer.cs" />
     <Compile Include="Rendering\RenderQueue.cs" />
     <Compile Include="World\SceneFactory.cs" />
+    <Compile Include="World\SceneSerializer.cs" />
     <Compile Include="World\StaticScenery.cs" />
     <Compile Include="Rendering\Models\LoadedModel.cs" />
     <Compile Include="Rendering\Models\Model.cs" />
