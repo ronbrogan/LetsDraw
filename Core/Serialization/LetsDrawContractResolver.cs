@@ -1,36 +1,47 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Numerics;
 
 namespace Core.Serialization
 {
     public class LetsDrawContractResolver : DefaultContractResolver
     {
-        public static readonly LetsDrawContractResolver Instance = new LetsDrawContractResolver();
+        private readonly Stream binaryContents;
+
+        private Dictionary<Type, Func<JsonConverter>> ConverterLookup = new Dictionary<Type, Func<JsonConverter>>()
+        {
+            { typeof(Vector2),           () => new Vector2Converter() },
+            { typeof(Vector3),           () => new Vector3Converter() },
+            { typeof(Matrix4x4),         () => new Matrix4Converter() },
+            { typeof(Quaternion),        () => new QuaternionConverter() },
+        };
+
+        public LetsDrawContractResolver(Stream binaryContents)
+        {
+            this.binaryContents = binaryContents;
+
+            ConverterLookup.Add(typeof(Stream), () => new StreamConverter(this.binaryContents));
+        }
 
         protected override JsonContract CreateContract(Type objectType)
         {
             var contract = base.CreateContract(objectType);
 
-            if(objectType == typeof(Vector2))
+
+            if (ConverterLookup.ContainsKey(objectType))
             {
-                contract.Converter = new Vector2Converter();
+                contract.Converter = ConverterLookup[objectType]();
             }
-            else if (objectType == typeof(Vector3))
+            else
             {
-                contract.Converter = new Vector3Converter();
-            }
-            //else if (objectType == typeof(Matrix3))
-            //{
-            //    contract.Converter = new Matrix3Converter();
-            //}
-            else if (objectType == typeof(Matrix4x4))
-            {
-                contract.Converter = new Matrix4Converter();
-            }
-            else if (objectType == typeof(Quaternion))
-            {
-                contract.Converter = new QuaternionConverter();
+                var inheritedConverter = ConverterLookup.Keys.FirstOrDefault(t => t.IsAssignableFrom(objectType));
+
+                if (inheritedConverter != null)
+                    contract.Converter = ConverterLookup[inheritedConverter]();
             }
 
             return contract;

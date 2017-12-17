@@ -17,8 +17,7 @@ namespace SceneComposer
             {
                 var settings = new JsonSerializerSettings
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                    ContractResolver = new LetsDrawContractResolver()
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 };
 
                 return settings;

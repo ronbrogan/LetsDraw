@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 using Core.Primitives;
 using System.Numerics;
 
-namespace Core.Serialization
+namespace Core.Primitives
 {
     public class MeshConverter : JsonConverter
     {
@@ -40,7 +40,7 @@ namespace Core.Serialization
                 Parent = temp.SelectToken("Parent").ToObject<Guid>(),
                 Indicies = temp.SelectToken("Indicies").ToObject<List<uint>>(),
                 Verticies = new List<VertexFormat>(verticies.Count()),
-                Material = temp.SelectToken("Material").ToObject<Material>()
+                Material = serializer.Deserialize<Material>(temp.SelectToken("Material").CreateReader())
             };
 
             foreach(var vert in verticies)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Core.Serialization;
 using Newtonsoft.Json;
 
 namespace Core.Primitives

@@ -1,4 +1,5 @@
 ﻿using Core.Rendering;
+using Core.Serialization;
 using Foundation.Rendering.Cameras;
 using Foundation.World;
 using Newtonsoft.Json;
@@ -12,18 +13,16 @@ namespace Foundation.World.Serialization
     {
         public void SerializeScene(Scene scene, string outputPath)
         {
-            using (var ctx = new SceneSerializationContext())
+            using (var sceneFile = new FileStream(Path.Combine(outputPath, scene.Name + ".json"), FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
+            using (var sceneBinary = new FileStream(Path.Combine(outputPath, scene.Name + ".bin"), FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
+            using (StreamWriter sw = new StreamWriter(sceneFile))
+            using (JsonWriter writer = new JsonTextWriter(sw))
             {
-                serializeCamera(ctx, scene.Camera);
-                serializeSkybox(ctx, scene.Skybox);
+                JsonSerializer serializer = new JsonSerializer();
 
-                var json = ctx.GetJson();
-                File.WriteAllText(Path.Combine(outputPath, scene.Name + ".json"), json);
-                var binary = ctx.GetBinary();
-                var fs = File.OpenWrite(Path.Combine(outputPath, scene.Name + ".bin"));
-                binary.CopyTo(fs);
-                binary.Dispose();
-                fs.Dispose();
+                serializer.ContractResolver = new LetsDrawContractResolver(sceneBinary);
+
+                serializer.Serialize(writer, scene);
             }
         }
 

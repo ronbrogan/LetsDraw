@@ -1,11 +1,13 @@
 ﻿using Core.Loaders;
 using Core.Rendering.Enums;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Numerics;
 
 namespace Core.Primitives
 {
+    [JsonConverter(typeof(TextureMapConverter))]
     public class TextureMap : IDisposable
     {
         public uint TextureArray { get; set; }
@@ -34,7 +36,7 @@ namespace Core.Primitives
 
         public ImfChanOption ChannelOption { get; set; }
 
-        private Stream textureData;
+        internal Stream textureData;
 
         // Empty constructor for serializer compat
         public TextureMap()
