@@ -52,6 +52,5 @@ namespace Core.Serialization
             //IList<JsonProperty> props = base.CreateProperties(type, memberSerialization);
             //return props.Where(p => p.Writable).ToList();
         //}
-
     }
 }

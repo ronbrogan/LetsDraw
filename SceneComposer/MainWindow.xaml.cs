@@ -128,8 +128,9 @@ namespace SceneComposer
             var worker = (BackgroundWorker)sender;
 
             worker.ReportProgress(0, "Parsing File");
-
-            var scene = SceneFactory.FromFile((string)e.Argument);
+            
+            var serializer = new SceneSerializer();
+            var scene = serializer.DeserializeScene((string)e.Argument);
 
             worker.ReportProgress(60, "Initializing Scene");
 
@@ -149,10 +150,7 @@ namespace SceneComposer
             var serializer = new SceneSerializer();
             serializer.SerializeScene(scene, Environment.CurrentDirectory);
 
-            //var sceneData = JsonConvert.SerializeObject(scene);
-
-            // TODO implement Save to opened and save as to avoid static
-            //File.WriteAllText(System.IO.Path.Combine(Environment.CurrentDirectory, "sceneoutput.json"), sceneData);
+            
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)

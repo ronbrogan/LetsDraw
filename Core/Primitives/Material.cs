@@ -41,6 +41,12 @@ namespace Core.Primitives
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects).
+                    AmbientMap?.Dispose();
+                    DiffuseMap?.Dispose();
+                    SpecularMap?.Dispose();
+                    SpecularHighlightMap?.Dispose();
+                    AlphaMap?.Dispose();
+                    BumpMap?.Dispose();
                 }
 
                 AmbientMap = null;

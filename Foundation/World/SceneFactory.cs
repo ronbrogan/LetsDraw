@@ -35,29 +35,5 @@ namespace Foundation.World
 
             return scene;
         }
-
-        public static Scene FromFile(string filePath)
-        {
-            Scene scene;
-
-            var folder = Path.GetDirectoryName(filePath);
-            var fileName = Path.GetFileNameWithoutExtension(filePath);
-
-            var fileBase = Path.Combine(folder, fileName);
-
-            using (var sceneFile = new FileStream(fileBase + ".json", FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (var sceneBinary = new FileStream(fileBase + ".bin", FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (StreamReader sr = new StreamReader(sceneFile))
-            using (JsonReader reader = new JsonTextReader(sr))
-            {
-                JsonSerializer serializer = new JsonSerializer();
-
-                serializer.ContractResolver = new LetsDrawContractResolver(sceneBinary);
-
-                scene = serializer.Deserialize<Scene>(reader);
-            }
-
-            return scene;
-        }
     }
 }

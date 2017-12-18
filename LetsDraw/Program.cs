@@ -31,7 +31,7 @@ namespace LetsDraw
 
             engine.SubscribeToSceneChanges(readout);
 
-            var scene = SceneFactory.FromFile(@"Scenes\powerhouse.json");
+            var scene = SceneFactory.BuildDefaultScene();
 
             engine.LoadScene(scene);
 
