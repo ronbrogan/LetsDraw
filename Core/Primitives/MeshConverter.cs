@@ -51,15 +51,25 @@ namespace Core.Primitives
                 var tangent = vert.SelectToken("a");
                 var bitangent = vert.SelectToken("b");
 
-                mesh.Verticies.Add(new VertexFormat()
+                var vertex = new VertexFormat()
                 {
                     position = new Vector3(((float)position["X"]), ((float)position["Y"]), ((float)position["Z"])),
                     texture = new Vector2(((float)texture["X"]), ((float)texture["Y"])),
                     normal = new Vector3(((float)normal["X"]), ((float)normal["Y"]), ((float)normal["Z"])),
                     tangent = new Vector3(((float)tangent["X"]), ((float)tangent["Y"]), ((float)tangent["Z"])),
                     bitangent = new Vector3(((float)bitangent["X"]), ((float)bitangent["Y"]), ((float)bitangent["Z"])),
-                });
+                };
+
+                mesh.Verticies.Add(vertex);
+
+                mesh.BoundingBox.LowerX = Math.Min(mesh.BoundingBox.LowerX, vertex.position.X);
+                mesh.BoundingBox.UpperX = Math.Max(mesh.BoundingBox.UpperX, vertex.position.X);
+                mesh.BoundingBox.LowerY = Math.Min(mesh.BoundingBox.LowerY, vertex.position.Y);
+                mesh.BoundingBox.UpperY = Math.Max(mesh.BoundingBox.UpperY, vertex.position.Y);
+                mesh.BoundingBox.LowerZ = Math.Min(mesh.BoundingBox.LowerZ, vertex.position.Z);
+                mesh.BoundingBox.UpperZ = Math.Max(mesh.BoundingBox.UpperZ, vertex.position.Z);
             }
+
 
             return mesh;
         }
