@@ -45,8 +45,7 @@ namespace Foundation.World
             GL.GenVertexArrays(1, out vao);
             GL.BindVertexArray(vao);
 
-            var obj = new ObjLoader("Data/Objects/mappedcube.obj");
-            Mesh = obj.Meshes.First(m => m.Value.Verticies.Count > 0).Value;
+            Mesh = MeshFactory.Cube(5);
 
             var vertexFormatSize = VertexFormat.Size;
 

@@ -38,7 +38,7 @@ namespace ShaderSleuth
             var shaderScene = new Scene();
 
             var testObject = new StaticScenery();
-            TestMesh = PrimitiveGenerator.GenerateOctahedron(50);
+            TestMesh = MeshFactory.Octahedron(50);
             testObject.Meshes.Add(TestMesh);
 
             shaderScene.Scenery.Add(testObject);
