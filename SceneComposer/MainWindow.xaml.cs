@@ -10,6 +10,7 @@ using System.Configuration;
 using Foundation;
 using Core.Serialization;
 using Foundation.World.Serialization;
+using System.Windows.Input;
 
 namespace SceneComposer
 {
@@ -21,8 +22,6 @@ namespace SceneComposer
         private Engine engine;
 
         private ApplicationState appState;
-
-        private Scene defaultScene;
 
         private FileService fileService;
 
@@ -37,6 +36,11 @@ namespace SceneComposer
             InitializeComponent();
 
             engine = this.RenderWindow.CreateEngine();
+
+            var emptyScene = new Scene();
+
+            engine.LoadScene(emptyScene);
+            UpdateSceneDataContexts(emptyScene);
 
             fileService.OnFileOpen += (_, fe) =>
             {
@@ -56,20 +60,25 @@ namespace SceneComposer
             };
         }
 
+        private void UpdateSceneDataContexts(Scene scene)
+        {
+            editTabControl.DataContext = scene;
+        }
+
         #region File Menu
 
         private void NewScene_Click(object sender, RoutedEventArgs e)
         {
-            var emtpyScene = new Scene();
+            var emptyScene = new Scene();
 
-            engine.LoadScene(emtpyScene);
-            editTabControl.DataContext = emtpyScene;
+            engine.LoadScene(emptyScene);
+            UpdateSceneDataContexts(emptyScene);
         }
 
         // Method for loading a default scene for debugging purposes
         private async void LoadDefaultScene_Click(object sender, RoutedEventArgs e)
         {
-            defaultScene = SceneFactory.BuildDefaultScene();
+            var defaultScene = SceneFactory.BuildDefaultScene();
 
             appState.IsLoading = true;
             appState.StatusBarText = "Loading Default Scene";
@@ -82,7 +91,7 @@ namespace SceneComposer
             appState.IsLoading = false;
             appState.StatusBarText = "Ready";
 
-            editTabControl.DataContext = defaultScene;
+            UpdateSceneDataContexts(defaultScene);
         }
 
         private void LoadScene_Click(object sender, RoutedEventArgs e)
@@ -115,7 +124,7 @@ namespace SceneComposer
 
             engine.Resume();
 
-            editTabControl.DataContext = engine.GetScene();
+            UpdateSceneDataContexts(engine.GetScene());
         }
 
         private void loadScene_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -164,6 +173,11 @@ namespace SceneComposer
         private void LoadSceneryFromFile_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Keyboard.ClearFocus();
         }
     }
 }

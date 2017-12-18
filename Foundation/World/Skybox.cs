@@ -16,7 +16,7 @@ namespace Foundation.World
     {
         private int Texture;
 
-        public Mesh Mesh { get; set; }
+        private Mesh Mesh { get; set; }
 
         public string TexturePath { get; set; }
 

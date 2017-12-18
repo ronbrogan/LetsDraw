@@ -8,7 +8,7 @@
         xmlns:world="clr-namespace:Foundation.World;assembly=Foundation"
         xmlns:wpfCommon="clr-namespace:WPFCommon.CustomControls;assembly=WPFCommon"
         mc:Ignorable="d"
-        Title="Scene Composer" Height="743.577" Width="1121.673" Background="#FF2D2D30">
+        Title="Scene Composer" Height="743.577" Width="1121.673" Background="#FF2D2D30" MouseDown="Window_MouseDown">
 
     <!-- Resouce is created in code behind -->
     <Grid Margin="0,0,0,-1" DataContext="{Binding Source={StaticResource ApplicationStateData}}" RenderTransformOrigin="0.548,0.607">
@@ -85,7 +85,25 @@
         <GridSplitter x:Name="gridSplitter" HorizontalAlignment="Left" Margin="0,3,0,5" Grid.Row="1" Width="4" Grid.Column="1" Background="#FF3E3E42"/>
         <GridSplitter x:Name="gridSplitter1" HorizontalAlignment="Stretch" Height="4" Margin="6,0,4,0" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Background="#FF3E3E42" />
         <TabControl x:Name="editTabControl" Grid.Column="1" HorizontalAlignment="Left" Margin="10,4,0,5" Grid.Row="1" Width="484">
-            <TabItem Header="Scenery" Foreground="White" IsSelected="True" Background="Black">
+            <TabItem Header="General" Foreground="White" IsSelected="True">
+                <StackPanel Background="#FF252526">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Column="0" Grid.Row="0" Content="Scene Name" VerticalContentAlignment="Center" />
+                        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"></TextBox>
+
+                    </Grid>
+                </StackPanel>
+                
+            </TabItem>
+            <TabItem Header="Scenery" Foreground="White" IsSelected="False" Background="Black">
                 <Grid Background="#FF252526">
                     <ItemsControl Grid.Column="0" Grid.Row="0" Height="Auto" VerticalAlignment="Top" Margin="10,10,0,0" ItemsSource="{Binding Path=Scenery}">
                         <ItemsControl.ItemsPanel>
