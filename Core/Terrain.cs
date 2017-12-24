@@ -2,6 +2,7 @@
 using Core.Physics;
 using Core.Primitives;
 using Core.Rendering;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace Core
 
         public List<Mesh> Meshes { get; set; }
 
+        [JsonIgnore]
         public List<Mesh> CollisionMeshes
         {
             get { return Meshes; }

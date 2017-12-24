@@ -66,7 +66,6 @@ namespace Foundation.World
         public void Load(Size size, IRenderer renderer, ITextureBinder textureBinder)
         {
             Loaded = false;
-
             RenderQueue = new RenderQueue(renderer);
 
             Skybox?.Load();
@@ -137,7 +136,7 @@ namespace Foundation.World
                 {
                     // TODO: dispose managed state (managed objects).
                     Skybox?.Dispose();
-                    RenderQueue.Dispose();
+                    RenderQueue?.Dispose();
                     Terrain?.Dispose();
                 }
 
