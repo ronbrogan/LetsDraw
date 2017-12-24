@@ -120,13 +120,13 @@ namespace Foundation.Rendering.HUD
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
             g.PixelOffsetMode = PixelOffsetMode.HighSpeed;
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
             g.DrawString(text, new Font(FontFamily.GenericMonospace, FontSize), Color, 0, 0);
             g.Flush();
             var data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             using (var ms = new System.IO.MemoryStream())
             {
-                bmp.Save(ms, ImageFormat.Bmp);
+                bmp.Save(ms, ImageFormat.Png);
                 ms.Seek(0, System.IO.SeekOrigin.Begin);
                 Texture = binder.Bind(ms);
             }

@@ -13,8 +13,9 @@ namespace Foundation.Loaders
         public int Bind(Stream textureData)
         {
             var bmp = new Bitmap(textureData);
-            var data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            var texAddr = Bind(data, bmp.Width, bmp.Height);
+            var pixFmt = bmp.GetPixel(0, 0);
+            var data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            var texAddr = Bind(data, bmp.Width, bmp.Height, PixelFormat.Format32bppArgb);
             bmp.UnlockBits(data);
             bmp.Dispose();
             return texAddr;
